@@ -33,32 +33,68 @@ func (repo *MhsRepository) GetDetailMhs(ctx context.Context, nim string) (*model
 func (repo *MhsRepository) GetMahasiswaHistoryByStatus(ctx context.Context, status string, page, limit int, tahun int, semesterType string) ([]models.MahasiswaHistoryResponse, int64, error) {
 	skip := (page - 1) * limit
 
-	matchConditions := bson.M{
-		"history.tahun":         tahun,
-		"history.semester_type": semesterType, // Gunakan semester_type
-		"history.status":        status,       // Perbaiki: gunakan status bukan status
-	}
-
 	pipeline := bson.A{
-		bson.M{"$unwind": "$history"},
-		bson.M{"$match": matchConditions},
-		bson.M{"$project": bson.M{
-			"nim":              1,
-			"nama":             1,
-			"tahun_masuk":      1,
-			"kewarganegaraan":  1,
-			"fakultas":         "$unit.fakultas",            // Convert to flat field
-			"jurusan":          "$unit.jurusan",             // Convert to flat field
-			"prodi":            "$unit.prodi",               // Convert to flat field
-			"tahun":            "$history.tahun",            // Convert to flat field
-			"semester":         "$history.semester",         // Convert to flat field
-			"status":           "$history.status",           // Convert to flat field
-			"status_singkatan": "$history.status_singkatan", // Convert to flat field
-			"nama_pa":          "$history.nama_pa",          // Convert to flat field
+		// Match dokumen yang memiliki history sesuai kriteria
+		bson.M{"$match": bson.M{
+			"history.tahun":         tahun,
+			"history.semester_type": semesterType,
+			"history.status":        status,
 		}},
-		bson.M{"$sort": bson.M{"nim": 1, "tahun": 1, "semester": 1}},
-		bson.M{"$skip": skip},
-		bson.M{"$limit": limit},
+
+		// Project dengan filter history
+		bson.M{"$project": bson.M{
+			"nim":             1,
+			"nama":            1,
+			"tahun_masuk":     1,
+			"kewarganegaraan": 1,
+			"fakultas":        "$unit.fakultas",
+			"jurusan":         "$unit.jurusan",
+			"prodi":           "$unit.prodi",
+
+			// Filter history yang sesuai kriteria
+			"filtered_history": bson.M{
+				"$filter": bson.M{
+					"input": "$history",
+					"as":    "h",
+					"cond": bson.M{
+						"$and": bson.A{
+							bson.M{"$eq": bson.A{"$$h.tahun", tahun}},
+							bson.M{"$eq": bson.A{"$$h.semester_type", semesterType}},
+							bson.M{"$eq": bson.A{"$$h.status", status}},
+						},
+					},
+				},
+			},
+		}},
+
+		// Unwind hanya history yang sudah difilter
+		bson.M{"$unwind": "$filtered_history"},
+
+		// Facet untuk data dan total
+		bson.M{"$facet": bson.M{
+			"data": bson.A{
+				bson.M{"$project": bson.M{
+					"nim":              "$nim",
+					"nama":             "$nama",
+					"tahun_masuk":      "$tahun_masuk",
+					"kewarganegaraan":  "$kewarganegaraan",
+					"fakultas":         "$fakultas",
+					"jurusan":          "$jurusan",
+					"prodi":            "$prodi",
+					"tahun":            "$filtered_history.tahun",
+					"semester":         "$filtered_history.semester",
+					"status":           "$filtered_history.status",
+					"status_singkatan": "$filtered_history.status_singkatan",
+					"nama_pa":          "$filtered_history.nama_pa",
+				}},
+				bson.M{"$sort": bson.M{"nim": 1, "tahun": 1, "semester": 1}},
+				bson.M{"$skip": skip},
+				bson.M{"$limit": limit},
+			},
+			"total": bson.A{
+				bson.M{"$count": "total"},
+			},
+		}},
 	}
 
 	cursor, err := repo.Collection.Aggregate(ctx, pipeline)
@@ -67,32 +103,27 @@ func (repo *MhsRepository) GetMahasiswaHistoryByStatus(ctx context.Context, stat
 	}
 	defer cursor.Close(ctx)
 
+	// Parse hasil
+	var facetResult []struct {
+		Data  []models.MahasiswaHistoryResponse `bson:"data"`
+		Total []struct {
+			Total int64 `bson:"total"`
+		} `bson:"total"`
+	}
+
+	if err = cursor.All(ctx, &facetResult); err != nil {
+		return nil, 0, err
+	}
+
+	// Handle hasil
 	var results []models.MahasiswaHistoryResponse
-	if err = cursor.All(ctx, &results); err != nil {
-		return nil, 0, err
-	}
-
-	// return results, nil
-	countPipeline := bson.A{
-		bson.M{"$unwind": "$history"},
-		bson.M{"$match": matchConditions},
-		bson.M{"$count": "total"},
-	}
-
-	countCursor, err := repo.Collection.Aggregate(ctx, countPipeline)
-	if err != nil {
-		return nil, 0, err
-	}
-	defer countCursor.Close(ctx)
-
-	var countResult []bson.M
-	if err = countCursor.All(ctx, &countResult); err != nil {
-		return nil, 0, err
-	}
-
 	var total int64
-	if len(countResult) > 0 {
-		total = utils.ConvertToInt64(countResult[0]["total"])
+
+	if len(facetResult) > 0 {
+		results = facetResult[0].Data
+		if len(facetResult[0].Total) > 0 {
+			total = facetResult[0].Total[0].Total
+		}
 	}
 
 	return results, total, nil

@@ -93,12 +93,7 @@ type HistoryEntry struct {
 }
 
 // Struct untuk unit
-type Unit struct {
-	UKKode   string `json:"uk_kode" bson:"uk_kode"`
-	Fakultas string `json:"fakultas" bson:"fakultas"`
-	Jurusan  string `json:"jurusan" bson:"jurusan"`
-	Prodi    string `json:"prodi" bson:"prodi"`
-}
+
 
 // Struct untuk mahasiswa
 type Mahasiswa struct {
