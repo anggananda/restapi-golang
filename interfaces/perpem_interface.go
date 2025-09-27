@@ -6,5 +6,5 @@ import (
 )
 
 type PerpemRepository interface {
-	GetPerpemFiltered(ctx context.Context, kodeFakultas, kodeJurusan, kodeProdi, tahun, semester string) ([]models.Perpem, error)
+	GetPerpemFiltered(ctx context.Context, kodeFakultas, kodeJurusan, kodeProdi, tahun, semester, search string, page, limit int) ([]models.Perpem, int64, error)
 }

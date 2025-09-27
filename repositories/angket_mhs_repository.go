@@ -12,21 +12,20 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type PerpemMongoRepository struct {
+type AngketMhsMongoRepository struct {
 	Collection *mongo.Collection
 }
 
-func NewPerpemMongoRepository(db *mongo.Database) interfaces.PerpemRepository {
-	return &PerpemMongoRepository{
-		Collection: db.Collection("perpem_v1"),
+func NewAngketMhsMongoRepository(db *mongo.Database) interfaces.AngketMhsRepository {
+	return &AngketMhsMongoRepository{
+		Collection: db.Collection("angket_mahasiswa_v1"),
 	}
 }
 
-func (repo *PerpemMongoRepository) GetPerpemFiltered(ctx context.Context, kodeFakultas, kodeJurusan, kodeProdi, tahun, semester, search string, page, limit int) ([]models.Perpem, int64, error) {
+func (repo *AngketMhsMongoRepository) GetAngketMhsFiltered(ctx context.Context, kodeFakultas, kodeJurusan, kodeProdi, tahun, semester, search string, page, limit int) ([]models.AngketMhs, int64, error) {
 	skip := (page - 1) * limit
 	filter := bson.M{}
 
-	// Filter existing conditions
 	if kodeFakultas != "" {
 		filter["unit.fkt_kode"] = kodeFakultas
 	}
@@ -54,7 +53,6 @@ func (repo *PerpemMongoRepository) GetPerpemFiltered(ctx context.Context, kodeFa
 		}
 	}
 
-	// Add text search filter
 	if search != "" {
 		filter["$text"] = bson.M{"$search": search}
 	}
@@ -62,7 +60,7 @@ func (repo *PerpemMongoRepository) GetPerpemFiltered(ctx context.Context, kodeFa
 	var wg sync.WaitGroup
 	wg.Add(2)
 
-	var results []models.Perpem
+	var results []models.AngketMhs
 	var total int64
 	var dataErr, countErr error
 
@@ -73,14 +71,16 @@ func (repo *PerpemMongoRepository) GetPerpemFiltered(ctx context.Context, kodeFa
 			{Key: "semester", Value: -1},
 			{Key: "_id", Value: 1},
 		})
+
 		if search != "" {
 			findOptions.SetProjection(bson.M{"score": bson.M{"$meta": "textScore"}})
-			findOptions.SetSort(bson.D{
-				{Key: "score", Value: bson.M{"$meta": "textScore"}},
-				{Key: "tahun", Value: -1},
-				{Key: "semester", Value: -1},
-				{Key: "_id", Value: 1},
-			})
+			findOptions.SetSort(
+				bson.D{
+					{Key: "score", Value: bson.M{"$meta": "textScore"}},
+					{Key: "tahun", Value: -1},
+					{Key: "semester", Value: -1},
+					{Key: "_id", Value: 1},
+				})
 		}
 
 		cursor, err := repo.Collection.Find(ctx, filter, findOptions)

@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  golang-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: golang-eis
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"

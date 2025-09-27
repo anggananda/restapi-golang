@@ -12,21 +12,20 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type PerpemMongoRepository struct {
+type KhsMongoRepository struct {
 	Collection *mongo.Collection
 }
 
-func NewPerpemMongoRepository(db *mongo.Database) interfaces.PerpemRepository {
-	return &PerpemMongoRepository{
-		Collection: db.Collection("perpem_v1"),
+func NewKHSMongoRepository(db *mongo.Database) interfaces.KHSRepository {
+	return &KhsMongoRepository{
+		Collection: db.Collection("khs_v1"),
 	}
 }
 
-func (repo *PerpemMongoRepository) GetPerpemFiltered(ctx context.Context, kodeFakultas, kodeJurusan, kodeProdi, tahun, semester, search string, page, limit int) ([]models.Perpem, int64, error) {
+func (repo *KhsMongoRepository) GetKHSFiltered(ctx context.Context, kodeFakultas, kodeJurusan, kodeProdi, tahun, semester, search string, page, limit int) ([]models.Khs, int64, error) {
 	skip := (page - 1) * limit
 	filter := bson.M{}
 
-	// Filter existing conditions
 	if kodeFakultas != "" {
 		filter["unit.fkt_kode"] = kodeFakultas
 	}
@@ -54,7 +53,6 @@ func (repo *PerpemMongoRepository) GetPerpemFiltered(ctx context.Context, kodeFa
 		}
 	}
 
-	// Add text search filter
 	if search != "" {
 		filter["$text"] = bson.M{"$search": search}
 	}
@@ -62,17 +60,19 @@ func (repo *PerpemMongoRepository) GetPerpemFiltered(ctx context.Context, kodeFa
 	var wg sync.WaitGroup
 	wg.Add(2)
 
-	var results []models.Perpem
+	var results []models.Khs
 	var total int64
 	var dataErr, countErr error
 
 	go func() {
 		defer wg.Done()
-		findOptions := options.Find().SetSkip(int64(skip)).SetLimit(int64(limit)).SetSort(bson.D{
-			{Key: "tahun", Value: -1},
-			{Key: "semester", Value: -1},
-			{Key: "_id", Value: 1},
-		})
+		findOptions := options.Find().SetSkip(int64(skip)).SetLimit(int64(limit)).SetSort(
+			bson.D{
+				{Key: "tahun", Value: -1},
+				{Key: "semester", Value: -1},
+				{Key: "_id", Value: 1},
+			})
+
 		if search != "" {
 			findOptions.SetProjection(bson.M{"score": bson.M{"$meta": "textScore"}})
 			findOptions.SetSort(bson.D{
@@ -88,7 +88,9 @@ func (repo *PerpemMongoRepository) GetPerpemFiltered(ctx context.Context, kodeFa
 			dataErr = err
 			return
 		}
+
 		defer cursor.Close(ctx)
+
 		if err := cursor.All(ctx, &results); err != nil {
 			dataErr = err
 			return
@@ -101,6 +103,7 @@ func (repo *PerpemMongoRepository) GetPerpemFiltered(ctx context.Context, kodeFa
 	}()
 
 	wg.Wait()
+
 	if dataErr != nil {
 		return nil, 0, fmt.Errorf("failed to get data: %v", dataErr)
 	}

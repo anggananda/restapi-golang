@@ -74,7 +74,7 @@ func (h *MhsHandler) GetMahasiswaHistoryByStatus(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"status": "success",
-		"data":   results,
+		"datas":   results,
 		"pagination": gin.H{
 			"page":  page,
 			"limit": limit,

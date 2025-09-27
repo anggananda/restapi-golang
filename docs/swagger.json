@@ -1,0 +1,3875 @@
+{
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Basic authentication untuk admin endpoints",
+        "title": "Executive Information System RESTful API",
+        "termsOfService": "https://guthub.com/anggananda",
+        "contact": {
+            "name": "Dwi Angga",
+            "url": "https://guthub.com/anggananda",
+            "email": "anggadek857@gmail.com"
+        },
+        "license": {
+            "name": "MIT License",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/agenda-mengajar": {
+            "get": {
+                "description": "Mendapatkan data agenda mengajar berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Agenda Mengajar"
+                ],
+                "summary": "Get filtered agenda mengajar",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.AgendaMengajar"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/angket-mhs": {
+            "get": {
+                "description": "Mendapatkan data angket mahasiswa berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Angket Mahasiswa"
+                ],
+                "summary": "Get filtered Angket Mahasiswa",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.AngketMhs"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/beasiswa": {
+            "get": {
+                "description": "Mendapatkan data beasiswa berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Beasiswa"
+                ],
+                "summary": "Get filtered Beasiswa",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan jenis beasiswa",
+                        "name": "jenisBeasiswa",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Beasiswa"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/buku": {
+            "get": {
+                "description": "Mendapatkan data buku berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Buku"
+                ],
+                "summary": "Get filtered Buku",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Buku"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/hki": {
+            "get": {
+                "description": "Mendapatkan data hki berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Hki"
+                ],
+                "summary": "Get filtered hki",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Hki"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/jurnal": {
+            "get": {
+                "description": "Mendapatkan data jurnal berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Jurnal"
+                ],
+                "summary": "Get filtered jurnal",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan indexer",
+                        "name": "indexer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan akreditasi",
+                        "name": "akreditasi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Jurnal"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/karya-akhir": {
+            "get": {
+                "description": "Mendapatkan data karya akhir berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Karya Akhir"
+                ],
+                "summary": "Get filtered karya akhir",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.KaryaAkhir"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/khs": {
+            "get": {
+                "description": "Mendapatkan data khs berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Khs"
+                ],
+                "summary": "Get filtered khs",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Khs"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/kritik-saran": {
+            "get": {
+                "description": "Mendapatkan data kritik \u0026 saran berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Kritik \u0026 Saran"
+                ],
+                "summary": "Get filtered kritik \u0026 saran",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.KritikSaran"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mhs-wisuda": {
+            "get": {
+                "description": "Mendapatkan data mahasiswa wisuda berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Mahasiswa Wisuda"
+                ],
+                "summary": "Get filtered mahasiswa wisuda",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.MhsWisuda"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/penawaran": {
+            "get": {
+                "description": "Mendapatkan data penawaran berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Penawaran"
+                ],
+                "summary": "Get filtered penawaran",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Penawaran"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/penelitian": {
+            "get": {
+                "description": "Mendapatkan data penelitian berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Penelitian"
+                ],
+                "summary": "Get filtered Penelitian",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Penelitian"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pengabdian": {
+            "get": {
+                "description": "Mendapatkan data pengabdian berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pengabdian"
+                ],
+                "summary": "Get filtered Pengabdian",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Pengabdian"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/perpem": {
+            "get": {
+                "description": "Mendapatkan data perangkat pembelajaran berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Perangkat Pembelajaran"
+                ],
+                "summary": "Get filtered perangkat pembelajaran",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Perpem"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/prosiding": {
+            "get": {
+                "description": "Mendapatkan data prosiding berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Prosiding"
+                ],
+                "summary": "Get filtered prosiding",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan indexer",
+                        "name": "indexer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Prosiding"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/realisasi-bulan": {
+            "get": {
+                "description": "Mendapatkan data realisasi bulan berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Realisasi Bulan"
+                ],
+                "summary": "Get filtered realisasi bulan",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.RealisasiBulan"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/realisasi-unit": {
+            "get": {
+                "description": "Mendapatkan data ralisasi unit berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Realisasi Unit"
+                ],
+                "summary": "Get filtered ralisasi unit",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.RealisasiUnit"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/rekap-pmb": {
+            "get": {
+                "description": "Mendapatkan data rekap pmb berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Rekap PMB"
+                ],
+                "summary": "Get filtered rekap pmb",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.RekapPMB"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/tracer": {
+            "get": {
+                "description": "Mendapatkan data tracer berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tracer"
+                ],
+                "summary": "Get filtered tracer",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan bulan",
+                        "name": "bulan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan statusTracer",
+                        "name": "statusTracer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Tracer"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.AgendaMengajar": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "integer"
+                },
+                "dosen": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id_kelas": {
+                    "type": "string"
+                },
+                "id_penawaran": {
+                    "type": "string"
+                },
+                "jenis_kelas": {
+                    "type": "string"
+                },
+                "kode": {
+                    "type": "string"
+                },
+                "kurikulum": {
+                    "type": "string"
+                },
+                "matakuliah": {
+                    "type": "string"
+                },
+                "nip_dosen": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "periode": {
+                    "type": "string"
+                },
+                "pertemuan": {
+                    "type": "string"
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "sumber": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                }
+            }
+        },
+        "models.AngketMhs": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "integer"
+                },
+                "dosen": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id_kelas": {
+                    "type": "string"
+                },
+                "id_penawaran": {
+                    "type": "string"
+                },
+                "kode": {
+                    "type": "string"
+                },
+                "mk": {
+                    "type": "string"
+                },
+                "nip_dosen": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "periode": {
+                    "type": "string"
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                }
+            }
+        },
+        "models.Beasiswa": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "integer"
+                },
+                "ipk": {
+                    "type": "number"
+                },
+                "jenis_beasiswa": {
+                    "type": "string"
+                },
+                "nama": {
+                    "type": "string"
+                },
+                "nim": {
+                    "type": "string"
+                },
+                "periode": {
+                    "type": "string"
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "semester_type": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "integer"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                }
+            }
+        },
+        "models.Buku": {
+            "type": "object",
+            "properties": {
+                "ISBN": {
+                    "type": "string"
+                },
+                "_id": {
+                    "type": "integer"
+                },
+                "anggota_penelitian": {
+                    "type": "string"
+                },
+                "create_dosen_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "cron_semester": {
+                    "type": "string"
+                },
+                "cron_tahun": {
+                    "type": "string"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "file_hasil_uji_plagiarim": {
+                    "type": "string"
+                },
+                "file_isi_buku": {
+                    "type": "string"
+                },
+                "file_pendahuluan": {
+                    "type": "string"
+                },
+                "file_penilaian_reviewer": {
+                    "type": "string"
+                },
+                "file_penutup_dan_referensi": {
+                    "type": "string"
+                },
+                "file_persetujuan_penerbit": {
+                    "type": "string"
+                },
+                "file_selesai_dicetak": {
+                    "type": "string"
+                },
+                "file_upload": {
+                    "type": "string"
+                },
+                "isValid": {
+                    "type": "string"
+                },
+                "is_produk": {
+                    "type": "string"
+                },
+                "jml_negara_pengedaran": {
+                    "type": "string"
+                },
+                "jml_penulis": {
+                    "type": "string"
+                },
+                "judul_buku": {
+                    "type": "string"
+                },
+                "jumlah_halaman": {
+                    "type": "string"
+                },
+                "kategori_buku": {
+                    "type": "string"
+                },
+                "keterangan": {
+                    "type": "string"
+                },
+                "kode_kategori_buku": {
+                    "type": "string"
+                },
+                "kode_prodi": {
+                    "type": "string"
+                },
+                "kode_scope": {
+                    "type": "string"
+                },
+                "komentar": {
+                    "type": "string"
+                },
+                "level_capaian": {
+                    "type": "string"
+                },
+                "mahasiswa_penelitian": {
+                    "type": "string"
+                },
+                "nama_dosen": {
+                    "type": "string"
+                },
+                "nama_fakultas": {
+                    "type": "string"
+                },
+                "nama_jurusan": {
+                    "type": "string"
+                },
+                "penerbit": {
+                    "type": "string"
+                },
+                "periode": {
+                    "type": "string"
+                },
+                "posisi": {
+                    "type": "string"
+                },
+                "primaryKey": {
+                    "type": "string"
+                },
+                "produk_penelitian": {
+                    "type": "string"
+                },
+                "produk_penelitian_id": {
+                    "type": "string"
+                },
+                "produk_penelitian_judul": {
+                    "type": "string"
+                },
+                "produk_pengabdian": {
+                    "type": "string"
+                },
+                "produk_pengabdian_id": {
+                    "type": "string"
+                },
+                "produk_pengabdian_judul": {
+                    "type": "string"
+                },
+                "satuan": {
+                    "type": "string"
+                },
+                "scope": {
+                    "type": "string"
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "semester_type": {
+                    "type": "string"
+                },
+                "sumber_produk": {
+                    "type": "string"
+                },
+                "tahun_ajaran": {
+                    "type": "string"
+                },
+                "tanggal": {
+                    "type": "string"
+                },
+                "tbName": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "url_dokumen": {
+                    "type": "string"
+                },
+                "url_per_review": {
+                    "type": "string"
+                },
+                "valid_ipk": {
+                    "type": "string"
+                },
+                "valid_ipk_komentar": {
+                    "type": "string"
+                },
+                "volume_kegiatan": {
+                    "type": "string"
+                },
+                "waktu_pelaksanaan": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "error message"
+                }
+            }
+        },
+        "models.Hki": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "integer"
+                },
+                "anggota_penelitian": {
+                    "type": "string"
+                },
+                "create_dosen_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "cron_semester": {
+                    "type": "string"
+                },
+                "cron_tahun": {
+                    "type": "string"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "deskripsi": {
+                    "type": "string"
+                },
+                "file_bukti_kinerja": {
+                    "type": "string"
+                },
+                "file_hasil_uji_plagiarim": {
+                    "type": "string"
+                },
+                "file_pemeriksaan_substansi": {
+                    "type": "string"
+                },
+                "file_pendaftaran": {
+                    "type": "string"
+                },
+                "file_penilaian_reviewer": {
+                    "type": "string"
+                },
+                "file_sertifikasi": {
+                    "type": "string"
+                },
+                "file_sertifikat_paten": {
+                    "type": "string"
+                },
+                "file_uji_publik": {
+                    "type": "string"
+                },
+                "isValid": {
+                    "type": "string"
+                },
+                "is_produk": {
+                    "type": "string"
+                },
+                "jenis_paten": {
+                    "type": "string"
+                },
+                "jml_negara_pengaku": {
+                    "type": "string"
+                },
+                "jml_penulis": {
+                    "type": "string"
+                },
+                "kode_jenis_paten": {
+                    "type": "string"
+                },
+                "kode_scope": {
+                    "type": "string"
+                },
+                "komentar": {
+                    "type": "string"
+                },
+                "level_capaian": {
+                    "type": "string"
+                },
+                "mahasiswa_penelitian": {
+                    "type": "string"
+                },
+                "nama_dosen": {
+                    "type": "string"
+                },
+                "nama_karya": {
+                    "type": "string"
+                },
+                "no_pendaftaran": {
+                    "type": "string"
+                },
+                "no_pendatatan_sertifikat": {
+                    "type": "string"
+                },
+                "periode": {
+                    "type": "string"
+                },
+                "posisi": {
+                    "type": "string"
+                },
+                "primaryKey": {
+                    "type": "string"
+                },
+                "produk_penelitian": {
+                    "type": "string"
+                },
+                "produk_penelitian_id": {
+                    "type": "string"
+                },
+                "produk_penelitian_judul": {
+                    "type": "string"
+                },
+                "produk_pengabdian": {
+                    "type": "string"
+                },
+                "produk_pengabdian_id": {
+                    "type": "string"
+                },
+                "produk_pengabdian_judul": {
+                    "type": "string"
+                },
+                "scope": {
+                    "type": "string"
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "semester_type": {
+                    "type": "string"
+                },
+                "sumber_produk": {
+                    "type": "string"
+                },
+                "tahun_ajaran": {
+                    "type": "string"
+                },
+                "tanggal": {
+                    "type": "string"
+                },
+                "tbName": {
+                    "type": "string"
+                },
+                "units": {
+                    "$ref": "#/definitions/models.Unit"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "valid_ipk": {
+                    "type": "string"
+                },
+                "valid_ipk_komentar": {
+                    "type": "string"
+                },
+                "waktu_pelaksanaan": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Jurnal": {
+            "type": "object",
+            "properties": {
+                "DOI": {
+                    "type": "string"
+                },
+                "E_ISSN": {
+                    "type": "string"
+                },
+                "P_ISSN": {
+                    "type": "string"
+                },
+                "_id": {
+                    "type": "integer"
+                },
+                "aggregation_type": {
+                    "type": "string"
+                },
+                "akreditasi": {
+                    "type": "string"
+                },
+                "alamat_web_jurnal": {
+                    "type": "string"
+                },
+                "anggota_penelitian": {
+                    "type": "string"
+                },
+                "authors": {
+                    "type": "string"
+                },
+                "bahasa_id": {
+                    "type": "string"
+                },
+                "create_dosen_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "cron_semester": {
+                    "type": "string"
+                },
+                "cron_tahun": {
+                    "type": "string"
+                },
+                "dari_api_sinta": {
+                    "type": "string"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "file_diterima": {
+                    "type": "string"
+                },
+                "file_hasil_uji_plagiarim": {
+                    "type": "string"
+                },
+                "file_penilaian_reviewer": {
+                    "type": "string"
+                },
+                "file_revisi": {
+                    "type": "string"
+                },
+                "file_selesai_dicetak": {
+                    "type": "string"
+                },
+                "file_submit": {
+                    "type": "string"
+                },
+                "file_sudah_revisi": {
+                    "type": "string"
+                },
+                "file_terpublikasi": {
+                    "type": "string"
+                },
+                "file_upload": {
+                    "type": "string"
+                },
+                "halaman_akhir": {
+                    "type": "string"
+                },
+                "halaman_awal": {
+                    "type": "string"
+                },
+                "id_sinta": {
+                    "type": "string"
+                },
+                "impact_factor": {
+                    "type": "string"
+                },
+                "indexer": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "isValid": {
+                    "type": "string"
+                },
+                "is_produk": {
+                    "type": "string"
+                },
+                "jenis_jurnal": {
+                    "type": "string"
+                },
+                "jml_penulis": {
+                    "type": "string"
+                },
+                "judul_artikel": {
+                    "type": "string"
+                },
+                "keterangan": {
+                    "type": "string"
+                },
+                "kode_akreditasi": {
+                    "type": "string"
+                },
+                "kode_jenis_jurnal": {
+                    "type": "string"
+                },
+                "kode_prodi": {
+                    "type": "string"
+                },
+                "kode_scope": {
+                    "type": "string"
+                },
+                "komentar": {
+                    "type": "string"
+                },
+                "mahasiswa_penelitian": {
+                    "type": "string"
+                },
+                "nama_dosen": {
+                    "type": "string"
+                },
+                "nama_fakultas": {
+                    "type": "string"
+                },
+                "nama_jurnal": {
+                    "type": "string"
+                },
+                "nama_jurusan": {
+                    "type": "string"
+                },
+                "nomor_jurnal": {
+                    "type": "string"
+                },
+                "penerbit": {
+                    "type": "string"
+                },
+                "periode": {
+                    "type": "string"
+                },
+                "posisi": {
+                    "type": "string"
+                },
+                "primaryKey": {
+                    "type": "string"
+                },
+                "produk_penelitian": {
+                    "type": "string"
+                },
+                "produk_penelitian_id": {
+                    "type": "string"
+                },
+                "produk_penelitian_judul": {
+                    "type": "string"
+                },
+                "produk_pengabdian": {
+                    "type": "string"
+                },
+                "produk_pengabdian_id": {
+                    "type": "string"
+                },
+                "produk_pengabdian_judul": {
+                    "type": "string"
+                },
+                "satuan": {
+                    "type": "string"
+                },
+                "scope": {
+                    "type": "string"
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "semester_type": {
+                    "type": "string"
+                },
+                "sinta": {
+                    "type": "string"
+                },
+                "sitasi": {
+                    "type": "string"
+                },
+                "status_lengkap": {
+                    "type": "string"
+                },
+                "sumber_produk": {
+                    "type": "string"
+                },
+                "tahun_ajaran": {
+                    "type": "string"
+                },
+                "tahun_publish": {
+                    "type": "string"
+                },
+                "tanggal": {
+                    "type": "string"
+                },
+                "tbName": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "url_dokumen": {
+                    "type": "string"
+                },
+                "url_peer_review": {
+                    "type": "string"
+                },
+                "valid_ipk": {
+                    "type": "string"
+                },
+                "valid_ipk_komentar": {
+                    "type": "string"
+                },
+                "volume_jurnal": {
+                    "type": "string"
+                },
+                "volume_kegiatan": {
+                    "type": "string"
+                },
+                "waktu_pelaksanaan": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.KaryaAkhir": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "integer"
+                },
+                "current_state": {
+                    "type": "string"
+                },
+                "judul": {
+                    "type": "string"
+                },
+                "main_stage": {
+                    "type": "string"
+                },
+                "nama_lengkap": {
+                    "type": "string"
+                },
+                "nama_pa": {
+                    "type": "string"
+                },
+                "nama_pembimbing_1": {
+                    "type": "string"
+                },
+                "nama_pembimbing_2": {
+                    "type": "string"
+                },
+                "nama_pembimbing_3": {
+                    "type": "string"
+                },
+                "nama_penguji_1": {
+                    "type": "string"
+                },
+                "nama_penguji_2": {
+                    "type": "string"
+                },
+                "nama_penguji_3": {
+                    "type": "string"
+                },
+                "nama_penguji_4": {
+                    "type": "string"
+                },
+                "nama_penguji_5": {
+                    "type": "string"
+                },
+                "nama_penguji_6": {
+                    "type": "string"
+                },
+                "nilai_akhir": {
+                    "type": "string"
+                },
+                "nim": {
+                    "type": "string"
+                },
+                "status_judul": {
+                    "type": "string"
+                },
+                "tahun_masuk": {
+                    "type": "integer"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                }
+            }
+        },
+        "models.Khs": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "integer"
+                },
+                "dilihat": {
+                    "type": "string"
+                },
+                "foto": {
+                    "type": "string"
+                },
+                "nama_mhs": {
+                    "type": "string"
+                },
+                "nim": {
+                    "type": "string"
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                }
+            }
+        },
+        "models.KritikSaran": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "integer"
+                },
+                "nama": {
+                    "type": "string"
+                },
+                "nip": {
+                    "type": "string"
+                },
+                "periode": {
+                    "type": "string"
+                },
+                "saran": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                }
+            }
+        },
+        "models.ListResponse": {
+            "type": "object",
+            "properties": {
+                "datas": {},
+                "pagination": {
+                    "$ref": "#/definitions/models.PaginationResponse"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "models.MhsWisuda": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "integer"
+                },
+                "bulan_wisuda": {
+                    "type": "integer"
+                },
+                "nama_bulan": {
+                    "type": "string"
+                },
+                "nama_lengkap": {
+                    "type": "string"
+                },
+                "nim": {
+                    "type": "string"
+                },
+                "tahun_wisuda": {
+                    "type": "integer"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                }
+            }
+        },
+        "models.PaginationResponse": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "example": 10
+                },
+                "page": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "pages": {
+                    "type": "integer",
+                    "example": 10
+                },
+                "total": {
+                    "type": "integer",
+                    "example": 100
+                }
+            }
+        },
+        "models.Penawaran": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "integer"
+                },
+                "jml_mhs_ambil": {
+                    "type": "string"
+                },
+                "kode_matakuliah": {
+                    "type": "string"
+                },
+                "kurikulum": {
+                    "type": "string"
+                },
+                "nama_kelas": {
+                    "type": "string"
+                },
+                "nama_matakuliah": {
+                    "type": "string"
+                },
+                "nama_pengampu": {
+                    "type": "string"
+                },
+                "nip_pengampu": {
+                    "type": "string"
+                },
+                "pengampu": {
+                    "type": "string"
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                }
+            }
+        },
+        "models.Penelitian": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "integer"
+                },
+                "anggota_penelitian": {
+                    "type": "string"
+                },
+                "bidang_penelitian": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "cron_semester": {
+                    "type": "string"
+                },
+                "cron_tahun": {
+                    "type": "string"
+                },
+                "dana": {
+                    "type": "string"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "deskripsi": {
+                    "type": "string"
+                },
+                "dokumen_pendukung": {
+                    "type": "string"
+                },
+                "dokumen_pendukung_opsional": {
+                    "type": "string"
+                },
+                "file_bukti_kerja": {
+                    "type": "string"
+                },
+                "file_daftar_isi": {
+                    "type": "string"
+                },
+                "file_laporan_akhir": {
+                    "type": "string"
+                },
+                "file_laporan_kemajuan": {
+                    "type": "string"
+                },
+                "file_lembar_pengesahan": {
+                    "type": "string"
+                },
+                "file_mitra_awal": {
+                    "type": "string"
+                },
+                "file_proposal": {
+                    "type": "string"
+                },
+                "file_revisi": {
+                    "type": "string"
+                },
+                "file_sampul": {
+                    "type": "string"
+                },
+                "id_fokus": {
+                    "type": "string"
+                },
+                "id_hibah": {
+                    "type": "string"
+                },
+                "id_penelitian_bidang_sub": {
+                    "type": "string"
+                },
+                "id_silidia": {
+                    "type": "string"
+                },
+                "id_sinta": {
+                    "type": "string"
+                },
+                "id_skim": {
+                    "type": "string"
+                },
+                "id_sosek_sub": {
+                    "type": "string"
+                },
+                "id_sub_bidang": {
+                    "type": "string"
+                },
+                "institusi_sumber_dana": {
+                    "type": "string"
+                },
+                "isValid": {
+                    "type": "string"
+                },
+                "jenis_penelitian": {
+                    "type": "string"
+                },
+                "judul_tulisan": {
+                    "type": "string"
+                },
+                "komentar": {
+                    "type": "string"
+                },
+                "level_capaian": {
+                    "type": "string"
+                },
+                "mahasiswa_penelitian": {
+                    "type": "string"
+                },
+                "nama_dosen": {
+                    "type": "string"
+                },
+                "nama_sub_bidang": {
+                    "type": "string"
+                },
+                "periode": {
+                    "type": "string"
+                },
+                "posisi": {
+                    "type": "string"
+                },
+                "primaryKey": {
+                    "type": "string"
+                },
+                "rumpun_ilmu": {
+                    "type": "string"
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "semester_type": {
+                    "type": "string"
+                },
+                "skema": {
+                    "type": "string"
+                },
+                "skim": {
+                    "type": "string"
+                },
+                "status_lengkap": {
+                    "type": "string"
+                },
+                "sumber_dana": {
+                    "type": "string"
+                },
+                "sumber_data": {
+                    "type": "string"
+                },
+                "tahun_ajaran": {
+                    "type": "string"
+                },
+                "tahun_awal": {
+                    "type": "string"
+                },
+                "tahun_implementasi": {
+                    "type": "string"
+                },
+                "tahun_proposal": {
+                    "type": "string"
+                },
+                "tanggal": {
+                    "type": "string"
+                },
+                "tbName": {
+                    "type": "string"
+                },
+                "tujuan_ekonomi_sosial": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "valid_ipk": {
+                    "type": "string"
+                },
+                "valid_ipk_komentar": {
+                    "type": "string"
+                },
+                "waktu_pelaksanaan": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Pengabdian": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "integer"
+                },
+                "anggota_pengabdian": {
+                    "type": "string"
+                },
+                "bidang_penelitian": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "cron_semester": {
+                    "type": "string"
+                },
+                "cron_tahun": {
+                    "type": "string"
+                },
+                "dana": {
+                    "type": "string"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "deskripsi": {
+                    "type": "string"
+                },
+                "dokumen_pendukung": {
+                    "type": "string"
+                },
+                "dokumen_pendukung_opsional": {
+                    "type": "string"
+                },
+                "file_bukti_kerja": {
+                    "type": "string"
+                },
+                "file_daftar_isi": {
+                    "type": "string"
+                },
+                "file_laporan_akhir": {
+                    "type": "string"
+                },
+                "file_laporan_kemajuan": {
+                    "type": "string"
+                },
+                "file_lembar_pengesahan": {
+                    "type": "string"
+                },
+                "file_mitra_awal": {
+                    "type": "string"
+                },
+                "file_proposal": {
+                    "type": "string"
+                },
+                "file_revisi": {
+                    "type": "string"
+                },
+                "file_sampul": {
+                    "type": "string"
+                },
+                "id_fokus": {
+                    "type": "string"
+                },
+                "id_hibah": {
+                    "type": "string"
+                },
+                "id_penelitian_bidang_sub": {
+                    "type": "string"
+                },
+                "id_silidia": {
+                    "type": "string"
+                },
+                "id_sinta": {
+                    "type": "string"
+                },
+                "id_skim": {
+                    "type": "string"
+                },
+                "id_sosek_sub": {
+                    "type": "string"
+                },
+                "id_sub_bidang": {
+                    "type": "string"
+                },
+                "institusi_sumber_dana": {
+                    "type": "string"
+                },
+                "isValid": {
+                    "type": "string"
+                },
+                "jenis_pengabdian": {
+                    "type": "string"
+                },
+                "level_capaian": {
+                    "type": "string"
+                },
+                "mahasiswa_pengabdian": {
+                    "type": "string"
+                },
+                "nama_dosen": {
+                    "type": "string"
+                },
+                "nama_kegiatan": {
+                    "type": "string"
+                },
+                "nama_sub_bidang": {
+                    "type": "string"
+                },
+                "periode": {
+                    "type": "string"
+                },
+                "posisi": {
+                    "type": "string"
+                },
+                "primaryKey": {
+                    "type": "string"
+                },
+                "rumpun_ilmu": {
+                    "type": "string"
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "semester_type": {
+                    "type": "string"
+                },
+                "skema": {
+                    "type": "string"
+                },
+                "skim": {
+                    "type": "string"
+                },
+                "status_lengkap": {
+                    "type": "string"
+                },
+                "sumber_dana": {
+                    "type": "string"
+                },
+                "sumber_data": {
+                    "type": "string"
+                },
+                "tahun_ajaran": {
+                    "type": "string"
+                },
+                "tahun_awal": {
+                    "type": "string"
+                },
+                "tahun_implementasi": {
+                    "type": "string"
+                },
+                "tahun_proposal": {
+                    "type": "string"
+                },
+                "tanggal": {
+                    "type": "string"
+                },
+                "tbName": {
+                    "type": "string"
+                },
+                "tujuan_ekonomi_sosial": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "valid_ipk": {
+                    "type": "string"
+                },
+                "valid_ipk_komentar": {
+                    "type": "string"
+                },
+                "waktu_pelaksanaan": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Perpem": {
+            "type": "object",
+            "properties": {
+                "dosen": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id_kelas": {
+                    "type": "string"
+                },
+                "id_penawaran": {
+                    "type": "string"
+                },
+                "kode": {
+                    "type": "string"
+                },
+                "kontrak": {
+                    "type": "string"
+                },
+                "kurikulum": {
+                    "type": "string"
+                },
+                "metode": {
+                    "type": "string"
+                },
+                "mk": {
+                    "type": "string"
+                },
+                "pertemuan": {
+                    "type": "string"
+                },
+                "rps": {
+                    "type": "string"
+                },
+                "rtm": {
+                    "type": "string"
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "silabus": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                }
+            }
+        },
+        "models.Prosiding": {
+            "type": "object",
+            "properties": {
+                "E_ISSN": {
+                    "type": "string"
+                },
+                "ISBN": {
+                    "type": "string"
+                },
+                "P_ISSN": {
+                    "type": "string"
+                },
+                "_id": {
+                    "type": "integer"
+                },
+                "anggota_non_dosen": {
+                    "type": "string"
+                },
+                "anggota_penelitian": {
+                    "type": "string"
+                },
+                "bereputasi": {
+                    "type": "string"
+                },
+                "create_dosen_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "cron_semester": {
+                    "type": "string"
+                },
+                "cron_tahun": {
+                    "type": "string"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "file_hasil_uji_plagiarim": {
+                    "type": "string"
+                },
+                "file_penilaian_reviewer": {
+                    "type": "string"
+                },
+                "file_upload": {
+                    "type": "string"
+                },
+                "id_sinta": {
+                    "type": "string"
+                },
+                "indexer": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "isValid": {
+                    "type": "string"
+                },
+                "is_produk": {
+                    "type": "string"
+                },
+                "jenis_pembicara": {
+                    "type": "string"
+                },
+                "jml_penulis": {
+                    "type": "string"
+                },
+                "judul_artikel": {
+                    "type": "string"
+                },
+                "keterangan": {
+                    "type": "string"
+                },
+                "kode_scope": {
+                    "type": "string"
+                },
+                "kode_tipe_prosiding": {
+                    "type": "string"
+                },
+                "komentar": {
+                    "type": "string"
+                },
+                "mahasiswa_penelitian": {
+                    "type": "string"
+                },
+                "nama_dosen": {
+                    "type": "string"
+                },
+                "nama_seminar": {
+                    "type": "string"
+                },
+                "penerbit": {
+                    "type": "string"
+                },
+                "penyelenggara": {
+                    "type": "string"
+                },
+                "periode": {
+                    "type": "string"
+                },
+                "posisi": {
+                    "type": "string"
+                },
+                "primaryKey": {
+                    "type": "string"
+                },
+                "produk_penelitian": {
+                    "type": "string"
+                },
+                "produk_penelitian_id": {
+                    "type": "string"
+                },
+                "produk_penelitian_judul": {
+                    "type": "string"
+                },
+                "produk_pengabdian": {
+                    "type": "string"
+                },
+                "produk_pengabdian_id": {
+                    "type": "string"
+                },
+                "produk_pengabdian_judul": {
+                    "type": "string"
+                },
+                "satuan": {
+                    "type": "string"
+                },
+                "scope": {
+                    "type": "string"
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "semester_type": {
+                    "type": "string"
+                },
+                "sinta": {
+                    "type": "string"
+                },
+                "status_publish": {
+                    "type": "string"
+                },
+                "sumber_produk": {
+                    "type": "string"
+                },
+                "tahun_ajaran": {
+                    "type": "string"
+                },
+                "tanggal": {
+                    "type": "string"
+                },
+                "tbName": {
+                    "type": "string"
+                },
+                "tempat_pelaksanaan": {
+                    "type": "string"
+                },
+                "tgl_akhir": {
+                    "type": "string"
+                },
+                "tgl_awal": {
+                    "type": "string"
+                },
+                "tipe_prosiding": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "url_dokumen": {
+                    "type": "string"
+                },
+                "url_per_review": {
+                    "type": "string"
+                },
+                "valid_ipk": {
+                    "type": "string"
+                },
+                "valid_ipk_komentar": {
+                    "type": "string"
+                },
+                "volume_kegiatan": {
+                    "type": "string"
+                },
+                "waktu_pelaksanaan": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.RealisasiBulan": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "integer"
+                },
+                "bulan": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "realisasi_total_pnbp": {
+                    "type": "string"
+                },
+                "realisasi_total_rm": {
+                    "type": "string"
+                },
+                "realisasi_total_rm_boptn": {
+                    "type": "string"
+                },
+                "tahun_anggaran": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.RealisasiUnit": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "kode_unit": {
+                    "type": "string"
+                },
+                "nama_unit": {
+                    "type": "string"
+                },
+                "pagu_pnbp": {
+                    "type": "string"
+                },
+                "pagu_rm": {
+                    "type": "string"
+                },
+                "pagu_rm_boptn": {
+                    "type": "string"
+                },
+                "realisasi_pnbp": {
+                    "type": "string"
+                },
+                "realisasi_rm": {
+                    "type": "string"
+                },
+                "realisasi_rm_boptn": {
+                    "type": "string"
+                },
+                "tahun_anggaran": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.RekapPMB": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "integer"
+                },
+                "adikpapua": {
+                    "$ref": "#/definitions/models.StatPMB"
+                },
+                "internasional": {
+                    "$ref": "#/definitions/models.StatPMB"
+                },
+                "jumlah": {
+                    "$ref": "#/definitions/models.StatPMB"
+                },
+                "kode": {
+                    "type": "string"
+                },
+                "nama_prodi": {
+                    "type": "string"
+                },
+                "pasca": {
+                    "$ref": "#/definitions/models.StatPMB"
+                },
+                "profesi": {
+                    "$ref": "#/definitions/models.StatPMB"
+                },
+                "smbjm_cbt": {
+                    "$ref": "#/definitions/models.StatPMB"
+                },
+                "smbjm_raport": {
+                    "$ref": "#/definitions/models.StatPMB"
+                },
+                "smbjm_talent": {
+                    "$ref": "#/definitions/models.StatPMB"
+                },
+                "smbjm_utbk": {
+                    "$ref": "#/definitions/models.StatPMB"
+                },
+                "snbp": {
+                    "$ref": "#/definitions/models.StatPMB"
+                },
+                "snbt": {
+                    "$ref": "#/definitions/models.StatPMB"
+                },
+                "tahun": {
+                    "type": "integer"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                }
+            }
+        },
+        "models.StatPMB": {
+            "type": "object",
+            "properties": {
+                "daftar": {
+                    "type": "string"
+                },
+                "lulus": {
+                    "type": "string"
+                },
+                "peminat": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Tracer": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "integer"
+                },
+                "alamat_perusahaan": {
+                    "type": "string"
+                },
+                "ayah": {
+                    "type": "string"
+                },
+                "bulan_lulus_mahasiswa": {
+                    "type": "integer"
+                },
+                "bulan_wisuda": {
+                    "type": "integer"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "dikti": {
+                    "type": "string"
+                },
+                "email_mahasiswa": {
+                    "type": "string"
+                },
+                "gaji": {
+                    "type": "string"
+                },
+                "ibu": {
+                    "type": "string"
+                },
+                "id_jurusan": {
+                    "type": "integer"
+                },
+                "id_mahasiswa": {
+                    "type": "integer"
+                },
+                "ipk_mahasiswa": {
+                    "type": "number"
+                },
+                "jabatan_dalam_berwirausaha": {
+                    "type": "string"
+                },
+                "jenis_kelamin_mahasiswa": {
+                    "type": "string"
+                },
+                "jenis_perusahaan": {
+                    "type": "string"
+                },
+                "jenjang": {
+                    "type": "string"
+                },
+                "kabupaten": {
+                    "type": "string"
+                },
+                "masa_tunggu_sebelum_lulus": {
+                    "type": "string"
+                },
+                "masa_tunggu_setelah_lulus": {
+                    "type": "string"
+                },
+                "nama_mahasiswa": {
+                    "type": "string"
+                },
+                "nama_perusahaan": {
+                    "type": "string"
+                },
+                "nik_mahasiswa": {
+                    "type": "string"
+                },
+                "nim_mahasiswa": {
+                    "type": "string"
+                },
+                "no_ijasah": {
+                    "type": "string"
+                },
+                "no_sk_yudisium": {
+                    "type": "string"
+                },
+                "no_telp": {
+                    "type": "string"
+                },
+                "npwp_mahasiswa": {
+                    "type": "string"
+                },
+                "pengisian_terakhir": {
+                    "type": "string"
+                },
+                "perguruan_tinggi_studi_lanjut": {
+                    "type": "string"
+                },
+                "persentase_pengisian": {
+                    "type": "integer"
+                },
+                "prodi_masuk_studi_lanjut": {
+                    "type": "string"
+                },
+                "provinsi": {
+                    "type": "string"
+                },
+                "saudara": {
+                    "type": "string"
+                },
+                "status_mahasiswa": {
+                    "type": "string"
+                },
+                "status_pengisian": {
+                    "type": "string"
+                },
+                "status_saat_ini": {
+                    "type": "string"
+                },
+                "sumber_biaya_studi_lanjut": {
+                    "type": "string"
+                },
+                "tahun_lulus_mahasiswa": {
+                    "type": "integer"
+                },
+                "tahun_wisuda": {
+                    "type": "integer"
+                },
+                "tanggal_masuk_studi_lanjut": {
+                    "type": "string"
+                },
+                "tgl_lahir_mahasiswa": {
+                    "type": "string"
+                },
+                "tgl_lulus_mahasiswa": {
+                    "type": "string"
+                },
+                "tingkat_tempat_kerja": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "wali": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Unit": {
+            "type": "object",
+            "properties": {
+                "fakultas": {
+                    "type": "string"
+                },
+                "fkt_kode": {
+                    "type": "string"
+                },
+                "jrs_kode": {
+                    "type": "string"
+                },
+                "jurusan": {
+                    "type": "string"
+                },
+                "prd_kode": {
+                    "type": "string"
+                },
+                "prodi": {
+                    "type": "string"
+                },
+                "uk_kode": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BasicAuth": {
+            "type": "basic"
+        },
+        "BearerAuth": {
+            "description": "Type \"Bearer\" followed by a space and JWT token. Example: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\"",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "externalDocs": {
+        "description": "OpenAPI",
+        "url": "https://swagger.io/resources/open-api/"
+    }
+}

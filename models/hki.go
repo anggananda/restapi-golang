@@ -1,0 +1,55 @@
+package models
+
+type Hki struct {
+	ID                       int    `bson:"_id" json:"_id"`
+	NamaKarya                string `bson:"nama_karya" json:"nama_karya"`
+	Tanggal                  string `bson:"tanggal" json:"tanggal"`
+	CreatedAt                string `bson:"created_at" json:"created_at"`
+	IsValid                  string `bson:"isValid" json:"isValid"`
+	Semester                 string `bson:"semester" json:"semester"`
+	TahunAjaran              string `bson:"tahun_ajaran" json:"tahun_ajaran"`
+	JenisPaten               string `bson:"jenis_paten" json:"jenis_paten"`
+	TbName                   string `bson:"tbName" json:"tbName"`
+	PrimaryKey               string `bson:"primaryKey" json:"primaryKey"`
+	WaktuPelaksanaan         string `bson:"waktu_pelaksanaan" json:"waktu_pelaksanaan"`
+	NamaDosen                string `bson:"nama_dosen" json:"nama_dosen"`
+	NoPendaftaran            string `bson:"no_pendaftaran" json:"no_pendaftaran"`
+	NoPendatatanSertifikat   string `bson:"no_pendatatan_sertifikat" json:"no_pendatatan_sertifikat"`
+	Scope                    string `bson:"scope" json:"scope"`
+	JmlNegaraPengaku         string `bson:"jml_negara_pengaku" json:"jml_negara_pengaku"`
+	FileBuktiKinerja         string `bson:"file_bukti_kinerja" json:"file_bukti_kinerja"`
+	FileSertifikatPaten      string `bson:"file_sertifikat_paten" json:"file_sertifikat_paten"`
+	Deskripsi                string `bson:"deskripsi" json:"deskripsi"`
+	Posisi                   string `bson:"posisi" json:"posisi"`
+	FilePendaftaran          string `bson:"file_pendaftaran" json:"file_pendaftaran"`
+	FilePemeriksaanSubstansi string `bson:"file_pemeriksaan_substansi" json:"file_pemeriksaan_substansi"`
+	FileUjiPublik            string `bson:"file_uji_publik" json:"file_uji_publik"`
+	FileSertifikasi          string `bson:"file_sertifikasi" json:"file_sertifikasi"`
+	JmlPenulis               string `bson:"jml_penulis" json:"jml_penulis"`
+	UpdatedAt                string `bson:"updated_at" json:"updated_at"`
+	DeletedAt                string `bson:"deleted_at" json:"deleted_at"`
+	IsProduk                 string `bson:"is_produk" json:"is_produk"`
+	ProdukPenelitianJudul    string `bson:"produk_penelitian_judul" json:"produk_penelitian_judul"`
+	ProdukPenelitianID       string `bson:"produk_penelitian_id" json:"produk_penelitian_id"`
+	ProdukPengabdianJudul    string `bson:"produk_pengabdian_judul" json:"produk_pengabdian_judul"`
+	ProdukPengabdianID       string `bson:"produk_pengabdian_id" json:"produk_pengabdian_id"`
+	Komentar                 string `bson:"komentar" json:"komentar"`
+	FilePenilaianReviewer    string `bson:"file_penilaian_reviewer" json:"file_penilaian_reviewer"`
+	FileHasilUjiPlagiarim    string `bson:"file_hasil_uji_plagiarim" json:"file_hasil_uji_plagiarim"`
+	ValidIpk                 string `bson:"valid_ipk" json:"valid_ipk"`
+	ValidIpkKomentar         string `bson:"valid_ipk_komentar" json:"valid_ipk_komentar"`
+	CreateDosenID            string `bson:"create_dosen_id" json:"create_dosen_id"`
+	LevelCapaian             string `bson:"level_capaian" json:"level_capaian"`
+	SumberProduk             string `bson:"sumber_produk" json:"sumber_produk"`
+	ProdukPenelitian         string `bson:"produk_penelitian" json:"produk_penelitian"`
+	ProdukPengabdian         string `bson:"produk_pengabdian" json:"produk_pengabdian"`
+	MahasiswaPenelitian      string `bson:"mahasiswa_penelitian" json:"mahasiswa_penelitian"`
+	AnggotaPenelitian        string `bson:"anggota_penelitian" json:"anggota_penelitian"`
+	CronTahun                string `bson:"cron_tahun" json:"cron_tahun"`
+	CronSemester             string `bson:"cron_semester" json:"cron_semester"`
+	KodeScope                string `bson:"kode_scope" json:"kode_scope"`
+	KodeJenisPaten           string `bson:"kode_jenis_paten" json:"kode_jenis_paten"`
+	Periode                  string `bson:"periode" json:"periode"`
+	SemesterType             string `bson:"semester_type" json:"semester_type"`
+	Unit                     Unit   `bson:"unit" json:"units"`
+}

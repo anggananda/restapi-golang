@@ -12,21 +12,20 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type PerpemMongoRepository struct {
+type MhsWisudaMongoRepository struct {
 	Collection *mongo.Collection
 }
 
-func NewPerpemMongoRepository(db *mongo.Database) interfaces.PerpemRepository {
-	return &PerpemMongoRepository{
-		Collection: db.Collection("perpem_v1"),
+func NewMhsWisudaMongoRepository(db *mongo.Database) interfaces.MhsWisudaRepository {
+	return &MhsWisudaMongoRepository{
+		Collection: db.Collection("mhs_wisuda_v1"),
 	}
 }
 
-func (repo *PerpemMongoRepository) GetPerpemFiltered(ctx context.Context, kodeFakultas, kodeJurusan, kodeProdi, tahun, semester, search string, page, limit int) ([]models.Perpem, int64, error) {
+func (repo *MhsWisudaMongoRepository) GetMhsWisudaFiltered(ctx context.Context, kodeFakultas, kodeJurusan, kodeProdi, search string, tahun, bulan, page, limit int) ([]models.MhsWisuda, int64, error) {
 	skip := (page - 1) * limit
 	filter := bson.M{}
 
-	// Filter existing conditions
 	if kodeFakultas != "" {
 		filter["unit.fkt_kode"] = kodeFakultas
 	}
@@ -39,46 +38,38 @@ func (repo *PerpemMongoRepository) GetPerpemFiltered(ctx context.Context, kodeFa
 		filter["unit.prd_kode"] = kodeProdi
 	}
 
-	if tahun != "" {
-		filter["tahun"] = tahun // tetap string, sesuai DB
+	if tahun != 0 {
+		filter["tahun_wisuda"] = tahun
 	}
 
-	if semester != "" {
-		if semester == "ganjil" {
-			filter["semester"] = bson.M{"$in": []string{"1", "3", "5", "7"}}
-		} else if semester == "genap" {
-			filter["semester"] = bson.M{"$in": []string{"2", "4", "6", "8"}}
-		} else {
-			// kalau langsung dikirim semester angka (contoh: "7")
-			filter["semester"] = semester
-		}
+	if bulan != 0 {
+		filter["bulan_wisuda"] = bulan
 	}
 
-	// Add text search filter
 	if search != "" {
 		filter["$text"] = bson.M{"$search": search}
 	}
 
 	var wg sync.WaitGroup
 	wg.Add(2)
-
-	var results []models.Perpem
+	var results []models.MhsWisuda
 	var total int64
 	var dataErr, countErr error
 
 	go func() {
 		defer wg.Done()
 		findOptions := options.Find().SetSkip(int64(skip)).SetLimit(int64(limit)).SetSort(bson.D{
-			{Key: "tahun", Value: -1},
-			{Key: "semester", Value: -1},
+			{Key: "tahun_wisuda", Value: -1},
+			{Key: "bulan_wisuda", Value: -1},
 			{Key: "_id", Value: 1},
 		})
+
 		if search != "" {
 			findOptions.SetProjection(bson.M{"score": bson.M{"$meta": "textScore"}})
 			findOptions.SetSort(bson.D{
 				{Key: "score", Value: bson.M{"$meta": "textScore"}},
-				{Key: "tahun", Value: -1},
-				{Key: "semester", Value: -1},
+				{Key: "tahun_wisuda", Value: -1},
+				{Key: "bulan_wisuda", Value: -1},
 				{Key: "_id", Value: 1},
 			})
 		}
@@ -101,6 +92,7 @@ func (repo *PerpemMongoRepository) GetPerpemFiltered(ctx context.Context, kodeFa
 	}()
 
 	wg.Wait()
+
 	if dataErr != nil {
 		return nil, 0, fmt.Errorf("failed to get data: %v", dataErr)
 	}
@@ -109,4 +101,5 @@ func (repo *PerpemMongoRepository) GetPerpemFiltered(ctx context.Context, kodeFa
 	}
 
 	return results, total, nil
+
 }
