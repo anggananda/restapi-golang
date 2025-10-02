@@ -14,9 +14,11 @@ import (
 )
 
 var (
-	DB     *mongo.Database
-	CASUrl string
-	RDB    *redis.Client
+	DB          *mongo.Database
+	CASUrl      string
+	FrontendUrl string
+	HostUrl     string
+	RDB         *redis.Client
 )
 
 func init() {
@@ -27,6 +29,16 @@ func init() {
 	CASUrl = os.Getenv("CAS_URL")
 	if CASUrl == "" {
 		log.Fatal("❌ CAS_URL is not set in .env")
+	}
+
+	FrontendUrl = os.Getenv("FRONTEND_URL")
+	if FrontendUrl == "" {
+		log.Fatal("❌ FRONTEND_URL is not set in .env")
+	}
+
+	HostUrl = os.Getenv("HOST_URL")
+	if HostUrl == "" {
+		log.Fatal("❌ HOST_URL is not set in .env")
 	}
 }
 

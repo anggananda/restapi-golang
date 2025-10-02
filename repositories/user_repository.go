@@ -15,13 +15,13 @@ type UserMongoRepository struct {
 
 func NewUserMongoRepository(db *mongo.Database) interfaces.UserRepository {
 	return &UserMongoRepository{
-		Collection: db.Collection("user_v1"),
+		Collection: db.Collection("user_auth_v1"),
 	}
 }
 
-func (repo *UserMongoRepository) CheckUserByUsername(ctx context.Context, username string) (*models.User, error) {
-	var user models.User
-	if err := repo.Collection.FindOne(ctx, bson.M{"username": username}).Decode(&user); err != nil {
+func (repo *UserMongoRepository) CheckUserByUsername(ctx context.Context, username string) (*models.UserAuth, error) {
+	var user models.UserAuth
+	if err := repo.Collection.FindOne(ctx, bson.M{"auth_info.email_sso": username}).Decode(&user); err != nil {
 		return nil, err
 	}
 

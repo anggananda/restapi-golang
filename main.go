@@ -2,16 +2,17 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"restapi-golang/config"
+	"restapi-golang/docs"
 	"restapi-golang/handlers"
+	"restapi-golang/middlewares"
 	"restapi-golang/repositories"
 	"restapi-golang/routes"
 	"restapi-golang/services"
-	"time"
 
 	_ "restapi-golang/docs"
 
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -19,12 +20,18 @@ import (
 
 // @title           Executive Information System RESTful API
 // @version         1.0
-// @description     RESTful API untuk Website Executive Information System Universitas Pendidikan Ganesha.
-// @description     API ini menyediakan endpoints untuk manajemen data akademik, agenda mengajar, dan reporting system.
+// @description  RESTful API for the Executive Information System (EIS) of Universitas Pendidikan Ganesha.
+// @description  This API provides a modular set of endpoints to support various institutional processes,
+// @description  including Academic Management (courses, schedules, curriculum), Student Affairs (activities,
+// @description  scholarships, organizations), Alumni Relations (tracer study, networking, career services),
+// @description  General Administration (assets, facilities, documents), Finance (budgeting, payments, reports),
+// @description  and Performance Management (KPIs, research output, community services).
+// @description  The modular approach ensures flexibility, scalability, and integration across departments,
+// @description  enabling leaders and staff to access accurate, real-time information for decision-making.
 
-// @termsOfService  https://guthub.com/anggananda
+// @termsOfService  https://github.com/anggananda
 // @contact.name    Dwi Angga
-// @contact.url     https://guthub.com/anggananda
+// @contact.url     https://github.com/anggananda
 // @contact.email   anggadek857@gmail.com
 
 // @license.name    MIT License
@@ -37,13 +44,10 @@ import (
 // @externalDocs.description  OpenAPI
 // @externalDocs.url          https://swagger.io/resources/open-api/
 
-// @securityDefinitions.apikey  BearerAuth
-// @in                          header
-// @name                        Authorization
-// @description                 Type "Bearer" followed by a space and JWT token. Example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-
-// @securityDefinitions.basic   BasicAuth
-// @description                 Basic authentication untuk admin endpoints
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Type "Bearer" followed by a space and JWT token.
 
 func main() {
 	router := gin.Default()
@@ -51,19 +55,26 @@ func main() {
 	// Redis Hold Dulu
 	config.ConnectRedis()
 
-	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization", "X-Requested-With"},
-		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
-	}))
+	router.Use(middlewares.CorsMiddleware())
+	host := os.Getenv("APP_HOST")
+	if host == "" {
+		host = "localhost:8080"
+	}
+
+	scheme := os.Getenv("APP_SCHEME")
+	if scheme == "" {
+		scheme = "http"
+	}
+
+	docs.SwaggerInfo.Host = host
+	docs.SwaggerInfo.Schemes = []string{scheme}
+	docs.SwaggerInfo.BasePath = "/api/v1"
 
 	userRepo := repositories.NewUserMongoRepository(config.DB)
 	userService := services.NewUserService(userRepo)
 	userHandler := handlers.NewUserHandler(userService)
 
-	casHandler, err := handlers.NewCASHandler(config.CASUrl, "http://localhost:5173", userService)
+	casHandler, err := handlers.NewCASHandler(config.CASUrl, config.FrontendUrl, config.HostUrl, userService)
 	if err != nil {
 		panic(fmt.Sprintf("Failed to initialize CAS: %v", err))
 	}

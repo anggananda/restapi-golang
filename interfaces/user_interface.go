@@ -6,5 +6,5 @@ import (
 )
 
 type UserRepository interface {
-	CheckUserByUsername(ctx context.Context, username string) (*models.User, error)
+	CheckUserByUsername(ctx context.Context, username string) (*models.UserAuth, error)
 }

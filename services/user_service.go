@@ -16,6 +16,6 @@ func NewUserService(repo interfaces.UserRepository) *UserService {
 	}
 }
 
-func (service *UserService) CheckUserByUsername(ctx context.Context, username string) (*models.User, error) {
+func (service *UserService) CheckUserByUsername(ctx context.Context, username string) (*models.UserAuth, error) {
 	return service.UserRepository.CheckUserByUsername(ctx, username)
 }

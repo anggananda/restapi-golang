@@ -450,6 +450,35 @@ const docTemplate = `{
                 }
             }
         },
+        "/health-check": {
+            "get": {
+                "description": "HealthCheckHandler responds with the API health status.",
+                "tags": [
+                    "Health-Check"
+                ],
+                "summary": "Health Check Handler.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/hki": {
             "get": {
                 "description": "Mendapatkan data hki berdasarkan filter dengan pagination",
@@ -3686,6 +3715,15 @@ const docTemplate = `{
                 }
             }
         },
+        "models.SuccessResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
         "models.Tracer": {
             "type": "object",
             "properties": {
@@ -3860,11 +3898,8 @@ const docTemplate = `{
         }
     },
     "securityDefinitions": {
-        "BasicAuth": {
-            "type": "basic"
-        },
         "BearerAuth": {
-            "description": "Type \"Bearer\" followed by a space and JWT token. Example: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\"",
+            "description": "Type \"Bearer\" followed by a space and JWT token.",
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"
@@ -3883,7 +3918,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/api/v1",
 	Schemes:          []string{"http", "https"},
 	Title:            "Executive Information System RESTful API",
-	Description:      "Basic authentication untuk admin endpoints",
+	Description:      "RESTful API for the Executive Information System (EIS) of Universitas Pendidikan Ganesha.\nThis API provides a modular set of endpoints to support various institutional processes,\nincluding Academic Management (courses, schedules, curriculum), Student Affairs (activities,\nscholarships, organizations), Alumni Relations (tracer study, networking, career services),\nGeneral Administration (assets, facilities, documents), Finance (budgeting, payments, reports),\nand Performance Management (KPIs, research output, community services).\nThe modular approach ensures flexibility, scalability, and integration across departments,\nenabling leaders and staff to access accurate, real-time information for decision-making.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

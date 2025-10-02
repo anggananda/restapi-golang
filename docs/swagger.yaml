@@ -1129,6 +1129,12 @@ definitions:
       peminat:
         type: string
     type: object
+  models.SuccessResponse:
+    properties:
+      status:
+        example: success
+        type: string
+    type: object
   models.Tracer:
     properties:
       _id:
@@ -1252,7 +1258,15 @@ info:
     email: anggadek857@gmail.com
     name: Dwi Angga
     url: https://guthub.com/anggananda
-  description: Basic authentication untuk admin endpoints
+  description: |-
+    RESTful API for the Executive Information System (EIS) of Universitas Pendidikan Ganesha.
+    This API provides a modular set of endpoints to support various institutional processes,
+    including Academic Management (courses, schedules, curriculum), Student Affairs (activities,
+    scholarships, organizations), Alumni Relations (tracer study, networking, career services),
+    General Administration (assets, facilities, documents), Finance (budgeting, payments, reports),
+    and Performance Management (KPIs, research output, community services).
+    The modular approach ensures flexibility, scalability, and integration across departments,
+    enabling leaders and staff to access accurate, real-time information for decision-making.
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
@@ -1536,6 +1550,25 @@ paths:
       summary: Get filtered Buku
       tags:
       - Buku
+  /health-check:
+    get:
+      description: HealthCheckHandler responds with the API health status.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Health Check Handler.
+      tags:
+      - Health-Check
   /hki:
     get:
       consumes:
@@ -2533,11 +2566,8 @@ schemes:
 - http
 - https
 securityDefinitions:
-  BasicAuth:
-    type: basic
   BearerAuth:
-    description: 'Type "Bearer" followed by a space and JWT token. Example: "Bearer
-      eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."'
+    description: Type "Bearer" followed by a space and JWT token.
     in: header
     name: Authorization
     type: apiKey
