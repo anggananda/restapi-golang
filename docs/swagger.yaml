@@ -191,6 +191,8 @@ definitions:
         type: string
       tahun_ajaran:
         type: string
+      tahun_data:
+        type: string
       tanggal:
         type: string
       tbName:
@@ -307,6 +309,8 @@ definitions:
       sumber_produk:
         type: string
       tahun_ajaran:
+        type: string
+      tahun_data:
         type: string
       tanggal:
         type: string
@@ -458,6 +462,8 @@ definitions:
       sumber_produk:
         type: string
       tahun_ajaran:
+        type: string
+      tahun_data:
         type: string
       tahun_publish:
         type: string
@@ -737,6 +743,8 @@ definitions:
         type: string
       tahun_awal:
         type: string
+      tahun_data:
+        type: string
       tahun_implementasi:
         type: string
       tahun_proposal:
@@ -857,6 +865,8 @@ definitions:
       tahun_ajaran:
         type: string
       tahun_awal:
+        type: string
+      tahun_data:
         type: string
       tahun_implementasi:
         type: string
@@ -1013,6 +1023,8 @@ definitions:
       sumber_produk:
         type: string
       tahun_ajaran:
+        type: string
+      tahun_data:
         type: string
       tanggal:
         type: string
@@ -1257,20 +1269,15 @@ info:
   contact:
     email: anggadek857@gmail.com
     name: Dwi Angga
-    url: https://guthub.com/anggananda
+    url: https://github.com/anggananda
   description: |-
-    RESTful API for the Executive Information System (EIS) of Universitas Pendidikan Ganesha.
-    This API provides a modular set of endpoints to support various institutional processes,
-    including Academic Management (courses, schedules, curriculum), Student Affairs (activities,
-    scholarships, organizations), Alumni Relations (tracer study, networking, career services),
-    General Administration (assets, facilities, documents), Finance (budgeting, payments, reports),
-    and Performance Management (KPIs, research output, community services).
-    The modular approach ensures flexibility, scalability, and integration across departments,
-    enabling leaders and staff to access accurate, real-time information for decision-making.
+    This repository contains the **RESTful API** for the **Executive Information System (EIS) Undiksha**, built with **Golang** using the **Gin framework**.
+    The API consumes data from **MongoDB** (populated via ETL from SQL in a separate repository) and uses **Redis** for caching.
+    The system is integrated with **Undiksha Single Sign-On (SSO)** and implements **JWT Authentication** for secure access.
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
-  termsOfService: https://guthub.com/anggananda
+  termsOfService: https://github.com/anggananda
   title: Executive Information System RESTful API
   version: "1.0"
 paths:
@@ -1339,6 +1346,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered agenda mengajar
       tags:
       - Agenda Mengajar
@@ -1407,6 +1416,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered Angket Mahasiswa
       tags:
       - Angket Mahasiswa
@@ -1479,6 +1490,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered Beasiswa
       tags:
       - Beasiswa
@@ -1547,6 +1560,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered Buku
       tags:
       - Buku
@@ -1634,6 +1649,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered hki
       tags:
       - Hki
@@ -1710,6 +1727,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered jurnal
       tags:
       - Jurnal
@@ -1774,6 +1793,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered karya akhir
       tags:
       - Karya Akhir
@@ -1842,6 +1863,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered khs
       tags:
       - Khs
@@ -1910,6 +1933,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered kritik & saran
       tags:
       - Kritik & Saran
@@ -1978,6 +2003,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered mahasiswa wisuda
       tags:
       - Mahasiswa Wisuda
@@ -2046,6 +2073,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered penawaran
       tags:
       - Penawaran
@@ -2114,6 +2143,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered Penelitian
       tags:
       - Penelitian
@@ -2182,6 +2213,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered Pengabdian
       tags:
       - Pengabdian
@@ -2251,6 +2284,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered perangkat pembelajaran
       tags:
       - Perangkat Pembelajaran
@@ -2323,6 +2358,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered prosiding
       tags:
       - Prosiding
@@ -2375,6 +2412,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered realisasi bulan
       tags:
       - Realisasi Bulan
@@ -2423,6 +2462,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered ralisasi unit
       tags:
       - Realisasi Unit
@@ -2487,6 +2528,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered rekap pmb
       tags:
       - Rekap PMB
@@ -2559,6 +2602,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get filtered tracer
       tags:
       - Tracer

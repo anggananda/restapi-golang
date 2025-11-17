@@ -13,13 +13,17 @@ import (
 )
 
 type ProsidingMongoRepository struct {
-	Collection *mongo.Collection
+	DB *mongo.Database
 }
 
 func NewProsidingMongoRepository(db *mongo.Database) interfaces.ProsidingRepository {
 	return &ProsidingMongoRepository{
-		Collection: db.Collection("prosiding_v1"),
+		DB: db,
 	}
+}
+
+func (repo *ProsidingMongoRepository) getCollectionByYear(year string) *mongo.Collection {
+	return repo.DB.Collection(fmt.Sprintf("prosiding_%s", year))
 }
 
 func (repo *ProsidingMongoRepository) GetProsidingFiltered(ctx context.Context, kodeFakultas, kodeJurusan, kodeProdi, tahun, semester, indexer, search string, page, limit int) ([]models.Prosiding, int64, error) {
@@ -38,18 +42,13 @@ func (repo *ProsidingMongoRepository) GetProsidingFiltered(ctx context.Context, 
 		filter["unit.prd_kode"] = kodeProdi
 	}
 
-	if tahun != "" {
-		filter["tahun_ajaran"] = tahun // tetap string, sesuai DB
-	}
-
 	if semester != "" {
 		if semester == "ganjil" {
-			filter["semester"] = bson.M{"$in": []string{"1", "3", "5", "7"}}
+			filter["cron_semester"] = "1"
 		} else if semester == "genap" {
-			filter["semester"] = bson.M{"$in": []string{"2", "4", "6", "8"}}
+			filter["cron_semester"] = "2"
 		} else {
-			// kalau langsung dikirim semester angka (contoh: "7")
-			filter["semester"] = semester
+			filter["cron_semester"] = semester
 		}
 	}
 
@@ -71,8 +70,7 @@ func (repo *ProsidingMongoRepository) GetProsidingFiltered(ctx context.Context, 
 	go func() {
 		defer wg.Done()
 		findOptions := options.Find().SetSkip(int64(skip)).SetLimit(int64(limit)).SetSort(bson.D{
-			{Key: "tahun_ajaran", Value: -1},
-			{Key: "semester", Value: -1},
+			{Key: "cron_semester", Value: -1},
 			{Key: "_id", Value: 1},
 		})
 
@@ -80,13 +78,12 @@ func (repo *ProsidingMongoRepository) GetProsidingFiltered(ctx context.Context, 
 			findOptions.SetProjection(bson.M{"score": bson.M{"$meta": "textScore"}})
 			findOptions.SetSort(bson.D{
 				{Key: "score", Value: bson.M{"$meta": "textScore"}},
-				{Key: "tahun_ajaran", Value: -1},
-				{Key: "semester", Value: -1},
+				{Key: "cron_semester", Value: -1},
 				{Key: "_id", Value: 1},
 			})
 		}
 
-		cursor, err := repo.Collection.Find(ctx, filter, findOptions)
+		cursor, err := repo.getCollectionByYear(tahun).Find(ctx, filter, findOptions)
 		if err != nil {
 			dataErr = err
 			return
@@ -100,7 +97,7 @@ func (repo *ProsidingMongoRepository) GetProsidingFiltered(ctx context.Context, 
 
 	go func() {
 		defer wg.Done()
-		total, countErr = repo.Collection.CountDocuments(ctx, filter)
+		total, countErr = repo.getCollectionByYear(tahun).CountDocuments(ctx, filter)
 	}()
 
 	wg.Wait()

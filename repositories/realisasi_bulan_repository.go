@@ -13,22 +13,23 @@ import (
 )
 
 type RealisasiBulanMongoRepository struct {
-	Collection *mongo.Collection
+	DB *mongo.Database
 }
 
 func NewRealisasiBulanMongoRepository(db *mongo.Database) interfaces.RealisasiBulanRepository {
 	return &RealisasiBulanMongoRepository{
-		Collection: db.Collection("realisasi_bulan_v1"),
+		DB: db,
 	}
+}
+
+func (repo *RealisasiBulanMongoRepository) getCollectionByYear(year string) *mongo.Collection {
+	return repo.DB.Collection(fmt.Sprintf("realisasi_bulan_%s", year))
 }
 
 func (repo *RealisasiBulanMongoRepository) GetRealisasiBulanFiltered(ctx context.Context, tahun, search string, page, limit int) ([]models.RealisasiBulan, int64, error) {
 	skip := (page - 1) * limit
 	filter := bson.M{}
 
-	if tahun != "" {
-		filter["tahun_anggaran"] = tahun
-	}
 	if search != "" {
 		filter["$text"] = bson.M{"$search": search}
 	}
@@ -50,7 +51,7 @@ func (repo *RealisasiBulanMongoRepository) GetRealisasiBulanFiltered(ctx context
 			})
 		}
 
-		cursor, err := repo.Collection.Find(ctx, filter, findOptions)
+		cursor, err := repo.getCollectionByYear(tahun).Find(ctx, filter, findOptions)
 		if err != nil {
 			dataErr = err
 			return
@@ -64,7 +65,7 @@ func (repo *RealisasiBulanMongoRepository) GetRealisasiBulanFiltered(ctx context
 
 	go func() {
 		defer wg.Done()
-		total, countErr = repo.Collection.CountDocuments(ctx, filter)
+		total, countErr = repo.getCollectionByYear(tahun).CountDocuments(ctx, filter)
 	}()
 
 	wg.Wait()

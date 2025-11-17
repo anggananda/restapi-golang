@@ -13,13 +13,17 @@ import (
 )
 
 type BeasiswaMongoRepository struct {
-	Collection *mongo.Collection
+	DB *mongo.Database
 }
 
 func NewBeasiswaMongoRepository(db *mongo.Database) interfaces.BeasiswaRepository {
 	return &BeasiswaMongoRepository{
-		Collection: db.Collection("beasiswa_v1"),
+		DB: db,
 	}
+}
+
+func (repo *BeasiswaMongoRepository) getCollectionByYear(year int) *mongo.Collection {
+	return repo.DB.Collection(fmt.Sprintf("beasiswa_%d", year))
 }
 
 func (repo *BeasiswaMongoRepository) GetBeasiswaFiltered(ctx context.Context, kodeFakultas, kodeJurusan, kodeProdi, semester, jenisBeasiswa, search string, tahun, page, limit int) ([]models.Beasiswa, int64, error) {
@@ -42,17 +46,12 @@ func (repo *BeasiswaMongoRepository) GetBeasiswaFiltered(ctx context.Context, ko
 		filter["jenis_beasiswa"] = jenisBeasiswa
 	}
 
-	if tahun != 0 {
-		filter["tahun"] = tahun
-	}
-
 	if semester != "" {
 		if semester == "ganjil" {
-			filter["semester"] = bson.M{"$in": []string{"1", "3", "5", "7"}}
+			filter["semester"] = "1"
 		} else if semester == "genap" {
-			filter["semester"] = bson.M{"$in": []string{"2", "4", "6", "8"}}
+			filter["semester"] = "2"
 		} else {
-			// kalau langsung dikirim semester angka (contoh: "7")
 			filter["semester"] = semester
 		}
 	}
@@ -71,7 +70,6 @@ func (repo *BeasiswaMongoRepository) GetBeasiswaFiltered(ctx context.Context, ko
 	go func() {
 		defer wg.Done()
 		findOptions := options.Find().SetSkip(int64(skip)).SetLimit(int64(limit)).SetSort(bson.D{
-			{Key: "tahun", Value: -1},
 			{Key: "semester", Value: -1},
 			{Key: "_id", Value: 1},
 		})
@@ -80,13 +78,12 @@ func (repo *BeasiswaMongoRepository) GetBeasiswaFiltered(ctx context.Context, ko
 			findOptions.SetProjection(bson.M{"score": bson.M{"$meta": "textScore"}})
 			findOptions.SetSort(bson.D{
 				{Key: "score", Value: bson.M{"$meta": "textScore"}},
-				{Key: "tahun", Value: -1},
 				{Key: "semester", Value: -1},
 				{Key: "_id", Value: 1},
 			})
 		}
 
-		cursor, err := repo.Collection.Find(ctx, filter, findOptions)
+		cursor, err := repo.getCollectionByYear(tahun).Find(ctx, filter, findOptions)
 		if err != nil {
 			dataErr = err
 			return
@@ -100,7 +97,7 @@ func (repo *BeasiswaMongoRepository) GetBeasiswaFiltered(ctx context.Context, ko
 
 	go func() {
 		defer wg.Done()
-		total, countErr = repo.Collection.CountDocuments(ctx, filter)
+		total, countErr = repo.getCollectionByYear(tahun).CountDocuments(ctx, filter)
 	}()
 
 	wg.Wait()

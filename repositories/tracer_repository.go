@@ -14,13 +14,17 @@ import (
 )
 
 type TracerMongoRepository struct {
-	Collection *mongo.Collection
+	DB *mongo.Database
 }
 
 func NewTracerMongoRepository(db *mongo.Database) interfaces.TracerRepository {
 	return &TracerMongoRepository{
-		Collection: db.Collection("tracer_v1"),
+		DB: db,
 	}
+}
+
+func (repo *TracerMongoRepository) getCollectionByYear(year int) *mongo.Collection {
+	return repo.DB.Collection(fmt.Sprintf("tracer_%d", year))
 }
 
 func (repo *TracerMongoRepository) GetTracerFiltered(ctx context.Context, kodeFakultas, kodeJurusan, kodeProdi, statusTracer, search string, tahun, bulan, page, limit int) ([]models.Tracer, int64, error) {
@@ -42,10 +46,6 @@ func (repo *TracerMongoRepository) GetTracerFiltered(ctx context.Context, kodeFa
 
 	if statusTracer != "" {
 		filter["status_pengisian"] = statusTracer
-	}
-
-	if tahun != 0 {
-		filter["tahun_lulus_mahasiswa"] = tahun
 	}
 
 	if bulan != 0 {
@@ -77,7 +77,7 @@ func (repo *TracerMongoRepository) GetTracerFiltered(ctx context.Context, kodeFa
 			})
 		}
 
-		cursor, err := repo.Collection.Find(ctx, filter, findOptions)
+		cursor, err := repo.getCollectionByYear(tahun).Find(ctx, filter, findOptions)
 		log.Println(fmt.Sprintf("isi dari filter: %+v", filter))
 
 		if err != nil {
@@ -93,7 +93,7 @@ func (repo *TracerMongoRepository) GetTracerFiltered(ctx context.Context, kodeFa
 
 	go func() {
 		defer wg.Done()
-		total, countErr = repo.Collection.CountDocuments(ctx, filter)
+		total, countErr = repo.getCollectionByYear(tahun).CountDocuments(ctx, filter)
 	}()
 
 	wg.Wait()

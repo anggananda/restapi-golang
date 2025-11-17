@@ -1,6 +1,6 @@
 # 📊 Executive Information System (EIS) - Undiksha (Backend API)
 
-![Go Version](https://img.shields.io/badge/Go-1.22+-blue.svg)
+![Go Version](https://img.shields.io/badge/Go-1.24+-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 ![Build](https://img.shields.io/badge/Build-Passing-success.svg)
 ![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)
@@ -50,10 +50,10 @@ Make sure you have installed:
 
 ### Setup & Run
 
-````bash
+```bash
 # Clone repository
-git clone https://github.com/your-username/eis-undiksha-backend.git
-cd eis-undiksha-backend
+git clone https://github.com/anggananda/restapi-golang.git
+cd restapi-golang
 
 # Copy environment variables
 cp .env.example .env
@@ -71,19 +71,19 @@ go build -o eis-api
 ./eis-api
 
 # Test health check
-curl http://localhost:8080/api/health
+curl http://localhost:8080/api/v1/health
 
 # --- Docker Setup ---
 
 # Start all services (App + MongoDB + Redis)
-docker-compose up -d
+docker compose up -d
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
 
 # Stop services
-docker-compose down
-
+docker compose down
+```
 
 ## 📂 Struktur Project
 
@@ -96,6 +96,7 @@ docker-compose down
 ├── handlers/
 ├── interfaces/
 ├── middlewares/
+├── mocks/
 ├── models/
 ├── repositories/
 ├── routes/
@@ -111,4 +112,4 @@ docker-compose down
 ├── .gitignore
 ├── .env.example
 └── README.md
-````
+```

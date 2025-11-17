@@ -6,5 +6,5 @@ import (
 )
 
 type RealisasiUnitRepository interface {
-	GetRealisasiUnitFiltered(ctx context.Context, search string, page, limit int) ([]models.RealisasiUnit, int64, error)
+	GetRealisasiUnitFiltered(ctx context.Context, search, tahun string, page, limit int) ([]models.RealisasiUnit, int64, error)
 }

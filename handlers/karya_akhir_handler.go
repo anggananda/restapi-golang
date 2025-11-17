@@ -37,6 +37,7 @@ func NewKaryaAkhirHandler(service *services.KaryaAkhirService) *KaryaAkhirHandle
 // @Success      200           {object}  models.ListResponse{datas=[]models.KaryaAkhir}
 // @Failure      400           {object}  models.ErrorResponse
 // @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
 // @Router       /karya-akhir [get]
 func (h *KaryaAkhirHandler) GetKaryaAkhirFiltered(c *gin.Context) {
 	page := utils.StringToInt(c.Query("page"), 1)
@@ -45,10 +46,16 @@ func (h *KaryaAkhirHandler) GetKaryaAkhirFiltered(c *gin.Context) {
 	kodeJurusan := c.Query("kodeJurusan")
 	kodeProdi := c.Query("kodeProdi")
 	search := c.Query("search")
-	tahun := utils.StringToInt(c.Query("tahun"), 0)
+	tahunStr := c.Query("tahun")
 
-	ctx, cancle := context.WithTimeout(c.Request.Context(), 5*time.Second)
-	defer cancle()
+	var tahun int
+	if tahunStr == "" {
+		tahunStr = time.Now().Format("2006")
+	}
+	tahun = utils.StringToInt(tahunStr, 0)
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
+	defer cancel()
 
 	karyaAkhir, total, err := h.KaryaAkhirService.GetKaryaAkhirFiltered(ctx, kodeFakultas, kodeJurusan, kodeProdi, search, tahun, page, limit)
 	if err != nil {

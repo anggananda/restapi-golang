@@ -38,6 +38,7 @@ func NewBukuHandler(service *services.BukuService) *BukuHandler {
 // @Success      200           {object}  models.ListResponse{datas=[]models.Buku}
 // @Failure      400           {object}  models.ErrorResponse
 // @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
 // @Router       /buku [get]
 func (h *BukuHandler) GetBukuFiltered(c *gin.Context) {
 	page := utils.StringToInt(c.Query("page"), 1)
@@ -49,8 +50,12 @@ func (h *BukuHandler) GetBukuFiltered(c *gin.Context) {
 	semester := c.Query("semester")
 	search := c.Query("search")
 
-	ctx, cancle := context.WithTimeout(c.Request.Context(), 5*time.Second)
-	defer cancle()
+	if tahun == "" {
+		tahun = time.Now().Format("2006")
+	}
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
+	defer cancel()
 
 	buku, total, err := h.BukuService.GetBukuFiltered(ctx, kodeFakultas, kodeJurusan, kodeProdi, tahun, semester, search, page, limit)
 	if err != nil {

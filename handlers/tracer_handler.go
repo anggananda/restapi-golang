@@ -39,11 +39,12 @@ func NewTracerHandler(service *services.TracerService) *TracerHandler {
 // @Success      200           {object}  models.ListResponse{datas=[]models.Tracer}
 // @Failure      400           {object}  models.ErrorResponse
 // @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
 // @Router       /tracer [get]
 func (h *TracerHandler) GetTracerFiltered(c *gin.Context) {
 	page := utils.StringToInt(c.Query("page"), 1)
 	limit := utils.StringToInt(c.Query("limit"), 10)
-	tahun := utils.StringToInt(c.Query("tahun"), 0)
+	tahunStr := c.Query("tahun")
 	bulan := utils.StringToInt(c.Query("bulan"), 0)
 	kodeFakultas := c.Query("kodeFakultas")
 	kodeJurusan := c.Query("kodeJurusan")
@@ -51,8 +52,14 @@ func (h *TracerHandler) GetTracerFiltered(c *gin.Context) {
 	statusTracer := c.Query("statusTracer")
 	search := c.Query("search")
 
-	ctx, cancle := context.WithTimeout(c.Request.Context(), 5*time.Second)
-	defer cancle()
+	var tahun int
+	if tahunStr == "" {
+		tahunStr = time.Now().Format("2006")
+	}
+	tahun = utils.StringToInt(tahunStr, 0)
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
+	defer cancel()
 
 	tracer, total, err := h.TracerService.GetTracerFiltered(ctx, kodeFakultas, kodeJurusan, kodeProdi, statusTracer, search, tahun, bulan, page, limit)
 	if err != nil {

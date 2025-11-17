@@ -1,17 +1,16 @@
 package middlewares
 
-import "github.com/gin-gonic/gin"
+import (
+	"os"
+	"strings"
+
+	"github.com/gin-gonic/gin"
+)
 
 func CorsMiddleware() gin.HandlerFunc {
+	allowedOrigins := strings.Split(os.Getenv("ALLOWED_ORIGINS"), ",")
 	return gin.HandlerFunc(func(c *gin.Context) {
 		origin := c.Request.Header.Get("Origin")
-
-		// Allow specific origins
-		allowedOrigins := []string{
-			"http://localhost:3000",
-			"http://127.0.0.1:3000",
-			"http://localhost:5173", // Vite default port
-		}
 
 		for _, allowed := range allowedOrigins {
 			if origin == allowed {

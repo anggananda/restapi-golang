@@ -8,6 +8,7 @@ type Penelitian struct {
 	IsValid                  string `bson:"isValid" json:"isValid"`
 	Semester                 string `bson:"semester" json:"semester"`
 	TahunAjaran              string `bson:"tahun_ajaran" json:"tahun_ajaran"`
+	TahunData                string `bson:"tahun_data" json:"tahun_data"`
 	TbName                   string `bson:"tbName" json:"tbName"`
 	PrimaryKey               string `bson:"primaryKey" json:"primaryKey"`
 	WaktuPelaksanaan         string `bson:"waktu_pelaksanaan" json:"waktu_pelaksanaan"`

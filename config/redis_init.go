@@ -13,7 +13,7 @@ import (
 func HydrateRedis(rdb *redis.Client) {
 	log.Println("[Hydration] Starting hydration process...")
 
-	for _, prefill := range constants.PrefillRedisKeys {
+	for _, prefill := range constants.GetPrefillRedisKeys() {
 		if err := PrefillRedisKey(rdb, prefill.Key, prefill.Value, prefill.TTL); err != nil {
 			log.Fatalf("[Hydration] Failed to prefill key '%s': %v", prefill.Key, err)
 		}

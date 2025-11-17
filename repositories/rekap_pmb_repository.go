@@ -13,13 +13,17 @@ import (
 )
 
 type RekapPMBMongoRepository struct {
-	Collection *mongo.Collection
+	DB *mongo.Database
 }
 
 func NewRekapPMBMongoRepository(db *mongo.Database) interfaces.RekapPMBRepository {
 	return &RekapPMBMongoRepository{
-		Collection: db.Collection("rekap_pmb_v1"),
+		DB: db,
 	}
+}
+
+func (repo *RekapPMBMongoRepository) getCollectionByYear(year int) *mongo.Collection {
+	return repo.DB.Collection(fmt.Sprintf("rekap_pmb_%d", year))
 }
 
 func (repo *RekapPMBMongoRepository) GetRekapPMBFiltered(ctx context.Context, kodeFakultas, kodeJurusan, kodeProdi, search string, tahun, page, limit int) ([]models.RekapPMB, int64, error) {
@@ -36,10 +40,6 @@ func (repo *RekapPMBMongoRepository) GetRekapPMBFiltered(ctx context.Context, ko
 		filter["unit.prd_kode"] = kodeProdi
 	}
 
-	if tahun != 0 {
-		filter["tahun"] = tahun
-	}
-
 	if search != "" {
 		filter["$text"] = bson.M{"$search": search}
 	}
@@ -53,7 +53,6 @@ func (repo *RekapPMBMongoRepository) GetRekapPMBFiltered(ctx context.Context, ko
 	go func() {
 		defer wg.Done()
 		findOptions := options.Find().SetSkip(int64(skip)).SetLimit(int64(limit)).SetSort(bson.D{
-			{Key: "tahun", Value: -1},
 			{Key: "_id", Value: 1},
 		})
 
@@ -61,12 +60,11 @@ func (repo *RekapPMBMongoRepository) GetRekapPMBFiltered(ctx context.Context, ko
 			findOptions.SetProjection(bson.M{"score": bson.M{"$meta": "textScore"}})
 			findOptions.SetSort(bson.D{
 				{Key: "score", Value: bson.M{"$meta": "textScore"}},
-				{Key: "tahun", Value: -1},
 				{Key: "_id", Value: 1},
 			})
 		}
 
-		cursor, err := repo.Collection.Find(ctx, filter, findOptions)
+		cursor, err := repo.getCollectionByYear(tahun).Find(ctx, filter, findOptions)
 		if err != nil {
 			dataErr = err
 			return
@@ -80,7 +78,7 @@ func (repo *RekapPMBMongoRepository) GetRekapPMBFiltered(ctx context.Context, ko
 
 	go func() {
 		defer wg.Done()
-		total, countErr = repo.Collection.CountDocuments(ctx, filter)
+		total, countErr = repo.getCollectionByYear(tahun).CountDocuments(ctx, filter)
 	}()
 
 	wg.Wait()

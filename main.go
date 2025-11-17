@@ -20,14 +20,9 @@ import (
 
 // @title           Executive Information System RESTful API
 // @version         1.0
-// @description  RESTful API for the Executive Information System (EIS) of Universitas Pendidikan Ganesha.
-// @description  This API provides a modular set of endpoints to support various institutional processes,
-// @description  including Academic Management (courses, schedules, curriculum), Student Affairs (activities,
-// @description  scholarships, organizations), Alumni Relations (tracer study, networking, career services),
-// @description  General Administration (assets, facilities, documents), Finance (budgeting, payments, reports),
-// @description  and Performance Management (KPIs, research output, community services).
-// @description  The modular approach ensures flexibility, scalability, and integration across departments,
-// @description  enabling leaders and staff to access accurate, real-time information for decision-making.
+// @description  This repository contains the **RESTful API** for the **Executive Information System (EIS) Undiksha**, built with **Golang** using the **Gin framework**.
+// @description The API consumes data from **MongoDB** (populated via ETL from SQL in a separate repository) and uses **Redis** for caching.
+// @description The system is integrated with **Undiksha Single Sign-On (SSO)** and implements **JWT Authentication** for secure access.
 
 // @termsOfService  https://github.com/anggananda
 // @contact.name    Dwi Angga
@@ -123,6 +118,10 @@ func main() {
 	karyaAkhirService := services.NewKaryaAkhirService(karyaAkhirRepo)
 	karyaAkhirHandler := handlers.NewKaryaAkhirHandler(karyaAkhirService)
 
+	kerjasamaRepo := repositories.NewKerjasamaMongoRepository(config.DB)
+	kerjasamaService := services.NewKerjasamaService(kerjasamaRepo)
+	kerjasamaHandler := handlers.NewKerjasamaHandler(kerjasamaService)
+
 	realisasiUnitRepo := repositories.NewRealisasiUnitMongoRepository(config.DB)
 	realisasiUnitService := services.NewRealisasiUnitService(realisasiUnitRepo)
 	realisasiUnitHandler := handlers.NewRealisasiUnitHandler(realisasiUnitService)
@@ -164,7 +163,11 @@ func main() {
 	tracerService := services.NewTracerService(tracerRepo)
 	tracerHandler := handlers.NewTracerHandler(tracerService)
 
-	routes.SetUpRoutes(router, casHandler, userHandler, mhsHandler, dashboardMhsHandler, perpemHandler, angketMhsHandler, kritikSaranHandler, agendaMengajarHandler, mhsWisudaHandler, rekapPMBHandler, khsHandler, penawaranHandler, karyaAkhirHandler, realisasiUnitHandler, realisasiBulanHandler, penelitianHandler, pengabdianHandler, jurnalHandler, hkiHandler, prosidingHandler, bukuHandler, beasiswaHandler, tracerHandler)
+	unitKerjaRepo := repositories.NewUnitKerjaMongoRepository(config.DB)
+	unitKerjaService := services.NewUnitKerjaService(unitKerjaRepo)
+	unitKerjaHandler := handlers.NewUnitKerjaHandler(unitKerjaService, config.RDB)
+
+	routes.SetUpRoutes(router, casHandler, userHandler, mhsHandler, dashboardMhsHandler, perpemHandler, angketMhsHandler, kritikSaranHandler, agendaMengajarHandler, mhsWisudaHandler, rekapPMBHandler, khsHandler, penawaranHandler, karyaAkhirHandler, kerjasamaHandler, realisasiUnitHandler, realisasiBulanHandler, penelitianHandler, pengabdianHandler, jurnalHandler, hkiHandler, prosidingHandler, bukuHandler, beasiswaHandler, tracerHandler, unitKerjaHandler)
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.Run(":8080")

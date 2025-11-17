@@ -1,0 +1,112 @@
+package models
+
+import (
+	"time"
+)
+
+type UnitDetail struct {
+	UKID     string `json:"uk_id" bson:"uk_id"`
+	UKKode   string `json:"uk_kode" bson:"uk_kode"`
+	FKTKode  string `json:"fkt_kode" bson:"fkt_kode"`
+	JRSKode  string `json:"jrs_kode" bson:"jrs_kode"`
+	PRDKode  string `json:"prd_kode" bson:"prd_kode"`
+	Fakultas string `json:"fakultas" bson:"fakultas"`
+	Jurusan  string `json:"jurusan" bson:"jurusan"`
+	Prodi    string `json:"prodi" bson:"prodi"`
+}
+
+type Kerjasama struct {
+	ID                                  int64      `json:"_id" bson:"_id"`
+	Alamat                              string     `json:"alamat" bson:"alamat"`
+	AlokasiAnggaran                     string     `json:"alokasi_anggaran" bson:"alokasi_anggaran"`
+	BntkrjsmaID                         string     `json:"bntkrjsma_id" bson:"bntkrjsma_id"`
+	BntkrjsmaNama                       string     `json:"bntkrjsma_nama" bson:"bntkrjsma_nama"`
+	CreatedBy                           string     `json:"created_by" bson:"created_by"`
+	CreatedName                         string     `json:"created_name" bson:"created_name"`
+	DeskripsiSingkat                    string     `json:"deskripsi_singkat" bson:"deskripsi_singkat"`
+	DokumenURL                          string     `json:"dokumen_url" bson:"dokumen_url"`
+	DokumentNama                        string     `json:"dokument_nama" bson:"dokument_nama"`
+	DurasiBulan                         string     `json:"durasi_bulan" bson:"durasi_bulan"`
+	DurasiHari                          string     `json:"durasi_hari" bson:"durasi_hari"`
+	DurasiMinggu                        string     `json:"durasi_minggu" bson:"durasi_minggu"`
+	Email                               string     `json:"email" bson:"email"`
+	HasilPelaksanaan                    string     `json:"hasil_pelaksanaan" bson:"hasil_pelaksanaan"`
+	IDStatusMitra                       string     `json:"id_status_mitra" bson:"id_status_mitra"`
+	IndikatorKinerjaID                  string     `json:"indikator_kinerja_id" bson:"indikator_kinerja_id"`
+	IndikatorKinerjaNama                string     `json:"indikator_kinerja_nama" bson:"indikator_kinerja_nama"`
+	IsActive                            string     `json:"is_active" bson:"is_active"`
+	IsDokumenValid                      string     `json:"is_dokumen_valid" bson:"is_dokumen_valid"`
+	IsJDIH                              string     `json:"is_jdih" bson:"is_jdih"`
+	IsKampusQS                          string     `json:"is_kampus_qs" bson:"is_kampus_qs"`
+	IsUpload                            string     `json:"is_upload" bson:"is_upload"`
+	IsUploadPusat                       string     `json:"is_upload_pusat" bson:"is_upload_pusat"`
+	JnsAsalMitraID                      string     `json:"jns_asalmitra_id" bson:"jns_asalmitra_id"`
+	JnsAsalMitraNama                    string     `json:"jns_asalmitra_nama" bson:"jns_asalmitra_nama"`
+	JnsdokID                            string     `json:"jnsdok_id" bson:"jnsdok_id"`
+	JnsdokNama                          string     `json:"jnsdok_nama" bson:"jnsdok_nama"`
+	JnsparNama                          string     `json:"jnspar_nama" bson:"jnspar_nama"`
+	JnsparNamaPtnbh                     string     `json:"jnspar_nama_ptnbh" bson:"jnspar_nama_ptnbh"`
+	KategoriDokID                       string     `json:"kategori_dok_id" bson:"kategori_dok_id"`
+	KategoriDokNama                     string     `json:"kategori_dok_nama" bson:"kategori_dok_nama"`
+	KeteranganValidasi                  string     `json:"keterangan_validasi" bson:"keterangan_validasi"`
+	KSRegistrasi                        string     `json:"ks_registrasi" bson:"ks_registrasi"`
+	LapSingkatPelaksanaan               string     `json:"lap_singkat_pelaksanaan" bson:"lap_singkat_pelaksanaan"`
+	LaporanURL                          string     `json:"laporan_url" bson:"laporan_url"`
+	LuaranVolume                        string     `json:"luaran_volume" bson:"luaran_volume"`
+	NegaraID                            string     `json:"negara_id" bson:"negara_id"`
+	NegaraNama                          string     `json:"negara_nama" bson:"negara_nama"`
+	NilaiKontrak                        string     `json:"nilai_kontrak" bson:"nilai_kontrak"`
+	NilaiPendapatan                     string     `json:"nilai_pendapatan" bson:"nilai_pendapatan"`
+	NomorDokumenMitra                   string     `json:"nomor_dokumen_mitra" bson:"nomor_dokumen_mitra"`
+	NomorSuratUndiksha                  string     `json:"nomor_surat_undiksha" bson:"nomor_surat_undiksha"`
+	PartnerID                           string     `json:"partner_id" bson:"partner_id"`
+	PartnerIsActive                     string     `json:"partner_is_active" bson:"partner_is_active"`
+	PartnerNama                         string     `json:"partner_nama" bson:"partner_nama"`
+	PartnerPenandatanganJabatan         string     `json:"partner_penandatangan_jabatan" bson:"partner_penandatangan_jabatan"`
+	PartnerPenandatanganNama            string     `json:"partner_penandatangan_nama" bson:"partner_penandatangan_nama"`
+	PartnerPenanggungjawabEmail         string     `json:"partner_penanggungjawab_email" bson:"partner_penanggungjawab_email"`
+	PartnerPenanggungjawabJabatan       string     `json:"partner_penanggungjawab_jabatan" bson:"partner_penanggungjawab_jabatan"`
+	PartnerPenanggungjawabNama          string     `json:"partner_penanggungjawab_nama" bson:"partner_penanggungjawab_nama"`
+	PeriodeID                           string     `json:"periode_id" bson:"periode_id"`
+	PihakNamaMitra                      string     `json:"pihak_nama_mitra" bson:"pihak_nama_mitra"`
+	RefKSID                             string     `json:"ref_ks_id" bson:"ref_ks_id"`
+	RefKSRegistrasi                     string     `json:"ref_ks_registrasi" bson:"ref_ks_registrasi"`
+	RuangLingkupID                      string     `json:"ruang_lingkup_id" bson:"ruang_lingkup_id"`
+	RuangLingkupNama                    string     `json:"ruang_lingkup_nama" bson:"ruang_lingkup_nama"`
+	RuangLingkupOther                   string     `json:"ruang_lingkup_other" bson:"ruang_lingkup_other"`
+	SasaranID                           string     `json:"sasaran_id" bson:"sasaran_id"`
+	SasaranNama                         string     `json:"sasaran_nama" bson:"sasaran_nama"`
+	SedangBerjalan                      string     `json:"sedang_berjalan" bson:"sedang_berjalan"`
+	StatusMitraNama                     string     `json:"status_mitra_nama" bson:"status_mitra_nama"`
+	StskrjsmaNama                       string     `json:"stskrjsma_nama" bson:"stskrjsma_nama"`
+	SumberdanaID                        string     `json:"sumberdana_id" bson:"sumberdana_id"`
+	SumberdanaNama                      string     `json:"sumberdana_nama" bson:"sumberdana_nama"`
+	Tahun                               string     `json:"tahun" bson:"tahun"`
+	TahunDokumen                        string     `json:"tahun_dokumen" bson:"tahun_dokumen"`
+	TanggalAkhir                        string     `json:"tanggal_akhir" bson:"tanggal_akhir"`
+	TanggalAwal                         string     `json:"tanggal_awal" bson:"tanggal_awal"`
+	Tautan                              string     `json:"tautan" bson:"tautan"`
+	Telp                                string     `json:"telp" bson:"telp"`
+	TglLaporan                          string     `json:"tgl_laporan" bson:"tgl_laporan"`
+	UKIDKerjasama                       string     `json:"uk_id_kerjasama" bson:"uk_id_kerjasama"`
+	UKIDPelaksana                       string     `json:"uk_id_pelaksana" bson:"uk_id_pelaksana"`
+	UKKerjasama                         string     `json:"uk_kerjasama" bson:"uk_kerjasama"`
+	UKPelaksana                         string     `json:"uk_pelaksana" bson:"uk_pelaksana"`
+	UndikshaPenandatanganEmail          string     `json:"undiksha_penandatangan_email" bson:"undiksha_penandatangan_email"`
+	UndikshaPenandatanganJabatan        string     `json:"undiksha_penandatangan_jabatan" bson:"undiksha_penandatangan_jabatan"`
+	UndikshaPenandatanganKontakTelpHp   string     `json:"undiksha_penandatangan_kontak_telp_hp" bson:"undiksha_penandatangan_kontak_telp_hp"`
+	UndikshaPenandatanganNama           string     `json:"undiksha_penandatangan_nama" bson:"undiksha_penandatangan_nama"`
+	UndikshaPenanggungjawabEmail        string     `json:"undiksha_penanggungjawab_email" bson:"undiksha_penanggungjawab_email"`
+	UndikshaPenanggungjawabJabatan      string     `json:"undiksha_penanggungjawab_jabatan" bson:"undiksha_penanggungjawab_jabatan"`
+	UndikshaPenanggungjawabKontakTelpHp string     `json:"undiksha_penanggungjawab_kontak_telp_hp" bson:"undiksha_penanggungjawab_kontak_telp_hp"`
+	UndikshaPenanggungjawabNama         string     `json:"undiksha_penanggungjawab_nama" bson:"undiksha_penanggungjawab_nama"`
+	UndikshaPICDosenID                  string     `json:"undiksha_pic_dosen_id" bson:"undiksha_pic_dosen_id"`
+	UndikshaPICDosenJabatan             string     `json:"undiksha_pic_dosen_jabatan" bson:"undiksha_pic_dosen_jabatan"`
+	UndikshaPICDosenNama                string     `json:"undiksha_pic_dosen_nama" bson:"undiksha_pic_dosen_nama"`
+	Unit                                UnitDetail `json:"unit" bson:"unit"`
+	UpdatedBy                           string     `json:"updated_by" bson:"updated_by"`
+	UpdatedName                         string     `json:"updated_name" bson:"updated_name"`
+	ValidNama                           string     `json:"valid_nama" bson:"valid_nama"`
+	CreatedAt                           time.Time  `json:"created_at,omitempty" bson:"created_at,omitempty"`
+	UpdatedAt                           time.Time  `json:"updated_at,omitempty" bson:"updated_at,omitempty"`
+}

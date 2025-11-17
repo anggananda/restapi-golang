@@ -7,7 +7,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetUpRoutes(r *gin.Engine, casHandler *handlers.CASHandler, userHandler *handlers.UserHandler, mhs *handlers.MhsHandler, dashboardMhsHandler *handlers.DashboardMhsHandler, perpemHandler *handlers.PerpemHandler, angketMhsHandler *handlers.AngketMhsHandler, kritikSaranHandler *handlers.KritikSaranHandler, agendaMengajarHandler *handlers.AgendaMengajarHandler, mhsWisudaHandler *handlers.MhsWisudaHandler, rekapPMBHandler *handlers.RekapPMBHandler, khsHandler *handlers.KHSHandler, penawaranHandler *handlers.PenawaranHandler, karyaAkhirHandler *handlers.KaryaAkhirHandler, realisasiUnitHandler *handlers.RealisasiUnitHandler, realisasiBulanHandler *handlers.RealisasiBulanHandler, penelitianHandler *handlers.PenelitianHandler, pengabdianHandler *handlers.PengabdianHandler, jurnalHandler *handlers.JurnalHandler, hkiHandler *handlers.HkiHandler, prosidingHandler *handlers.ProsidingHandler, bukuHandler *handlers.BukuHandler, beasiswaHandler *handlers.BeasiswaHandler, tracerHandler *handlers.TracerHandler) {
+func SetUpRoutes(r *gin.Engine, casHandler *handlers.CASHandler, userHandler *handlers.UserHandler, mhs *handlers.MhsHandler, dashboardMhsHandler *handlers.DashboardMhsHandler, perpemHandler *handlers.PerpemHandler, angketMhsHandler *handlers.AngketMhsHandler, kritikSaranHandler *handlers.KritikSaranHandler, agendaMengajarHandler *handlers.AgendaMengajarHandler, mhsWisudaHandler *handlers.MhsWisudaHandler, rekapPMBHandler *handlers.RekapPMBHandler, khsHandler *handlers.KHSHandler, penawaranHandler *handlers.PenawaranHandler, karyaAkhirHandler *handlers.KaryaAkhirHandler, kerjasamaHandler *handlers.KerjasamaHandler, realisasiUnitHandler *handlers.RealisasiUnitHandler, realisasiBulanHandler *handlers.RealisasiBulanHandler, penelitianHandler *handlers.PenelitianHandler, pengabdianHandler *handlers.PengabdianHandler, jurnalHandler *handlers.JurnalHandler, hkiHandler *handlers.HkiHandler, prosidingHandler *handlers.ProsidingHandler, bukuHandler *handlers.BukuHandler, beasiswaHandler *handlers.BeasiswaHandler, tracerHandler *handlers.TracerHandler, unitKerjaHandler *handlers.UnitKerjaHandler) {
+	// implement swagger middleware
+	r.Use(middlewares.SwaggerMockMiddleware())
+
 	router := r.Group("/api/v1")
 	{
 		router.GET("/health-check", handlers.HealthCheckHandler)
@@ -35,6 +38,7 @@ func SetUpRoutes(r *gin.Engine, casHandler *handlers.CASHandler, userHandler *ha
 		setUpKHSRoutes(private, khsHandler)
 		setUpPenawaranRoutes(private, penawaranHandler)
 		setUpKaryaAkhirRoutes(private, karyaAkhirHandler)
+		setUpKerjasamaRoutes(private, kerjasamaHandler)
 		setUpRealisasiUnitRoutes(private, realisasiUnitHandler)
 		setUpRealisasiBulanRoutes(private, realisasiBulanHandler)
 		setUpPenelitianRoutes(private, penelitianHandler)
@@ -45,6 +49,7 @@ func SetUpRoutes(r *gin.Engine, casHandler *handlers.CASHandler, userHandler *ha
 		setUpBukuRoutes(private, bukuHandler)
 		setUpBeasiswaRoutes(private, beasiswaHandler)
 		setUpTracerRoutes(private, tracerHandler)
+		setUpUnitKerjaRoutes(private, unitKerjaHandler)
 	}
 }
 
@@ -100,6 +105,9 @@ func setUpPenawaranRoutes(rg *gin.RouterGroup, penawaranHandler *handlers.Penawa
 func setUpKaryaAkhirRoutes(rg *gin.RouterGroup, karyaAkhirHandler *handlers.KaryaAkhirHandler) {
 	rg.GET("/karya-akhir", karyaAkhirHandler.GetKaryaAkhirFiltered)
 }
+func setUpKerjasamaRoutes(rg *gin.RouterGroup, kerjasamaHandler *handlers.KerjasamaHandler) {
+	rg.GET("/kerjasama", kerjasamaHandler.GetKerjasamaFiltered)
+}
 
 func setUpRealisasiUnitRoutes(rg *gin.RouterGroup, realisasiUnitHandler *handlers.RealisasiUnitHandler) {
 	rg.GET("/realisasi-unit", realisasiUnitHandler.GetRealisasiUnitFiltered)
@@ -139,4 +147,8 @@ func setUpBeasiswaRoutes(rg *gin.RouterGroup, beasiswaHandler *handlers.Beasiswa
 
 func setUpTracerRoutes(rg *gin.RouterGroup, tracerHandler *handlers.TracerHandler) {
 	rg.GET("/tracer", tracerHandler.GetTracerFiltered)
+}
+
+func setUpUnitKerjaRoutes(rg *gin.RouterGroup, unitKerjaHandler *handlers.UnitKerjaHandler) {
+	rg.GET("/unit-kerja", unitKerjaHandler.GetUnitKerja)
 }

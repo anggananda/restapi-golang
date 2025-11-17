@@ -27,8 +27,8 @@ func (h *UserHandler) GetDataProfile(c *gin.Context) {
 		return
 	}
 
-	ctx, cancle := context.WithTimeout(c.Request.Context(), 5*time.Second)
-	defer cancle()
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
+	defer cancel()
 
 	profile, err := h.UserService.CheckUserByUsername(ctx, username)
 	if err != nil {

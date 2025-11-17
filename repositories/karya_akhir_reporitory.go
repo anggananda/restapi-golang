@@ -13,13 +13,17 @@ import (
 )
 
 type KaryaAkhirMongoRepository struct {
-	Collection *mongo.Collection
+	DB *mongo.Database
 }
 
 func NewKaryaAkhirMongoRepository(db *mongo.Database) interfaces.KaryaAkhirRepository {
 	return &KaryaAkhirMongoRepository{
-		Collection: db.Collection("karya_akhir_v1"),
+		DB: db,
 	}
+}
+
+func (repo *KaryaAkhirMongoRepository) getCollectionByYear(year int) *mongo.Collection {
+	return repo.DB.Collection(fmt.Sprintf("karya_akhir_%d", year))
 }
 
 func (repo *KaryaAkhirMongoRepository) GetKaryaAkhirFiltered(ctx context.Context, kodeFakultas, kodeJurusan, kodeProdi, search string, tahun, page, limit int) ([]models.KaryaAkhir, int64, error) {
@@ -38,10 +42,6 @@ func (repo *KaryaAkhirMongoRepository) GetKaryaAkhirFiltered(ctx context.Context
 		filter["unit.prd_kode"] = kodeProdi
 	}
 
-	if tahun != 0 {
-		filter["tahun_masuk"] = tahun // tetap string, sesuai DB
-	}
-
 	if search != "" {
 		filter["$text"] = bson.M{"$search": search}
 	}
@@ -56,7 +56,6 @@ func (repo *KaryaAkhirMongoRepository) GetKaryaAkhirFiltered(ctx context.Context
 		defer wg.Done()
 		findOptions := options.Find().SetSkip(int64(skip)).SetLimit(int64(limit)).SetSort(
 			bson.D{
-				{Key: "tahun_masuk", Value: -1},
 				{Key: "_id", Value: 1},
 			})
 
@@ -64,12 +63,11 @@ func (repo *KaryaAkhirMongoRepository) GetKaryaAkhirFiltered(ctx context.Context
 			findOptions.SetProjection(bson.M{"score": bson.M{"$meta": "textScore"}})
 			findOptions.SetSort(bson.D{
 				{Key: "score", Value: bson.M{"$meta": "textScore"}},
-				{Key: "tahun_masuk", Value: -1},
 				{Key: "_id", Value: 1},
 			})
 		}
 
-		cursor, err := repo.Collection.Find(ctx, filter, findOptions)
+		cursor, err := repo.getCollectionByYear(tahun).Find(ctx, filter, findOptions)
 		if err != nil {
 			dataErr = err
 			return
@@ -85,7 +83,7 @@ func (repo *KaryaAkhirMongoRepository) GetKaryaAkhirFiltered(ctx context.Context
 
 	go func() {
 		defer wg.Done()
-		total, countErr = repo.Collection.CountDocuments(ctx, filter)
+		total, countErr = repo.getCollectionByYear(tahun).CountDocuments(ctx, filter)
 	}()
 
 	wg.Wait()

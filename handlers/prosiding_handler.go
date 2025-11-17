@@ -39,6 +39,7 @@ func NewProsidingHandler(service *services.ProsidingService) *ProsidingHandler {
 // @Success      200           {object}  models.ListResponse{datas=[]models.Prosiding}
 // @Failure      400           {object}  models.ErrorResponse
 // @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
 // @Router       /prosiding [get]
 func (h *ProsidingHandler) GetProsidingFiltered(c *gin.Context) {
 	page := utils.StringToInt(c.Query("page"), 1)
@@ -51,8 +52,12 @@ func (h *ProsidingHandler) GetProsidingFiltered(c *gin.Context) {
 	indexer := c.Query("indexer")
 	search := c.Query("search")
 
-	ctx, cancle := context.WithTimeout(c.Request.Context(), 5*time.Second)
-	defer cancle()
+	if tahun == "" {
+		tahun = time.Now().Format("2006")
+	}
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
+	defer cancel()
 
 	prosiding, total, err := h.ProsidingService.GetProsidingFiltered(ctx, kodeFakultas, kodeJurusan, kodeProdi, tahun, semester, indexer, search, page, limit)
 	if err != nil {

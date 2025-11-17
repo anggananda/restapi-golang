@@ -38,6 +38,7 @@ func NewPengabdianHandler(service *services.PengabdianService) *PengabdianHandle
 // @Success      200           {object}  models.ListResponse{datas=[]models.Pengabdian}
 // @Failure      400           {object}  models.ErrorResponse
 // @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
 // @Router       /pengabdian [get]
 func (h *PengabdianHandler) GetPengabdianFiltered(c *gin.Context) {
 	page := utils.StringToInt(c.Query("page"), 1)
@@ -48,9 +49,13 @@ func (h *PengabdianHandler) GetPengabdianFiltered(c *gin.Context) {
 	tahun := c.Query("tahun")
 	semester := c.Query("semester")
 	search := c.Query("search")
+  
+	if tahun == "" {
+		tahun = time.Now().Format("2006")
+	}
 
-	ctx, cancle := context.WithTimeout(c.Request.Context(), 5*time.Second)
-	defer cancle()
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
+	defer cancel()
 
 	pengabdian, total, err := h.PengabdianService.GetPengabdianFiltered(ctx, kodeFakultas, kodeJurusan, kodeProdi, tahun, semester, search, page, limit)
 	if err != nil {

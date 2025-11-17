@@ -5,10 +5,12 @@ import (
 	"restapi-golang/models"
 )
 
-var PrefillRedisKeys = []models.PrefillEntry{
-	{
-		Key:   "struktur_unit",
-		Value: os.Getenv("UNIT_KERJA"),
-		TTL:   0,
-	},
+func GetPrefillRedisKeys() []models.PrefillEntry {
+	return []models.PrefillEntry{
+		{
+			Key:   "unit_kerja",
+			Value: os.Getenv("UNIT_KERJA"),
+			TTL:   0,
+		},
+	}
 }

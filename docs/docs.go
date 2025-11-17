@@ -9,10 +9,10 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "https://guthub.com/anggananda",
+        "termsOfService": "https://github.com/anggananda",
         "contact": {
             "name": "Dwi Angga",
-            "url": "https://guthub.com/anggananda",
+            "url": "https://github.com/anggananda",
             "email": "anggadek857@gmail.com"
         },
         "license": {
@@ -26,6 +26,11 @@ const docTemplate = `{
     "paths": {
         "/agenda-mengajar": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data agenda mengajar berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -131,6 +136,11 @@ const docTemplate = `{
         },
         "/angket-mhs": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data angket mahasiswa berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -236,6 +246,11 @@ const docTemplate = `{
         },
         "/beasiswa": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data beasiswa berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -347,6 +362,11 @@ const docTemplate = `{
         },
         "/buku": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data buku berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -481,6 +501,11 @@ const docTemplate = `{
         },
         "/hki": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data hki berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -586,6 +611,11 @@ const docTemplate = `{
         },
         "/jurnal": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data jurnal berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -703,6 +733,11 @@ const docTemplate = `{
         },
         "/karya-akhir": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data karya akhir berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -802,6 +837,11 @@ const docTemplate = `{
         },
         "/khs": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data khs berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -907,6 +947,11 @@ const docTemplate = `{
         },
         "/kritik-saran": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data kritik \u0026 saran berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1012,6 +1057,11 @@ const docTemplate = `{
         },
         "/mhs-wisuda": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data mahasiswa wisuda berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1117,6 +1167,11 @@ const docTemplate = `{
         },
         "/penawaran": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data penawaran berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1222,6 +1277,11 @@ const docTemplate = `{
         },
         "/penelitian": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data penelitian berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1327,6 +1387,11 @@ const docTemplate = `{
         },
         "/pengabdian": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data pengabdian berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1432,6 +1497,11 @@ const docTemplate = `{
         },
         "/perpem": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data perangkat pembelajaran berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1537,6 +1607,11 @@ const docTemplate = `{
         },
         "/prosiding": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data prosiding berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1648,6 +1723,11 @@ const docTemplate = `{
         },
         "/realisasi-bulan": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data realisasi bulan berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1729,6 +1809,11 @@ const docTemplate = `{
         },
         "/realisasi-unit": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data ralisasi unit berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1804,6 +1889,11 @@ const docTemplate = `{
         },
         "/rekap-pmb": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data rekap pmb berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1903,6 +1993,11 @@ const docTemplate = `{
         },
         "/tracer": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data tracer berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -2302,6 +2397,9 @@ const docTemplate = `{
                 "tahun_ajaran": {
                     "type": "string"
                 },
+                "tahun_data": {
+                    "type": "string"
+                },
                 "tanggal": {
                     "type": "string"
                 },
@@ -2476,6 +2574,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "tahun_ajaran": {
+                    "type": "string"
+                },
+                "tahun_data": {
                     "type": "string"
                 },
                 "tanggal": {
@@ -2703,6 +2804,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "tahun_ajaran": {
+                    "type": "string"
+                },
+                "tahun_data": {
                     "type": "string"
                 },
                 "tahun_publish": {
@@ -3123,6 +3227,9 @@ const docTemplate = `{
                 "tahun_awal": {
                     "type": "string"
                 },
+                "tahun_data": {
+                    "type": "string"
+                },
                 "tahun_implementasi": {
                     "type": "string"
                 },
@@ -3303,6 +3410,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "tahun_awal": {
+                    "type": "string"
+                },
+                "tahun_data": {
                     "type": "string"
                 },
                 "tahun_implementasi": {
@@ -3538,6 +3648,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "tahun_ajaran": {
+                    "type": "string"
+                },
+                "tahun_data": {
                     "type": "string"
                 },
                 "tanggal": {
@@ -3918,7 +4031,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/api/v1",
 	Schemes:          []string{"http", "https"},
 	Title:            "Executive Information System RESTful API",
-	Description:      "RESTful API for the Executive Information System (EIS) of Universitas Pendidikan Ganesha.\nThis API provides a modular set of endpoints to support various institutional processes,\nincluding Academic Management (courses, schedules, curriculum), Student Affairs (activities,\nscholarships, organizations), Alumni Relations (tracer study, networking, career services),\nGeneral Administration (assets, facilities, documents), Finance (budgeting, payments, reports),\nand Performance Management (KPIs, research output, community services).\nThe modular approach ensures flexibility, scalability, and integration across departments,\nenabling leaders and staff to access accurate, real-time information for decision-making.",
+	Description:      "This repository contains the **RESTful API** for the **Executive Information System (EIS) Undiksha**, built with **Golang** using the **Gin framework**.\nThe API consumes data from **MongoDB** (populated via ETL from SQL in a separate repository) and uses **Redis** for caching.\nThe system is integrated with **Undiksha Single Sign-On (SSO)** and implements **JWT Authentication** for secure access.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

@@ -1,0 +1,36 @@
+agenda_mengajar_filtered:
+  datas:
+    - _id: "AG001"
+      dosen:
+        - "Dr. John Smith, M.Sc."
+        - "Prof. Sarah Johnson, Ph.D."
+      id_kelas: "CLASS2024001"
+      id_penawaran: "OFFER2024001"
+      jenis_kelas: "Theory"
+      kode: "CS101"
+      kurikulum: "CURR2024"
+      matakuliah: "Object Oriented Programming"
+      nip_dosen:
+        - "198001012000121001"
+        - "197512152000122001"
+      periode: "2024-1"
+      pertemuan: "1"
+      semester: "3"
+      sumber: "ACADEMIC_SYSTEM"
+      tahun: "2024"
+      unit:
+        fakultas: "Faculty of Information Technology"
+        fkt_kode: "FIT"
+        jrs_kode: "CS"
+        jurusan: "Computer Science"
+        prd_kode: "BSCS"
+        prodi: "Bachelor of Computer Science"
+        uk_kode: "UNIT001"
+
+  pagination:
+    limit: 10
+    page: 1
+    pages: 10
+    total: 100
+
+  status: "OK (mock)"

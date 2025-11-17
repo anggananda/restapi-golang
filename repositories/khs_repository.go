@@ -13,13 +13,17 @@ import (
 )
 
 type KhsMongoRepository struct {
-	Collection *mongo.Collection
+	DB *mongo.Database
 }
 
 func NewKHSMongoRepository(db *mongo.Database) interfaces.KHSRepository {
 	return &KhsMongoRepository{
-		Collection: db.Collection("khs_v1"),
+		DB: db,
 	}
+}
+
+func (repo *KhsMongoRepository) getCollectionByYear(year string) *mongo.Collection {
+	return repo.DB.Collection(fmt.Sprintf("khs_%s", year))
 }
 
 func (repo *KhsMongoRepository) GetKHSFiltered(ctx context.Context, kodeFakultas, kodeJurusan, kodeProdi, tahun, semester, search string, page, limit int) ([]models.Khs, int64, error) {
@@ -38,17 +42,12 @@ func (repo *KhsMongoRepository) GetKHSFiltered(ctx context.Context, kodeFakultas
 		filter["unit.prd_kode"] = kodeProdi
 	}
 
-	if tahun != "" {
-		filter["tahun"] = tahun // tetap string, sesuai DB
-	}
-
 	if semester != "" {
 		if semester == "ganjil" {
-			filter["semester"] = bson.M{"$in": []string{"1", "3", "5", "7"}}
+			filter["semester"] = "1"
 		} else if semester == "genap" {
-			filter["semester"] = bson.M{"$in": []string{"2", "4", "6", "8"}}
+			filter["semester"] = "2"
 		} else {
-			// kalau langsung dikirim semester angka (contoh: "7")
 			filter["semester"] = semester
 		}
 	}
@@ -68,7 +67,6 @@ func (repo *KhsMongoRepository) GetKHSFiltered(ctx context.Context, kodeFakultas
 		defer wg.Done()
 		findOptions := options.Find().SetSkip(int64(skip)).SetLimit(int64(limit)).SetSort(
 			bson.D{
-				{Key: "tahun", Value: -1},
 				{Key: "semester", Value: -1},
 				{Key: "_id", Value: 1},
 			})
@@ -77,13 +75,12 @@ func (repo *KhsMongoRepository) GetKHSFiltered(ctx context.Context, kodeFakultas
 			findOptions.SetProjection(bson.M{"score": bson.M{"$meta": "textScore"}})
 			findOptions.SetSort(bson.D{
 				{Key: "score", Value: bson.M{"$meta": "textScore"}},
-				{Key: "tahun", Value: -1},
 				{Key: "semester", Value: -1},
 				{Key: "_id", Value: 1},
 			})
 		}
 
-		cursor, err := repo.Collection.Find(ctx, filter, findOptions)
+		cursor, err := repo.getCollectionByYear(tahun).Find(ctx, filter, findOptions)
 		if err != nil {
 			dataErr = err
 			return
@@ -99,7 +96,7 @@ func (repo *KhsMongoRepository) GetKHSFiltered(ctx context.Context, kodeFakultas
 
 	go func() {
 		defer wg.Done()
-		total, countErr = repo.Collection.CountDocuments(ctx, filter)
+		total, countErr = repo.getCollectionByYear(tahun).CountDocuments(ctx, filter)
 	}()
 
 	wg.Wait()

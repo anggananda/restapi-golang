@@ -34,6 +34,7 @@ func NewRealisasiBulanHandler(service *services.RealisasiBulanService) *Realisas
 // @Success      200           {object}  models.ListResponse{datas=[]models.RealisasiBulan}
 // @Failure      400           {object}  models.ErrorResponse
 // @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
 // @Router       /realisasi-bulan [get]
 func (h *RealisasiBulanHandler) GetRealisasiBulanFiltered(c *gin.Context) {
 	page := utils.StringToInt(c.Query("page"), 1)
@@ -41,8 +42,12 @@ func (h *RealisasiBulanHandler) GetRealisasiBulanFiltered(c *gin.Context) {
 	tahun := c.Query("tahun")
 	search := c.Query("search")
 
-	ctx, cancle := context.WithTimeout(c.Request.Context(), 5*time.Second)
-	defer cancle()
+	if tahun == "" {
+		tahun = time.Now().Format("2006")
+	}
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
+	defer cancel()
 
 	realisasiBulan, total, err := h.RealisasiBulanService.GetRealisasiBulanFiltered(ctx, tahun, search, page, limit)
 	if err != nil {

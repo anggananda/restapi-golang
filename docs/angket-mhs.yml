@@ -1,0 +1,32 @@
+angket_mhs_filtered:
+  datas:
+    - _id: "AG001"
+      dosen:
+        - "Dr. John Smith"
+        - "Prof. Sarah Johnson"
+      id_kelas: "CS101-01"
+      id_penawaran: "OFFER2024CS101"
+      kode: "CS101"
+      mk: "Object Oriented Programming"
+      nip_dosen:
+        - "198001012000121001"
+        - "197512152000122001"
+      periode: "2024-1"
+      semester: "3"
+      tahun: "2024"
+      unit:
+        fakultas: "Faculty of Computer Science"
+        fkt_kode: "FCS"
+        jrs_kode: "CS"
+        jurusan: "Computer Science"
+        prd_kode: "BSCS"
+        prodi: "Bachelor of Computer Science"
+        uk_kode: "UNIT001"
+
+  pagination:
+    limit: 10
+    page: 1
+    pages: 10
+    total: 100
+
+  status: "OK (mock)"

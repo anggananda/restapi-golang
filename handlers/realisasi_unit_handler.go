@@ -33,16 +33,22 @@ func NewRealisasiUnitHandler(service *services.RealisasiUnitService) *RealisasiU
 // @Success      200           {object}  models.ListResponse{datas=[]models.RealisasiUnit}
 // @Failure      400           {object}  models.ErrorResponse
 // @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
 // @Router       /realisasi-unit [get]
 func (h *RealisasiUnitHandler) GetRealisasiUnitFiltered(c *gin.Context) {
 	page := utils.StringToInt(c.Query("page"), 1)
 	limit := utils.StringToInt(c.Query("limit"), 10)
 	search := c.Query("search")
+	tahun := c.Query("tahun")
 
-	ctx, cancle := context.WithTimeout(c.Request.Context(), 5*time.Second)
-	defer cancle()
+	if tahun == "" {
+		tahun = time.Now().Format("2006")
+	}
 
-	realisasiUnit, total, err := h.RealisasiUnitService.GetRealisasiUnitFiltered(ctx, search, page, limit)
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
+	defer cancel()
+
+	realisasiUnit, total, err := h.RealisasiUnitService.GetRealisasiUnitFiltered(ctx, search, tahun, page, limit)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

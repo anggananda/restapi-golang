@@ -5,12 +5,12 @@
     ],
     "swagger": "2.0",
     "info": {
-        "description": "RESTful API for the Executive Information System (EIS) of Universitas Pendidikan Ganesha.\nThis API provides a modular set of endpoints to support various institutional processes,\nincluding Academic Management (courses, schedules, curriculum), Student Affairs (activities,\nscholarships, organizations), Alumni Relations (tracer study, networking, career services),\nGeneral Administration (assets, facilities, documents), Finance (budgeting, payments, reports),\nand Performance Management (KPIs, research output, community services).\nThe modular approach ensures flexibility, scalability, and integration across departments,\nenabling leaders and staff to access accurate, real-time information for decision-making.",
+        "description": "This repository contains the **RESTful API** for the **Executive Information System (EIS) Undiksha**, built with **Golang** using the **Gin framework**.\nThe API consumes data from **MongoDB** (populated via ETL from SQL in a separate repository) and uses **Redis** for caching.\nThe system is integrated with **Undiksha Single Sign-On (SSO)** and implements **JWT Authentication** for secure access.",
         "title": "Executive Information System RESTful API",
-        "termsOfService": "https://guthub.com/anggananda",
+        "termsOfService": "https://github.com/anggananda",
         "contact": {
             "name": "Dwi Angga",
-            "url": "https://guthub.com/anggananda",
+            "url": "https://github.com/anggananda",
             "email": "anggadek857@gmail.com"
         },
         "license": {
@@ -24,6 +24,11 @@
     "paths": {
         "/agenda-mengajar": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data agenda mengajar berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -129,6 +134,11 @@
         },
         "/angket-mhs": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data angket mahasiswa berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -234,6 +244,11 @@
         },
         "/beasiswa": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data beasiswa berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -345,6 +360,11 @@
         },
         "/buku": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data buku berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -479,6 +499,11 @@
         },
         "/hki": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data hki berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -584,6 +609,11 @@
         },
         "/jurnal": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data jurnal berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -701,6 +731,11 @@
         },
         "/karya-akhir": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data karya akhir berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -800,6 +835,11 @@
         },
         "/khs": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data khs berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -905,6 +945,11 @@
         },
         "/kritik-saran": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data kritik \u0026 saran berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1010,6 +1055,11 @@
         },
         "/mhs-wisuda": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data mahasiswa wisuda berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1115,6 +1165,11 @@
         },
         "/penawaran": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data penawaran berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1220,6 +1275,11 @@
         },
         "/penelitian": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data penelitian berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1325,6 +1385,11 @@
         },
         "/pengabdian": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data pengabdian berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1430,6 +1495,11 @@
         },
         "/perpem": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data perangkat pembelajaran berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1535,6 +1605,11 @@
         },
         "/prosiding": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data prosiding berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1646,6 +1721,11 @@
         },
         "/realisasi-bulan": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data realisasi bulan berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1727,6 +1807,11 @@
         },
         "/realisasi-unit": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data ralisasi unit berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1802,6 +1887,11 @@
         },
         "/rekap-pmb": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data rekap pmb berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -1901,6 +1991,11 @@
         },
         "/tracer": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Mendapatkan data tracer berdasarkan filter dengan pagination",
                 "consumes": [
                     "application/json"
@@ -2300,6 +2395,9 @@
                 "tahun_ajaran": {
                     "type": "string"
                 },
+                "tahun_data": {
+                    "type": "string"
+                },
                 "tanggal": {
                     "type": "string"
                 },
@@ -2474,6 +2572,9 @@
                     "type": "string"
                 },
                 "tahun_ajaran": {
+                    "type": "string"
+                },
+                "tahun_data": {
                     "type": "string"
                 },
                 "tanggal": {
@@ -2701,6 +2802,9 @@
                     "type": "string"
                 },
                 "tahun_ajaran": {
+                    "type": "string"
+                },
+                "tahun_data": {
                     "type": "string"
                 },
                 "tahun_publish": {
@@ -3121,6 +3225,9 @@
                 "tahun_awal": {
                     "type": "string"
                 },
+                "tahun_data": {
+                    "type": "string"
+                },
                 "tahun_implementasi": {
                     "type": "string"
                 },
@@ -3301,6 +3408,9 @@
                     "type": "string"
                 },
                 "tahun_awal": {
+                    "type": "string"
+                },
+                "tahun_data": {
                     "type": "string"
                 },
                 "tahun_implementasi": {
@@ -3536,6 +3646,9 @@
                     "type": "string"
                 },
                 "tahun_ajaran": {
+                    "type": "string"
+                },
+                "tahun_data": {
                     "type": "string"
                 },
                 "tanggal": {

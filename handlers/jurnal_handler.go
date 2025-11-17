@@ -40,6 +40,7 @@ func NewJurnalHandler(service *services.JurnalService) *JurnalHandler {
 // @Success      200           {object}  models.ListResponse{datas=[]models.Jurnal}
 // @Failure      400           {object}  models.ErrorResponse
 // @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
 // @Router       /jurnal [get]
 func (h *JurnalHandler) GetJurnalFiltered(c *gin.Context) {
 	page := utils.StringToInt(c.Query("page"), 1)
@@ -53,8 +54,12 @@ func (h *JurnalHandler) GetJurnalFiltered(c *gin.Context) {
 	akreditasi := c.Query("akreditasi")
 	search := c.Query("search")
 
-	ctx, cancle := context.WithTimeout(c.Request.Context(), 5*time.Second)
-	defer cancle()
+	if tahun == "" {
+		tahun = time.Now().Format("2006")
+	}
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
+	defer cancel()
 
 	jurnal, total, err := h.JurnalService.GetJurnalFiltered(ctx, kodeFakultas, kodeJurusan, kodeProdi, tahun, semester, indexer, akreditasi, search, page, limit)
 	if err != nil {

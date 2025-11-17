@@ -39,11 +39,12 @@ func NewBeasiswaHandler(service *services.BeasiswaService) *BeasiswaHandler {
 // @Success      200           {object}  models.ListResponse{datas=[]models.Beasiswa}
 // @Failure      400           {object}  models.ErrorResponse
 // @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
 // @Router       /beasiswa [get]
 func (h *BeasiswaHandler) GetBeasiswaFiltered(c *gin.Context) {
 	page := utils.StringToInt(c.Query("page"), 1)
 	limit := utils.StringToInt(c.Query("limit"), 10)
-	tahun := utils.StringToInt(c.Query("tahun"), 0)
+	tahunStr := c.Query("tahun")
 	kodeFakultas := c.Query("kodeFakultas")
 	kodeJurusan := c.Query("kodeJurusan")
 	kodeProdi := c.Query("kodeProdi")
@@ -51,8 +52,14 @@ func (h *BeasiswaHandler) GetBeasiswaFiltered(c *gin.Context) {
 	jenisBeasiswa := c.Query("jenisBeasiswa")
 	search := c.Query("search")
 
-	ctx, cancle := context.WithTimeout(c.Request.Context(), 5*time.Second)
-	defer cancle()
+	var tahun int
+	if tahunStr == "" {
+		tahunStr = time.Now().Format("2006")
+	}
+	tahun = utils.StringToInt(tahunStr, 0)
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
+	defer cancel()
 
 	beasiswa, total, err := h.BeasiswaService.GetBeasiswaFiltered(ctx, kodeFakultas, kodeJurusan, kodeProdi, semester, jenisBeasiswa, search, tahun, page, limit)
 	if err != nil {

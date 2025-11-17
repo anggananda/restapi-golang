@@ -13,18 +13,22 @@ import (
 )
 
 type MhsWisudaMongoRepository struct {
-	Collection *mongo.Collection
+	DB *mongo.Database
 }
 
 func NewMhsWisudaMongoRepository(db *mongo.Database) interfaces.MhsWisudaRepository {
 	return &MhsWisudaMongoRepository{
-		Collection: db.Collection("mhs_wisuda_v1"),
+		DB: db,
 	}
+}
+
+func (repo *MhsWisudaMongoRepository) getCollectionByYear(year int) *mongo.Collection {
+	return repo.DB.Collection(fmt.Sprintf("mahasiswa_wisuda_%d", year))
 }
 
 func (repo *MhsWisudaMongoRepository) GetMhsWisudaFiltered(ctx context.Context, kodeFakultas, kodeJurusan, kodeProdi, search string, tahun, bulan, page, limit int) ([]models.MhsWisuda, int64, error) {
 	skip := (page - 1) * limit
-	filter := bson.M{}
+filter := bson.M{}
 
 	if kodeFakultas != "" {
 		filter["unit.fkt_kode"] = kodeFakultas
@@ -36,10 +40,6 @@ func (repo *MhsWisudaMongoRepository) GetMhsWisudaFiltered(ctx context.Context, 
 
 	if kodeProdi != "" {
 		filter["unit.prd_kode"] = kodeProdi
-	}
-
-	if tahun != 0 {
-		filter["tahun_wisuda"] = tahun
 	}
 
 	if bulan != 0 {
@@ -59,7 +59,6 @@ func (repo *MhsWisudaMongoRepository) GetMhsWisudaFiltered(ctx context.Context, 
 	go func() {
 		defer wg.Done()
 		findOptions := options.Find().SetSkip(int64(skip)).SetLimit(int64(limit)).SetSort(bson.D{
-			{Key: "tahun_wisuda", Value: -1},
 			{Key: "bulan_wisuda", Value: -1},
 			{Key: "_id", Value: 1},
 		})
@@ -68,13 +67,13 @@ func (repo *MhsWisudaMongoRepository) GetMhsWisudaFiltered(ctx context.Context, 
 			findOptions.SetProjection(bson.M{"score": bson.M{"$meta": "textScore"}})
 			findOptions.SetSort(bson.D{
 				{Key: "score", Value: bson.M{"$meta": "textScore"}},
-				{Key: "tahun_wisuda", Value: -1},
+
 				{Key: "bulan_wisuda", Value: -1},
 				{Key: "_id", Value: 1},
 			})
 		}
 
-		cursor, err := repo.Collection.Find(ctx, filter, findOptions)
+		cursor, err := repo.getCollectionByYear(tahun).Find(ctx, filter, findOptions)
 		if err != nil {
 			dataErr = err
 			return
@@ -88,7 +87,7 @@ func (repo *MhsWisudaMongoRepository) GetMhsWisudaFiltered(ctx context.Context, 
 
 	go func() {
 		defer wg.Done()
-		total, countErr = repo.Collection.CountDocuments(ctx, filter)
+		total, countErr = repo.getCollectionByYear(tahun).CountDocuments(ctx, filter)
 	}()
 
 	wg.Wait()

@@ -7,6 +7,7 @@ type Jurnal struct {
 	Tanggal               string   `bson:"tanggal" json:"tanggal"`
 	Semester              string   `bson:"semester" json:"semester"`
 	TahunAjaran           string   `bson:"tahun_ajaran" json:"tahun_ajaran"`
+  TahunData                string `bson:"tahun_data" json:"tahun_data"`
 	Akreditasi            string   `bson:"akreditasi" json:"akreditasi"`
 	CreatedAt             string   `bson:"created_at" json:"created_at"`
 	IsValid               string   `bson:"isValid" json:"isValid"`

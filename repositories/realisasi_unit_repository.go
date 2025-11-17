@@ -13,16 +13,20 @@ import (
 )
 
 type RealisasiUnitMongoRepository struct {
-	Collection *mongo.Collection
+	DB *mongo.Database
 }
 
 func NewRealisasiUnitMongoRepository(db *mongo.Database) interfaces.RealisasiUnitRepository {
 	return &RealisasiUnitMongoRepository{
-		Collection: db.Collection("realisasi_unit_v1"),
+		DB: db,
 	}
 }
 
-func (repo *RealisasiUnitMongoRepository) GetRealisasiUnitFiltered(ctx context.Context, search string, page, limit int) ([]models.RealisasiUnit, int64, error) {
+func (repo *RealisasiUnitMongoRepository) getCollectionByYear(year string) *mongo.Collection {
+	return repo.DB.Collection(fmt.Sprintf("realisasi_unit_%s", year))
+}
+
+func (repo *RealisasiUnitMongoRepository) GetRealisasiUnitFiltered(ctx context.Context, search, tahun string, page, limit int) ([]models.RealisasiUnit, int64, error) {
 	skip := (page - 1) * limit
 	filter := bson.M{}
 
@@ -47,7 +51,7 @@ func (repo *RealisasiUnitMongoRepository) GetRealisasiUnitFiltered(ctx context.C
 			})
 		}
 
-		cursor, err := repo.Collection.Find(ctx, filter, findOptions)
+		cursor, err := repo.getCollectionByYear(tahun).Find(ctx, filter, findOptions)
 		if err != nil {
 			dataErr = err
 			return
@@ -61,7 +65,7 @@ func (repo *RealisasiUnitMongoRepository) GetRealisasiUnitFiltered(ctx context.C
 
 	go func() {
 		defer wg.Done()
-		total, countErr = repo.Collection.CountDocuments(ctx, filter)
+		total, countErr = repo.getCollectionByYear(tahun).CountDocuments(ctx, filter)
 	}()
 
 	wg.Wait()

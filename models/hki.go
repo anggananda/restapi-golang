@@ -8,6 +8,7 @@ type Hki struct {
 	IsValid                  string `bson:"isValid" json:"isValid"`
 	Semester                 string `bson:"semester" json:"semester"`
 	TahunAjaran              string `bson:"tahun_ajaran" json:"tahun_ajaran"`
+  TahunData                string `bson:"tahun_data" json:"tahun_data"`
 	JenisPaten               string `bson:"jenis_paten" json:"jenis_paten"`
 	TbName                   string `bson:"tbName" json:"tbName"`
 	PrimaryKey               string `bson:"primaryKey" json:"primaryKey"`

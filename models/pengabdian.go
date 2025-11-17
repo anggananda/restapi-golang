@@ -7,6 +7,7 @@ type Pengabdian struct {
 	CreatedAt                string `bson:"created_at" json:"created_at"`
 	Semester                 string `bson:"semester" json:"semester"`
 	TahunAjaran              string `bson:"tahun_ajaran" json:"tahun_ajaran"`
+	TahunData                string `bson:"tahun_data" json:"tahun_data"`
 	IsValid                  string `bson:"isValid" json:"isValid"`
 	TbName                   string `bson:"tbName" json:"tbName"`
 	PrimaryKey               string `bson:"primaryKey" json:"primaryKey"`
