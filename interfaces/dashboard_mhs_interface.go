@@ -6,8 +6,8 @@ import (
 )
 
 type DashboardMhsRepository interface {
-	GetDashboardOverview(ctx context.Context, tahun int, semesterType string) ([]models.DashboardCard, error)
-	GetDrilldownFakultas(ctx context.Context, tahun int, semesterType string, status string) ([]models.DrilldownItem, int64, error)
-	GetDrilldownJurusan(ctx context.Context, tahun int, semesterType string, status string, fakultasKode string) ([]models.DrilldownItem, int64, error)
-	GetDrilldownProdi(ctx context.Context, tahun int, semesterType string, status string, jurusanKode string) ([]models.DrilldownItem, int64, error)
+	GetDashboardMhsOverview(ctx context.Context, tahun int, semester int) ([]models.DashboardCard, error)
+	GetDrilldownMhsFakultas(ctx context.Context, tahun int, semester int, status string) ([]models.DrilldownItem, int64, error)
+	GetDrilldownMhsJurusan(ctx context.Context, tahun int, semester int, status string, kodeFakultas string) ([]models.DrilldownItem, int64, error)
+	GetDrilldownMhsProdi(ctx context.Context, tahun int, semester int, status string, kodeJurusan string) ([]models.DrilldownItem, int64, error)
 }

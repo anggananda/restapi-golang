@@ -16,18 +16,18 @@ func NewDashboardMhsService(repo interfaces.DashboardMhsRepository) *DashboardMh
 	}
 }
 
-func (service *DashboardMhsService) GetDashboardOverview(ctx context.Context, tahun int, semester string) ([]models.DashboardCard, error) {
-	return service.DashboardMhsRepository.GetDashboardOverview(ctx, tahun, semester)
+func (service *DashboardMhsService) GetDashboardMhsOverview(ctx context.Context, tahun int, semester int) ([]models.DashboardCard, error) {
+	return service.DashboardMhsRepository.GetDashboardMhsOverview(ctx, tahun, semester)
 }
 
-func (service *DashboardMhsService) GetDrilldownFakultas(ctx context.Context, tahun int, semester string, status string) ([]models.DrilldownItem, int64, error) {
-	return service.DashboardMhsRepository.GetDrilldownFakultas(ctx, tahun, semester, status)
+func (service *DashboardMhsService) GetDrilldownMhsFakultas(ctx context.Context, tahun int, semester int, status string) ([]models.DrilldownItem, int64, error) {
+	return service.DashboardMhsRepository.GetDrilldownMhsFakultas(ctx, tahun, semester, status)
 }
 
-func (service *DashboardMhsService) GetDrilldownJurusan(ctx context.Context, tahun int, semester string, status string, fakultasKode string) ([]models.DrilldownItem, int64, error) {
-	return service.DashboardMhsRepository.GetDrilldownJurusan(ctx, tahun, semester, status, fakultasKode)
+func (service *DashboardMhsService) GetDrilldownMhsJurusan(ctx context.Context, tahun int, semester int, status string, kodeFakultas string) ([]models.DrilldownItem, int64, error) {
+	return service.DashboardMhsRepository.GetDrilldownMhsJurusan(ctx, tahun, semester, status, kodeFakultas)
 }
 
-func (service *DashboardMhsService) GetDrilldownProdi(ctx context.Context, tahun int, semester string, status string, jurusanKode string) ([]models.DrilldownItem, int64, error) {
-	return service.DashboardMhsRepository.GetDrilldownProdi(ctx, tahun, semester, status, jurusanKode)
+func (service *DashboardMhsService) GetDrilldownMhsProdi(ctx context.Context, tahun int, semester int, status string, kodeJurusan string) ([]models.DrilldownItem, int64, error) {
+	return service.DashboardMhsRepository.GetDrilldownMhsProdi(ctx, tahun, semester, status, kodeJurusan)
 }

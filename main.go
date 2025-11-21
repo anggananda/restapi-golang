@@ -82,9 +82,21 @@ func main() {
 	dashboardMhsservice := services.NewDashboardMhsService(dashboardMhsRepo)
 	dashboardMhsHandler := handlers.NewDashboardMhsHandler(dashboardMhsservice)
 
+	dashboardDosenRepo := repositories.NewDashboardDosenRepository(config.DB)
+	dashboardDosenservice := services.NewDashboardDosenService(dashboardDosenRepo)
+	dashboardDosenHandler := handlers.NewDashboardDosenHandler(dashboardDosenservice)
+
+	dashboardPegawaiRepo := repositories.NewDashboardPegawaiRepository(config.DB)
+	dashboardPegawaiservice := services.NewDashboardPegawaiService(dashboardPegawaiRepo)
+	dashboardPegawaiHandler := handlers.NewDashboardPegawaiHandler(dashboardPegawaiservice)
+
 	perpemRepo := repositories.NewPerpemMongoRepository(config.DB)
 	perpemService := services.NewPerpemService(perpemRepo)
 	perpemHandler := handlers.NewPerpemHandler(perpemService)
+
+	evaluasiDosenRepo := repositories.NewEvaluasiDosenMongoRepository(config.DB)
+	evaluasiDosenService := services.NewEvaluasiDosenService(evaluasiDosenRepo)
+	evaluasiDosenHandler := handlers.NewEvaluasiDosenHandler(evaluasiDosenService)
 
 	angketMhsRepo := repositories.NewAngketMhsMongoRepository(config.DB)
 	angketMhsService := services.NewAngketMhsService(angketMhsRepo)
@@ -167,7 +179,14 @@ func main() {
 	unitKerjaService := services.NewUnitKerjaService(unitKerjaRepo)
 	unitKerjaHandler := handlers.NewUnitKerjaHandler(unitKerjaService, config.RDB)
 
-	routes.SetUpRoutes(router, casHandler, userHandler, mhsHandler, dashboardMhsHandler, perpemHandler, angketMhsHandler, kritikSaranHandler, agendaMengajarHandler, mhsWisudaHandler, rekapPMBHandler, khsHandler, penawaranHandler, karyaAkhirHandler, kerjasamaHandler, realisasiUnitHandler, realisasiBulanHandler, penelitianHandler, pengabdianHandler, jurnalHandler, hkiHandler, prosidingHandler, bukuHandler, beasiswaHandler, tracerHandler, unitKerjaHandler)
+	statusMahasiswaRepo := repositories.NewStatusMahasiswaMongoRepository(config.DB)
+	statusPegawaiRepo := repositories.NewStatusPegawaiMongoRepository(config.DB)
+	statusKeaktifanPegawaiRepo := repositories.NewStatusKeaktifanPegawaiMongoRepository(config.DB)
+
+	statusService := services.NewStatusService(statusMahasiswaRepo, statusPegawaiRepo, statusKeaktifanPegawaiRepo)
+	statusHandler := handlers.NewStatusHandler(statusService, config.RDB)
+
+	routes.SetUpRoutes(router, casHandler, userHandler, mhsHandler, dashboardMhsHandler, dashboardDosenHandler, dashboardPegawaiHandler, perpemHandler, evaluasiDosenHandler, angketMhsHandler, kritikSaranHandler, agendaMengajarHandler, mhsWisudaHandler, rekapPMBHandler, khsHandler, penawaranHandler, karyaAkhirHandler, kerjasamaHandler, realisasiUnitHandler, realisasiBulanHandler, penelitianHandler, pengabdianHandler, jurnalHandler, hkiHandler, prosidingHandler, bukuHandler, beasiswaHandler, tracerHandler, unitKerjaHandler, statusHandler)
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.Run(":8080")

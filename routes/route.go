@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetUpRoutes(r *gin.Engine, casHandler *handlers.CASHandler, userHandler *handlers.UserHandler, mhs *handlers.MhsHandler, dashboardMhsHandler *handlers.DashboardMhsHandler, perpemHandler *handlers.PerpemHandler, angketMhsHandler *handlers.AngketMhsHandler, kritikSaranHandler *handlers.KritikSaranHandler, agendaMengajarHandler *handlers.AgendaMengajarHandler, mhsWisudaHandler *handlers.MhsWisudaHandler, rekapPMBHandler *handlers.RekapPMBHandler, khsHandler *handlers.KHSHandler, penawaranHandler *handlers.PenawaranHandler, karyaAkhirHandler *handlers.KaryaAkhirHandler, kerjasamaHandler *handlers.KerjasamaHandler, realisasiUnitHandler *handlers.RealisasiUnitHandler, realisasiBulanHandler *handlers.RealisasiBulanHandler, penelitianHandler *handlers.PenelitianHandler, pengabdianHandler *handlers.PengabdianHandler, jurnalHandler *handlers.JurnalHandler, hkiHandler *handlers.HkiHandler, prosidingHandler *handlers.ProsidingHandler, bukuHandler *handlers.BukuHandler, beasiswaHandler *handlers.BeasiswaHandler, tracerHandler *handlers.TracerHandler, unitKerjaHandler *handlers.UnitKerjaHandler) {
+func SetUpRoutes(r *gin.Engine, casHandler *handlers.CASHandler, userHandler *handlers.UserHandler, mhs *handlers.MhsHandler, dashboardMhsHandler *handlers.DashboardMhsHandler, dashboardDosenHandler *handlers.DashboardDosenHandler, dashboardPegawaiHandler *handlers.DashboardPegawaiHandler, perpemHandler *handlers.PerpemHandler, evaluasiDosenHandler *handlers.EvaluasiDosenHandler, angketMhsHandler *handlers.AngketMhsHandler, kritikSaranHandler *handlers.KritikSaranHandler, agendaMengajarHandler *handlers.AgendaMengajarHandler, mhsWisudaHandler *handlers.MhsWisudaHandler, rekapPMBHandler *handlers.RekapPMBHandler, khsHandler *handlers.KHSHandler, penawaranHandler *handlers.PenawaranHandler, karyaAkhirHandler *handlers.KaryaAkhirHandler, kerjasamaHandler *handlers.KerjasamaHandler, realisasiUnitHandler *handlers.RealisasiUnitHandler, realisasiBulanHandler *handlers.RealisasiBulanHandler, penelitianHandler *handlers.PenelitianHandler, pengabdianHandler *handlers.PengabdianHandler, jurnalHandler *handlers.JurnalHandler, hkiHandler *handlers.HkiHandler, prosidingHandler *handlers.ProsidingHandler, bukuHandler *handlers.BukuHandler, beasiswaHandler *handlers.BeasiswaHandler, tracerHandler *handlers.TracerHandler, unitKerjaHandler *handlers.UnitKerjaHandler, statusHandler *handlers.StatusHandler) {
 	// implement swagger middleware
 	r.Use(middlewares.SwaggerMockMiddleware())
 
@@ -29,7 +29,10 @@ func SetUpRoutes(r *gin.Engine, casHandler *handlers.CASHandler, userHandler *ha
 		setUserRoutes(private, userHandler)
 		setUpMhsRoutes(private, mhs)
 		setUpDashboardMhsRoutes(private, dashboardMhsHandler)
+		setUpDashboardDosenRoutes(private, dashboardDosenHandler)
+		setUpDashboardPegawaiRoutes(private, dashboardPegawaiHandler)
 		setUpPerpemRoutes(private, perpemHandler)
+		setUpEvaluasiDosenRoutes(private, evaluasiDosenHandler)
 		setUpAngketMhsRoutes(private, angketMhsHandler)
 		setUpKritikSaranRoutes(private, kritikSaranHandler)
 		setUpAgendaMengajarRoutes(private, agendaMengajarHandler)
@@ -50,6 +53,7 @@ func SetUpRoutes(r *gin.Engine, casHandler *handlers.CASHandler, userHandler *ha
 		setUpBeasiswaRoutes(private, beasiswaHandler)
 		setUpTracerRoutes(private, tracerHandler)
 		setUpUnitKerjaRoutes(private, unitKerjaHandler)
+		setUpStatusRoutes(private, statusHandler)
 	}
 }
 
@@ -64,14 +68,31 @@ func setUpMhsRoutes(rg *gin.RouterGroup, mhs *handlers.MhsHandler) {
 }
 
 func setUpDashboardMhsRoutes(rg *gin.RouterGroup, dashboardMhsHandler *handlers.DashboardMhsHandler) {
-	rg.GET("/dashboard/overview", dashboardMhsHandler.GetDashboardOverview)
-	rg.GET("/dashboard/fakultas", dashboardMhsHandler.GetDrilldownFakultas)
-	rg.GET("/dashboard/jurusan", dashboardMhsHandler.GetDrilldownJurusan)
-	rg.GET("/dashboard/prodi", dashboardMhsHandler.GetDrilldownProdi)
+	rg.GET("/dashboard-mhs/overview", dashboardMhsHandler.GetDashboardMhsOverview)
+	rg.GET("/dashboard-mhs/fakultas", dashboardMhsHandler.GetDrilldownMhsFakultas)
+	rg.GET("/dashboard-mhs/jurusan", dashboardMhsHandler.GetDrilldownMhsJurusan)
+	rg.GET("/dashboard-mhs/prodi", dashboardMhsHandler.GetDrilldownMhsProdi)
+}
+
+func setUpDashboardDosenRoutes(rg *gin.RouterGroup, dashboardDosenHandler *handlers.DashboardDosenHandler) {
+	rg.GET("/dashboard-dosen/overview", dashboardDosenHandler.GetDashboardDosenOverview)
+	rg.GET("/dashboard-dosen/fakultas", dashboardDosenHandler.GetDrilldownDosenFakultas)
+	rg.GET("/dashboard-dosen/jurusan", dashboardDosenHandler.GetDrilldownDosenJurusan)
+	rg.GET("/dashboard-dosen/prodi", dashboardDosenHandler.GetDrilldownDosenProdi)
+}
+
+func setUpDashboardPegawaiRoutes(rg *gin.RouterGroup, dashboardPegawaiHandler *handlers.DashboardPegawaiHandler) {
+	rg.GET("/dashboard-pegawai/overview", dashboardPegawaiHandler.GetDashboardPegawaiOverview)
+	rg.GET("/dashboard-pegawai/fakultas", dashboardPegawaiHandler.GetDrilldownPegawaiFakultas)
+	rg.GET("/dashboard-pegawai/jurusan", dashboardPegawaiHandler.GetDrilldownPegawaiJurusan)
+	rg.GET("/dashboard-pegawai/prodi", dashboardPegawaiHandler.GetDrilldownPegawaiProdi)
 }
 
 func setUpPerpemRoutes(rg *gin.RouterGroup, perpemHandler *handlers.PerpemHandler) {
 	rg.GET("/perpem", perpemHandler.GetPerpemFiltered)
+}
+func setUpEvaluasiDosenRoutes(rg *gin.RouterGroup, evaluasiDosenHandler *handlers.EvaluasiDosenHandler) {
+	rg.GET("/evaluasi-dosen", evaluasiDosenHandler.GetEvaluasiDosenFiltered)
 }
 
 func setUpAngketMhsRoutes(rg *gin.RouterGroup, angketMhsHandler *handlers.AngketMhsHandler) {
@@ -151,4 +172,10 @@ func setUpTracerRoutes(rg *gin.RouterGroup, tracerHandler *handlers.TracerHandle
 
 func setUpUnitKerjaRoutes(rg *gin.RouterGroup, unitKerjaHandler *handlers.UnitKerjaHandler) {
 	rg.GET("/unit-kerja", unitKerjaHandler.GetUnitKerja)
+}
+
+func setUpStatusRoutes(rg *gin.RouterGroup, statusHandler *handlers.StatusHandler) {
+	rg.GET("/status-mhs", statusHandler.GetStatusMahasiswa)
+	rg.GET("/status-pegawai", statusHandler.GetStatusPegawai)
+	rg.GET("/status-keaktifan-pegawai", statusHandler.GetStatusKeaktifanPegawai)
 }

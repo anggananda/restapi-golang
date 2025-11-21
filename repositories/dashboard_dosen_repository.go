@@ -11,32 +11,36 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-type DashboardMhsRepository struct {
+type DashboardDosenMongoRepository struct {
 	DB *mongo.Database
 }
 
-func NewDashboardMhsRepository(db *mongo.Database) interfaces.DashboardMhsRepository {
-	return &DashboardMhsRepository{
+func NewDashboardDosenRepository(db *mongo.Database) interfaces.DashboardDosenRepository {
+	return &DashboardDosenMongoRepository{
 		DB: db,
 	}
 }
 
-func (repo *DashboardMhsRepository) getCollectionByYear(year int) *mongo.Collection {
-	return repo.DB.Collection(fmt.Sprintf("dashboard_mahasiswa_%d", year))
+func (repo *DashboardDosenMongoRepository) getCollectionByYear(year int) *mongo.Collection {
+	return repo.DB.Collection(fmt.Sprintf("dashboard_dosen_%d", year))
 }
 
-func (repo *DashboardMhsRepository) GetDashboardMhsOverview(ctx context.Context, tahun int, semester int) ([]models.DashboardCard, error) {
+func (repo *DashboardDosenMongoRepository) GetDashboardDosenOverview(ctx context.Context, tahun int) ([]models.DashboardCardPegawai, error) {
 
 	pipeline := bson.A{
-		bson.M{"$match": bson.M{
-			"semester": semester,
-		}},
 		bson.M{"$group": bson.M{
-			"_id":    "$id_status",
-			"total":  bson.M{"$sum": "$jumlah"},
-			"status": bson.M{"$first": "$status"},
+			"_id": bson.M{
+				"id_status_pegawai":   "$id_status_pegawai",
+				"id_status_keaktifan": "$id_status_keaktifan",
+			},
+			"total":            bson.M{"$sum": "$jumlah"},
+			"status_pegawai":   bson.M{"$first": "$status_pegawai"},
+			"status_keaktifan": bson.M{"$first": "$status_keaktifan"},
 		}},
-		bson.M{"$sort": bson.M{"_id": 1}},
+		bson.M{"$sort": bson.M{
+			"_id.id_status_pegawai":   1,
+			"_id.id_status_keaktifan": 1,
+		}},
 	}
 
 	cursor, err := repo.getCollectionByYear(tahun).Aggregate(ctx, pipeline)
@@ -50,30 +54,34 @@ func (repo *DashboardMhsRepository) GetDashboardMhsOverview(ctx context.Context,
 		return nil, err
 	}
 
-	var cards []models.DashboardCard
+	var cards []models.DashboardCardPegawai
 	for _, item := range results {
-		status := item["_id"].(string)
+		idDoc := item["_id"].(bson.M)
+		statusPegawai := item["status_pegawai"].(string)
+		statusKeaktifan := item["status_keaktifan"].(string)
+		combinedTitle := fmt.Sprintf("%s (%s)", statusPegawai, statusKeaktifan)
 		total, ok := item["total"].(int64)
 		if !ok {
 			total = utils.ConvertToInt64(item["total"])
 		}
 
-		cards = append(cards, models.DashboardCard{
-			Title:     item["status"].(string),
-			Value:     total,
-			Status:    status,
-			Drilldown: true,
+		cards = append(cards, models.DashboardCardPegawai{
+			Title:             combinedTitle,
+			Value:             total,
+			IDStatusPegawai:   int64(idDoc["id_status_keaktifan"].(int32)),
+			IDStatusKeaktifan: int64(idDoc["id_status_keaktifan"].(int32)),
+			Drilldown:         true,
 		})
 	}
 
 	return cards, nil
 }
 
-func (repo *DashboardMhsRepository) GetDrilldownMhsFakultas(ctx context.Context, tahun int, semester int, status string) ([]models.DrilldownItem, int64, error) {
+func (repo *DashboardDosenMongoRepository) GetDrilldownDosenFakultas(ctx context.Context, tahun, statusPegawai, statusKeaktifan int) ([]models.DrilldownItem, int64, error) {
 
 	matchConditions := bson.M{
-		"semester":  semester,
-		"id_status": status,
+		"id_status_pegawai":   statusPegawai,
+		"id_status_keaktifan": statusKeaktifan,
 	}
 
 	pipeline := bson.A{
@@ -118,11 +126,11 @@ func (repo *DashboardMhsRepository) GetDrilldownMhsFakultas(ctx context.Context,
 	return items, total, nil
 }
 
-func (repo *DashboardMhsRepository) GetDrilldownMhsJurusan(ctx context.Context, tahun int, semester int, status string, kodeFakultas string) ([]models.DrilldownItem, int64, error) {
+func (repo *DashboardDosenMongoRepository) GetDrilldownDosenJurusan(ctx context.Context, tahun, statusPegawai, statusKeaktifan int, kodeFakultas string) ([]models.DrilldownItem, int64, error) {
 	matchConditions := bson.M{
-		"semester":      semester,
-		"id_status":     status,
-		"unit.fkt_kode": kodeFakultas,
+		"id_status_pegawai":   statusPegawai,
+		"id_status_keaktifan": statusKeaktifan,
+		"unit.fkt_kode":       kodeFakultas,
 	}
 
 	pipeline := bson.A{
@@ -168,11 +176,11 @@ func (repo *DashboardMhsRepository) GetDrilldownMhsJurusan(ctx context.Context, 
 	return items, total, nil
 }
 
-func (repo *DashboardMhsRepository) GetDrilldownMhsProdi(ctx context.Context, tahun int, semester int, status string, kodeJurusan string) ([]models.DrilldownItem, int64, error) {
+func (repo *DashboardDosenMongoRepository) GetDrilldownDosenProdi(ctx context.Context, tahun, statusPegawai, statusKeaktifan int, kodeJurusan string) ([]models.DrilldownItem, int64, error) {
 	matchConditions := bson.M{
-		"semester":      semester,
-		"id_status":     status,
-		"unit.jrs_kode": kodeJurusan,
+		"id_status_pegawai":   statusPegawai,
+		"id_status_keaktifan": statusKeaktifan,
+		"unit.jrs_kode":       kodeJurusan,
 	}
 
 	pipeline := bson.A{

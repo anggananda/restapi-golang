@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 	"restapi-golang/services"
-	"strconv"
+	"restapi-golang/utils"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,87 +19,102 @@ func NewDashboardMhsHandler(service *services.DashboardMhsService) *DashboardMhs
 	}
 }
 
-// ==========================
-// GET /dashboard/overview?tahun=2023&semester=1
-// ==========================
-func (h *DashboardMhsHandler) GetDashboardOverview(c *gin.Context) {
+func (h *DashboardMhsHandler) GetDashboardMhsOverview(c *gin.Context) {
 	tahunStr := c.Query("tahun")
-	semester := c.Query("semester")
+	semesterStr := c.Query("semester")
 
-	tahun, err := strconv.Atoi(tahunStr)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "tahun harus berupa angka"})
-		return
+	var tahun, semester int
+
+	if tahunStr == "" {
+		tahunStr = time.Now().Format("2006")
 	}
+	tahun = utils.StringToInt(tahunStr, 0)
+	semester = utils.StringToInt(semesterStr, 0)
 
-	result, err := h.DashboardMhsService.GetDashboardOverview(c.Request.Context(), tahun, semester)
+	result, err := h.DashboardMhsService.GetDashboardMhsOverview(c.Request.Context(), tahun, semester)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, result)
+	c.JSON(http.StatusOK, gin.H{"message": "OK", "datas": result})
 }
 
-// ==========================
-// GET /dashboard/fakultas?tahun=2023&semester=1&status=A
-// ==========================
-func (h *DashboardMhsHandler) GetDrilldownFakultas(c *gin.Context) {
-	tahun, _ := strconv.Atoi(c.Query("tahun"))
-  semester := c.Query("semester")
+func (h *DashboardMhsHandler) GetDrilldownMhsFakultas(c *gin.Context) {
 	status := c.Query("status")
-	fmt.Println("Statusnya: " + status)
+	tahunStr := c.Query("tahun")
+	semesterStr := c.Query("semester")
 
-	items, total, err := h.DashboardMhsService.GetDrilldownFakultas(c.Request.Context(), tahun, semester, status)
+	var tahun, semester int
+	if tahunStr == "" {
+		tahunStr = time.Now().Format("2006")
+	}
+	tahun = utils.StringToInt(tahunStr, 0)
+	semester = utils.StringToInt(semesterStr, 0)
+
+	items, total, err := h.DashboardMhsService.GetDrilldownMhsFakultas(c.Request.Context(), tahun, semester, status)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"items": items,
-		"total": total,
+		"message": "OK",
+		"datas":   items,
+		"total":   total,
 	})
 }
 
-// ==========================
-// GET /dashboard/jurusan?tahun=2023&semester=1&status=A&fakultasKode=FT01
-// ==========================
-func (h *DashboardMhsHandler) GetDrilldownJurusan(c *gin.Context) {
-	tahun, _ := strconv.Atoi(c.Query("tahun"))
-  semester := c.Query("semester")
+func (h *DashboardMhsHandler) GetDrilldownMhsJurusan(c *gin.Context) {
+	tahunStr := c.Query("tahun")
+	semesterStr := c.Query("semester")
 	status := c.Query("status")
-	fakultasKode := c.Query("fakultasKode")
+	kodeFakultas := c.Query("kodeFakultas")
 
-	items, total, err := h.DashboardMhsService.GetDrilldownJurusan(c.Request.Context(), tahun, semester, status, fakultasKode)
+	var tahun, semester int
+
+	if tahunStr == "" {
+		tahunStr = time.Now().Format("2006")
+	}
+	tahun = utils.StringToInt(tahunStr, 0)
+	semester = utils.StringToInt(semesterStr, 0)
+
+	items, total, err := h.DashboardMhsService.GetDrilldownMhsJurusan(c.Request.Context(), tahun, semester, status, kodeFakultas)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"items": items,
-		"total": total,
+		"message": "OK",
+		"datas":   items,
+		"total":   total,
 	})
 }
 
-// ==========================
-// GET /dashboard/prodi?tahun=2023&semester=1&status=A&jurusanKode=FT01_TI
-// ==========================
-func (h *DashboardMhsHandler) GetDrilldownProdi(c *gin.Context) {
-	tahun, _ := strconv.Atoi(c.Query("tahun"))
-  semester := c.Query("semester")
+func (h *DashboardMhsHandler) GetDrilldownMhsProdi(c *gin.Context) {
 	status := c.Query("status")
-	jurusanKode := c.Query("jurusanKode")
+	kodeJurusan := c.Query("kodeJurusan")
+	tahunStr := c.Query("tahun")
+	semesterStr := c.Query("semester")
 
-	items, total, err := h.DashboardMhsService.GetDrilldownProdi(c.Request.Context(), tahun, semester, status, jurusanKode)
+	var tahun, semester int
+
+	if tahunStr == "" {
+		tahunStr = time.Now().Format("2006")
+	}
+	tahun = utils.StringToInt(tahunStr, 0)
+	semester = utils.StringToInt(semesterStr, 0)
+
+	items, total, err := h.DashboardMhsService.GetDrilldownMhsProdi(c.Request.Context(), tahun, semester, status, kodeJurusan)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"items": items,
-		"total": total,
+		"message": "OK",
+		"datas":   items,
+		"total":   total,
 	})
 }
