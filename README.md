@@ -33,6 +33,7 @@ The system is integrated with **Undiksha Single Sign-On (SSO)** and implements *
 ## 📐 System Architecture
 
 ![System Architecture](assets/architecture.png)
+![Detail System Architecture](assets/detail-architecture.png)
 
 ---
 
@@ -58,6 +59,22 @@ cd restapi-golang
 # Copy environment variables
 cp .env.example .env
 
+#fill in the environment variables
+MONGO_URI=
+MONGO_DB=
+CAS_URL=
+REDIS_HOST=
+REDIS_PORT=
+REDIS_DB=
+REDIS_PASSWORD=
+FRONTEND_URL=
+HOST_URL=
+APP_HOST=
+APP_SCHEME=
+ALLOWED_ORIGINS=
+JWT_SECRET_KEY=
+UNIT_KERJA=
+
 # --- Local Development ---
 
 # Install dependencies
@@ -71,17 +88,17 @@ go build -o eis-api
 ./eis-api
 
 # Test health check
-curl http://localhost:8080/api/v1/health
+curl http://localhost:8080/api/v1/health-check
 
 # --- Docker Setup ---
 
-# Start all services (App + MongoDB + Redis)
+# Start docker services
 docker compose up -d
 
 # View logs
 docker compose logs -f
 
-# Stop services
+# Stop docker services
 docker compose down
 ```
 
@@ -103,6 +120,7 @@ docker compose down
 ├── services/
 ├── tests/
 │   └── mocks/
+│   └── units/
 ├── utils/
 ├── main.go
 ├── docker-compose.yml
