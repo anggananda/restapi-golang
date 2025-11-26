@@ -2,10 +2,13 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"math"
 	"net/http"
 	"restapi-golang/services"
 	"restapi-golang/utils"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -78,4 +81,70 @@ func (h *KritikSaranHandler) GetKritikSaranFiltered(c *gin.Context) {
 			"pages": pages,
 		},
 	})
+}
+
+func (h *KritikSaranHandler) ExportKritikSaranCSV(c *gin.Context) {
+	limit := utils.StringToInt(c.Query("limit"), 0)
+	kodeFakultas := c.Query("kodeFakultas")
+	kodeJurusan := c.Query("kodeJurusan")
+	kodeProdi := c.Query("kodeProdi")
+	tahun := c.Query("tahun")
+	semester := c.Query("semester")
+	search := c.Query("search")
+
+	if tahun == "" {
+		tahun = time.Now().Format("2006")
+	}
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 60*time.Second)
+	defer cancel()
+
+	kritikSaran, _, err := h.KritikSaranService.GetKritikSaranFiltered(ctx, kodeFakultas, kodeJurusan, kodeProdi, tahun, semester, search, 1, limit)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	csvHeaders := []string{
+		"ID", "NIP", "Nama Dosen", "Tahun", "Semester", "Periode",
+
+		"Saran (Gabungan)",
+
+		"Unit UK Kode", "Unit Fakultas Kode", "Unit Jurusan Kode", "Unit Prodi Kode",
+		"Fakultas Unit", "Jurusan Unit", "Prodi Unit",
+	}
+
+	var csvData [][]string
+
+	for _, item := range kritikSaran {
+
+		idStr := strconv.Itoa(item.ID)
+
+		saranList := strings.Join(item.Saran, " | ")
+
+		row := []string{
+
+			idStr,
+			item.NIP,
+			item.Nama,
+			item.Tahun,
+			item.Semester,
+			item.Periode,
+
+			saranList,
+
+			item.Unit.UKKode,
+			item.Unit.FktKode,
+			item.Unit.JrsKose,
+			item.Unit.PrdKode,
+			item.Unit.Fakultas,
+			item.Unit.Jurusan,
+			item.Unit.Prodi,
+		}
+
+		csvData = append(csvData, row)
+	}
+	currentTime := time.Now().Format("20060102_150405")
+	filename := fmt.Sprintf("kritik_saran_%s_%s_%s", tahun, semester, currentTime)
+	utils.SendCSV(c, filename, csvHeaders, csvData)
 }

@@ -1,0 +1,25 @@
+drilldown_item_filtered:
+  message: "Data rincian berhasil diambil"
+  datas:
+    - id: "F01"
+      name: "Fakultas Teknologi Industri"
+      value: 5800
+      level: "Fakultas"
+    - id: "F02"
+      name: "Fakultas Ekonomi dan Bisnis"
+      value: 4500
+      level: "Fakultas"
+    - id: "F03"
+      name: "Fakultas Ilmu Pendidikan"
+      value: 3900
+      level: "Fakultas"
+    - id: "J0101"
+      name: "Teknik Informatika"
+      value: 2100
+      level: "Jurusan"
+    - id: "P010101"
+      name: "S1 Akuntansi"
+      value: 1500
+      level: "Prodi"
+
+  total: 5

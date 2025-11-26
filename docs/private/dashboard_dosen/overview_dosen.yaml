@@ -1,0 +1,24 @@
+dashboard_card_pegawai_filtered:
+  datas:
+    - title: "Total Pegawai PNS Aktif"
+      value: 750
+      id_status_pegawai: 1 # Contoh ID untuk PNS
+      id_status_keaktifan: 1 # Contoh ID untuk Aktif Mengajar/Aktif
+      drilldown: true
+    - title: "Total Pegawai Non-PNS Kontrak"
+      value: 120
+      id_status_pegawai: 2 # Contoh ID untuk Kontrak
+      id_status_keaktifan: 1 # Contoh ID untuk Aktif
+      drilldown: true
+    - title: "Dosen Sedang Tugas Belajar"
+      value: 25
+      id_status_pegawai: 1 # Contoh ID untuk PNS
+      id_status_keaktifan: 4 # Contoh ID untuk Tugas Belajar
+      drilldown: true
+    - title: "Pegawai Cuti di Luar Tanggungan Negara"
+      value: 5
+      id_status_pegawai: 1 # Contoh ID untuk PNS
+      id_status_keaktifan: 6 # Contoh ID untuk CLTN
+      drilldown: true
+
+  message: "Data kartu dashboard pegawai berhasil diambil"

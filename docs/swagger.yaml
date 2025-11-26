@@ -214,11 +214,311 @@ definitions:
       waktu_pelaksanaan:
         type: string
     type: object
+  models.DashboardCard:
+    properties:
+      drilldown:
+        type: boolean
+      status:
+        type: string
+      title:
+        type: string
+      value:
+        type: integer
+    type: object
+  models.DashboardCardPegawai:
+    properties:
+      drilldown:
+        type: boolean
+      id_status_keaktifan:
+        type: integer
+      id_status_pegawai:
+        type: integer
+      title:
+        type: string
+      value:
+        type: integer
+    type: object
+  models.Data:
+    properties:
+      children:
+        items:
+          $ref: '#/definitions/models.Data'
+        type: array
+      uk_id:
+        type: integer
+      uk_kode:
+        type: string
+      uk_nama:
+        type: string
+    type: object
+  models.Dosen:
+    properties:
+      _id:
+        type: string
+      akreditasi:
+        $ref: '#/definitions/models.UnitKerjaHomebase'
+      alamat:
+        type: string
+      created_at:
+        type: string
+      dosen_id:
+        type: integer
+      dosen_key:
+        type: string
+      email:
+        type: string
+      email_sso:
+        type: string
+      first_golongan:
+        type: string
+      first_tgl_sk:
+        type: string
+      first_tgl_terima_sk:
+        type: string
+      first_tmt:
+        type: string
+      fungsional_tgl_sk:
+        type: string
+      fungsional_tgl_sk_pak:
+        type: string
+      fungsional_tgl_terima_sk:
+        type: string
+      fungsional_tgl_terima_sk_pak:
+        type: string
+      fungsional_tmt:
+        type: string
+      fungsional_tmt_pak:
+        type: string
+      golongan:
+        type: string
+      golongan_tmt:
+        type: string
+      grade:
+        type: integer
+      grade_fungsional:
+        type: integer
+      history:
+        items:
+          $ref: '#/definitions/models.HistoryDosen'
+        type: array
+      homebase:
+        $ref: '#/definitions/models.UnitKerjaHomebase'
+      hp:
+        type: string
+      id:
+        type: integer
+      id_sdm_sister:
+        type: string
+      id_status_pegawai:
+        type: integer
+      id_status_sekarang:
+        type: integer
+      jabatan_fungsional:
+        type: string
+      jabatan_struktural:
+        $ref: '#/definitions/models.JabatanStruktural'
+      jk:
+        type: string
+      nama:
+        type: string
+      nama_tanpa_gelar:
+        type: string
+      nidn:
+        type: string
+      nik:
+        type: string
+      nip:
+        type: string
+      no_induk_undiksha:
+        type: string
+      no_karpeg:
+        type: string
+      nuptk:
+        type: string
+      pangkat:
+        type: string
+      photo:
+        type: string
+      profil_singkat:
+        type: string
+      status_keaktifan:
+        type: string
+      status_pegawai:
+        type: string
+      status_serdos:
+        type: integer
+      strata:
+        type: string
+      tempat_lahir:
+        type: string
+      tgl_lahir:
+        type: string
+      tmt_status_pegawai:
+        type: string
+      unit:
+        $ref: '#/definitions/models.UnitLengkap'
+      unit_tugas:
+        $ref: '#/definitions/models.UnitKerjaTugas'
+      updated_at:
+        type: string
+    type: object
+  models.DosenHistoryResponse:
+    properties:
+      fakultas:
+        type: string
+      jabatan_fungsional:
+        type: string
+      jurusan:
+        type: string
+      nama:
+        type: string
+      nip:
+        type: string
+      no_induk_undiksha:
+        type: string
+      prodi:
+        type: string
+      status_keaktifan:
+        type: string
+      status_pegawai:
+        type: string
+      strata:
+        type: string
+      tahun:
+        type: integer
+    type: object
+  models.DrilldownItem:
+    properties:
+      id:
+        type: string
+      level:
+        type: string
+      name:
+        type: string
+      value:
+        type: integer
+    type: object
   models.ErrorResponse:
     properties:
       error:
         example: error message
         type: string
+    type: object
+  models.EvaluasiDosen:
+    properties:
+      _id:
+        type: integer
+      Inovasi_dalam_perkuliahan:
+        $ref: '#/definitions/models.Penilaian'
+      Kedisiplinan:
+        $ref: '#/definitions/models.Penilaian'
+      Kemampuan_berinteraksi_sosial_dengan_mahasiswa:
+        $ref: '#/definitions/models.Penilaian'
+      Kemampuan_berkomunikasi:
+        $ref: '#/definitions/models.Penilaian'
+      Keteladanan_dalam_bersikap_dan_bertindak:
+        $ref: '#/definitions/models.Penilaian'
+      Kreatifitas_dalam_perkuliahan:
+        $ref: '#/definitions/models.Penilaian'
+      Media_pembelajaran:
+        $ref: '#/definitions/models.Penilaian'
+      Metode_dan_pendekatan_perkuliahan:
+        $ref: '#/definitions/models.Penilaian'
+      Motivasi_dan_antusiasme_mengajar:
+        $ref: '#/definitions/models.Penilaian'
+      Pemberian_tugas_perkuliahan:
+        $ref: '#/definitions/models.Penilaian'
+      Penciptaan_iklim_belajar:
+        $ref: '#/definitions/models.Penilaian'
+      Penegakan_aturan_perkuliahan:
+        $ref: '#/definitions/models.Penilaian'
+      Pengelolaan_kelas:
+        $ref: '#/definitions/models.Penilaian'
+      Pengembangan_karakter_mahasiswa:
+        $ref: '#/definitions/models.Penilaian'
+      Penggunaan_bahasa_lisan_dan_tulisan:
+        $ref: '#/definitions/models.Penilaian'
+      Penguasaan_materi_perkuliahan:
+        $ref: '#/definitions/models.Penilaian'
+      Penilaian_hasil_belajar:
+        $ref: '#/definitions/models.Penilaian'
+      Penilaian_proses_belajar:
+        $ref: '#/definitions/models.Penilaian'
+      Perencanaan_perkuliahan:
+        $ref: '#/definitions/models.Penilaian'
+      Relevansi_materi_dengan_tujuan_pembelajaran:
+        $ref: '#/definitions/models.Penilaian'
+      Sumber_belajar:
+        $ref: '#/definitions/models.Penilaian'
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      kode_fakultas:
+        type: string
+      kode_matakuliah:
+        type: string
+      kode_prodi:
+        type: string
+      nama_kelas:
+        type: string
+      nama_lengkap:
+        type: string
+      nama_matakuliah:
+        type: string
+      nip:
+        type: string
+      no_induk_undiksha:
+        type: string
+      semester:
+        type: string
+      tahun:
+        type: string
+      unit:
+        $ref: '#/definitions/models.Unit'
+      updated_at:
+        type: string
+    type: object
+  models.HistoryDosen:
+    properties:
+      id_status_keaktifan:
+        type: integer
+      id_status_pegawai:
+        type: integer
+      status_keaktifan:
+        type: string
+      status_pegawai:
+        type: string
+      tahun:
+        type: integer
+    type: object
+  models.HistoryEntry:
+    properties:
+      jenis_status_mahasiswa_key:
+        type: integer
+      nama_pa:
+        type: string
+      periode:
+        type: string
+      semester:
+        type: integer
+      status:
+        type: string
+      tahun:
+        type: integer
+    type: object
+  models.HistoryPegawaiEntry:
+    properties:
+      id_status_keaktifan:
+        type: integer
+      id_status_pegawai:
+        type: integer
+      status_keaktifan:
+        type: string
+      status_pegawai:
+        type: string
+      tahun:
+        type: integer
     type: object
   models.Hki:
     properties:
@@ -325,6 +625,45 @@ definitions:
       valid_ipk_komentar:
         type: string
       waktu_pelaksanaan:
+        type: string
+    type: object
+  models.JabFungsional:
+    properties:
+      grade_id:
+        type: integer
+      id:
+        type: integer
+      nama:
+        type: string
+      unit:
+        type: string
+      unit_id:
+        type: integer
+    type: object
+  models.JabStruktural:
+    properties:
+      grade_id:
+        type: integer
+      id:
+        type: integer
+      nama:
+        type: string
+      unit:
+        type: string
+      unit_id:
+        type: integer
+    type: object
+  models.JabatanStruktural:
+    properties:
+      id_unit:
+        type: integer
+      jbt_id:
+        type: integer
+      kode_unit:
+        type: string
+      nama:
+        type: string
+      tgl_selesai:
         type: string
     type: object
   models.Jurnal:
@@ -533,6 +872,195 @@ definitions:
       unit:
         $ref: '#/definitions/models.Unit'
     type: object
+  models.Kerjasama:
+    properties:
+      _id:
+        type: integer
+      alamat:
+        type: string
+      alokasi_anggaran:
+        type: string
+      bntkrjsma_id:
+        type: string
+      bntkrjsma_nama:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      created_name:
+        type: string
+      deskripsi_singkat:
+        type: string
+      dokumen_url:
+        type: string
+      dokument_nama:
+        type: string
+      durasi_bulan:
+        type: string
+      durasi_hari:
+        type: string
+      durasi_minggu:
+        type: string
+      email:
+        type: string
+      hasil_pelaksanaan:
+        type: string
+      id_status_mitra:
+        type: string
+      indikator_kinerja_id:
+        type: string
+      indikator_kinerja_nama:
+        type: string
+      is_active:
+        type: string
+      is_dokumen_valid:
+        type: string
+      is_jdih:
+        type: string
+      is_kampus_qs:
+        type: string
+      is_upload:
+        type: string
+      is_upload_pusat:
+        type: string
+      jns_asalmitra_id:
+        type: string
+      jns_asalmitra_nama:
+        type: string
+      jnsdok_id:
+        type: string
+      jnsdok_nama:
+        type: string
+      jnspar_nama:
+        type: string
+      jnspar_nama_ptnbh:
+        type: string
+      kategori_dok_id:
+        type: string
+      kategori_dok_nama:
+        type: string
+      keterangan_validasi:
+        type: string
+      ks_registrasi:
+        type: string
+      lap_singkat_pelaksanaan:
+        type: string
+      laporan_url:
+        type: string
+      luaran_volume:
+        type: string
+      negara_id:
+        type: string
+      negara_nama:
+        type: string
+      nilai_kontrak:
+        type: string
+      nilai_pendapatan:
+        type: string
+      nomor_dokumen_mitra:
+        type: string
+      nomor_surat_undiksha:
+        type: string
+      partner_id:
+        type: string
+      partner_is_active:
+        type: string
+      partner_nama:
+        type: string
+      partner_penandatangan_jabatan:
+        type: string
+      partner_penandatangan_nama:
+        type: string
+      partner_penanggungjawab_email:
+        type: string
+      partner_penanggungjawab_jabatan:
+        type: string
+      partner_penanggungjawab_nama:
+        type: string
+      periode_id:
+        type: string
+      pihak_nama_mitra:
+        type: string
+      ref_ks_id:
+        type: string
+      ref_ks_registrasi:
+        type: string
+      ruang_lingkup_id:
+        type: string
+      ruang_lingkup_nama:
+        type: string
+      ruang_lingkup_other:
+        type: string
+      sasaran_id:
+        type: string
+      sasaran_nama:
+        type: string
+      sedang_berjalan:
+        type: string
+      status_mitra_nama:
+        type: string
+      stskrjsma_nama:
+        type: string
+      sumberdana_id:
+        type: string
+      sumberdana_nama:
+        type: string
+      tahun:
+        type: string
+      tahun_dokumen:
+        type: string
+      tanggal_akhir:
+        type: string
+      tanggal_awal:
+        type: string
+      tautan:
+        type: string
+      telp:
+        type: string
+      tgl_laporan:
+        type: string
+      uk_id_kerjasama:
+        type: string
+      uk_id_pelaksana:
+        type: string
+      uk_kerjasama:
+        type: string
+      uk_pelaksana:
+        type: string
+      undiksha_penandatangan_email:
+        type: string
+      undiksha_penandatangan_jabatan:
+        type: string
+      undiksha_penandatangan_kontak_telp_hp:
+        type: string
+      undiksha_penandatangan_nama:
+        type: string
+      undiksha_penanggungjawab_email:
+        type: string
+      undiksha_penanggungjawab_jabatan:
+        type: string
+      undiksha_penanggungjawab_kontak_telp_hp:
+        type: string
+      undiksha_penanggungjawab_nama:
+        type: string
+      undiksha_pic_dosen_id:
+        type: string
+      undiksha_pic_dosen_jabatan:
+        type: string
+      undiksha_pic_dosen_nama:
+        type: string
+      unit:
+        $ref: '#/definitions/models.UnitDetail'
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      updated_name:
+        type: string
+      valid_nama:
+        type: string
+    type: object
   models.Khs:
     properties:
       _id:
@@ -573,6 +1101,12 @@ definitions:
       unit:
         $ref: '#/definitions/models.Unit'
     type: object
+  models.ListDetailResponse:
+    properties:
+      datas: {}
+      messagae:
+        type: string
+    type: object
   models.ListResponse:
     properties:
       datas: {}
@@ -580,6 +1114,154 @@ definitions:
         $ref: '#/definitions/models.PaginationResponse'
       status:
         example: success
+        type: string
+    type: object
+  models.Mahasiswa:
+    properties:
+      agama_key:
+        type: integer
+      alamat:
+        type: string
+      created_at:
+        type: string
+      dosen_pa_key:
+        type: string
+      email:
+        type: string
+      email_sso:
+        type: string
+      email2:
+        type: string
+      expiry_at:
+        type: string
+      foto:
+        type: string
+      history:
+        items:
+          $ref: '#/definitions/models.HistoryEntry'
+        type: array
+      hp:
+        type: string
+      id:
+        type: string
+      id_mahasiswa:
+        type: string
+      id_status_mahasiswa:
+        type: string
+      jenis_jalur_mahasiswa_key:
+        type: integer
+      jk:
+        type: string
+      jurusan_key:
+        type: integer
+      kelurahan:
+        type: string
+      keterangan:
+        type: string
+      kewarganegaraan:
+        type: string
+      kode_kabupaten:
+        type: string
+      kode_kecamatan:
+        type: string
+      kode_pos:
+        type: string
+      kode_provinsi:
+        type: string
+      kurikulum:
+        type: string
+      last_status:
+        type: string
+      metadata_key:
+        type: integer
+      nama:
+        type: string
+      nama_gadis_ibu_kandung:
+        type: string
+      nik:
+        type: string
+      nim:
+        type: string
+      nisn:
+        type: string
+      no_kps:
+        type: string
+      npsn_sekolah:
+        type: string
+      penerima_bidikmisi:
+        type: string
+      permalink:
+        type: string
+      rt:
+        type: string
+      rw:
+        type: string
+      semester_posisi:
+        type: integer
+      source_key:
+        type: string
+      spp:
+        type: string
+      status:
+        type: string
+      sumber:
+        type: string
+      tahun_masuk:
+        type: string
+      telp:
+        type: string
+      tempatkuliah:
+        type: string
+      tgl_lahir:
+        type: string
+      tgl_mulai_kuliah:
+        type: string
+      tmp_lahir:
+        type: string
+      uk_id:
+        type: string
+      uk_kode:
+        type: string
+      uk_program:
+        type: string
+      unit:
+        $ref: '#/definitions/models.Unit'
+      updated_at:
+        type: string
+      validasi:
+        type: string
+      wa:
+        type: string
+    type: object
+  models.MahasiswaHistoryResponse:
+    properties:
+      email_sso:
+        type: string
+      fakultas:
+        type: string
+      jurusan:
+        type: string
+      kewarganegaraan:
+        type: string
+      nama:
+        type: string
+      nama_pa:
+        type: string
+      nim:
+        type: string
+      periode:
+        type: string
+      prodi:
+        type: string
+      semester:
+        type: integer
+      status:
+        type: string
+      tahun:
+        type: integer
+      tahun_masuk:
+        type: string
+      telp:
         type: string
     type: object
   models.MhsWisuda:
@@ -612,6 +1294,105 @@ definitions:
         type: integer
       total:
         example: 100
+        type: integer
+    type: object
+  models.PegawaiHistory:
+    properties:
+      _id:
+        type: string
+      alamat:
+        type: string
+      created_at:
+        type: string
+      email_admin:
+        type: string
+      email_sso:
+        type: string
+      expiry_at:
+        type: string
+      first_golongan:
+        type: string
+      first_tgl_sk:
+        type: string
+      first_tgl_terima_sk:
+        type: string
+      first_tmt:
+        type: string
+      history:
+        items:
+          $ref: '#/definitions/models.HistoryPegawaiEntry'
+        type: array
+      hp:
+        type: string
+      id:
+        type: integer
+      id_sdm_sister:
+        type: string
+      jabatan_fungsional:
+        $ref: '#/definitions/models.JabFungsional'
+      jabatan_struktural:
+        $ref: '#/definitions/models.JabStruktural'
+      jk:
+        type: string
+      last_golongan:
+        type: string
+      last_pangkat:
+        type: string
+      last_strata:
+        type: string
+      nama:
+        type: string
+      nama_tanpa_gelar:
+        type: string
+      nik:
+        type: string
+      nip:
+        type: string
+      nip_lama:
+        type: string
+      no_induk_undiksha:
+        type: string
+      no_karpeg:
+        type: string
+      pegawai_key:
+        type: integer
+      photo: {}
+      status:
+        $ref: '#/definitions/models.StatusPegawai'
+      struktural_fungsional:
+        type: string
+      tempat_lahir:
+        type: string
+      tgl_lahir:
+        type: string
+      tmt_cpns:
+        type: string
+      unit:
+        $ref: '#/definitions/models.Unit'
+      updated_at:
+        type: string
+    type: object
+  models.PegawaiHistoryResponse:
+    properties:
+      fakultas:
+        type: string
+      jurusan:
+        type: string
+      last_strata:
+        type: string
+      nama:
+        type: string
+      nip:
+        type: string
+      no_induk_undiksha:
+        type: string
+      prodi:
+        type: string
+      status_keaktifan:
+        type: string
+      status_pegawai:
+        type: string
+      tahun:
         type: integer
     type: object
   models.Penawaran:
@@ -889,6 +1670,17 @@ definitions:
       waktu_pelaksanaan:
         type: string
     type: object
+  models.Penilaian:
+    properties:
+      baik:
+        type: integer
+      cukup:
+        type: integer
+      kurang:
+        type: integer
+      sangat_baik:
+        type: integer
+    type: object
   models.Perpem:
     properties:
       dosen:
@@ -1141,6 +1933,34 @@ definitions:
       peminat:
         type: string
     type: object
+  models.Status:
+    properties:
+      _id:
+        type: integer
+      created_at:
+        type: string
+      id_status:
+        type: integer
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.StatusPegawai:
+    properties:
+      p_key:
+        type: integer
+      status_keaktifan:
+        type: string
+      status_key:
+        type: integer
+      status_pegawai_nama:
+        type: string
+      statuskep_key:
+        type: integer
+      tmt_status_pegawai:
+        type: string
+    type: object
   models.SuccessResponse:
     properties:
       status:
@@ -1245,6 +2065,64 @@ definitions:
         type: string
     type: object
   models.Unit:
+    properties:
+      fakultas:
+        type: string
+      fkt_kode:
+        type: string
+      jrs_kode:
+        type: string
+      jurusan:
+        type: string
+      prd_kode:
+        type: string
+      prodi:
+        type: string
+      uk_kode:
+        type: string
+    type: object
+  models.UnitDetail:
+    properties:
+      fakultas:
+        type: string
+      fkt_kode:
+        type: string
+      jrs_kode:
+        type: string
+      jurusan:
+        type: string
+      prd_kode:
+        type: string
+      prodi:
+        type: string
+      uk_id:
+        type: string
+      uk_kode:
+        type: string
+    type: object
+  models.UnitKerjaHomebase:
+    properties:
+      kode_jurusan:
+        type: string
+      kode_prodi:
+        type: string
+      uk_id:
+        type: string
+      uk_kode:
+        type: string
+      uk_nama:
+        type: string
+    type: object
+  models.UnitKerjaTugas:
+    properties:
+      id_jurusan:
+        type: integer
+      kode_jurusan:
+        type: string
+      kode_prodi:
+        type: string
+    type: object
+  models.UnitLengkap:
     properties:
       fakultas:
         type: string
@@ -1565,6 +2443,733 @@ paths:
       summary: Get filtered Buku
       tags:
       - Buku
+  /dashboard-dosen/fakultas:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan drilldown fakultas dashboard Dosen
+      parameters:
+      - description: status
+        in: query
+        name: status
+        type: string
+      - description: tahun
+        in: query
+        name: tahun
+        type: integer
+      - description: statusPegawai
+        in: query
+        name: statusPegawai
+        type: integer
+      - description: statusKeaktifan
+        in: query
+        name: statusKeaktifan
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  $ref: '#/definitions/models.DrilldownItem'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get drilldown fakultas dosen Overview
+      tags:
+      - Dashboard Dosen
+  /dashboard-dosen/jurusan:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan drilldown jurusan dashboard Dosen
+      parameters:
+      - description: status
+        in: query
+        name: status
+        type: string
+      - description: tahun
+        in: query
+        name: tahun
+        type: integer
+      - description: statusPegawai
+        in: query
+        name: statusPegawai
+        type: integer
+      - description: statusKeaktifan
+        in: query
+        name: statusKeaktifan
+        type: integer
+      - description: kodeFakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  $ref: '#/definitions/models.DrilldownItem'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get drilldown jurusan dosen Overview
+      tags:
+      - Dashboard Dosen
+  /dashboard-dosen/overview:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan overview dashboard dosen
+      parameters:
+      - description: tahun
+        in: query
+        name: tahun
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  $ref: '#/definitions/models.DashboardCardPegawai'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get Dashboard Dosen Overview
+      tags:
+      - Dashboard Dosen
+  /dashboard-dosen/prodi:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan drilldown prodi dashboard Dosen
+      parameters:
+      - description: status
+        in: query
+        name: status
+        type: string
+      - description: tahun
+        in: query
+        name: tahun
+        type: integer
+      - description: statusPegawai
+        in: query
+        name: statusPegawai
+        type: integer
+      - description: statusKeaktifan
+        in: query
+        name: statusKeaktifan
+        type: integer
+      - description: kodeJurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  $ref: '#/definitions/models.DrilldownItem'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get drilldown prodi dosen Overview
+      tags:
+      - Dashboard Dosen
+  /dashboard-mhs/fakultas:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan drilldown fakultas dashboard mahasiswa
+      parameters:
+      - description: status
+        in: query
+        name: status
+        type: string
+      - description: tahun
+        in: query
+        name: tahun
+        type: integer
+      - description: semester
+        in: query
+        name: semester
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  $ref: '#/definitions/models.DrilldownItem'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get drilldown fakultas Mhs Overview
+      tags:
+      - Dashboard Mahasiswa
+  /dashboard-mhs/jurusan:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan drilldown jurusan dashboard mahasiswa
+      parameters:
+      - description: status
+        in: query
+        name: status
+        type: string
+      - description: kodeFakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: tahun
+        in: query
+        name: tahun
+        type: integer
+      - description: semester
+        in: query
+        name: semester
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  $ref: '#/definitions/models.DrilldownItem'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get drilldown jurusan Mhs Overview
+      tags:
+      - Dashboard Mahasiswa
+  /dashboard-mhs/overview:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan overview dashboard mahasiswa
+      parameters:
+      - description: tahun
+        in: query
+        name: tahun
+        type: integer
+      - description: semester
+        in: query
+        name: semester
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  $ref: '#/definitions/models.DashboardCard'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get Dashboard Mhs Overview
+      tags:
+      - Dashboard Mahasiswa
+  /dashboard-mhs/prodi:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan drilldown prodi dashboard mahasiswa
+      parameters:
+      - description: status
+        in: query
+        name: status
+        type: string
+      - description: kodeJurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: tahun
+        in: query
+        name: tahun
+        type: integer
+      - description: semester
+        in: query
+        name: semester
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  $ref: '#/definitions/models.DrilldownItem'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get drilldown prodi Mhs Overview
+      tags:
+      - Dashboard Mahasiswa
+  /dashboard-pegawai/fakultas:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan drilldown fakultas dashboard pegawai
+      parameters:
+      - description: status
+        in: query
+        name: status
+        type: string
+      - description: tahun
+        in: query
+        name: tahun
+        type: integer
+      - description: statusPegawai
+        in: query
+        name: statusPegawai
+        type: integer
+      - description: statusKeaktifan
+        in: query
+        name: statusKeaktifan
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  $ref: '#/definitions/models.DrilldownItem'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get drilldown fakultas pegawai Overview
+      tags:
+      - Dashboard Pegawai
+  /dashboard-pegawai/jurusan:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan drilldown jurusan dashboard pegawai
+      parameters:
+      - description: status
+        in: query
+        name: status
+        type: string
+      - description: tahun
+        in: query
+        name: tahun
+        type: integer
+      - description: statusPegawai
+        in: query
+        name: statusPegawai
+        type: integer
+      - description: statusKeaktifan
+        in: query
+        name: statusKeaktifan
+        type: integer
+      - description: kodeFakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  $ref: '#/definitions/models.DrilldownItem'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get drilldown jurusan pegawai Overview
+      tags:
+      - Dashboard Pegawai
+  /dashboard-pegawai/overview:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan overview dashboard pegawai
+      parameters:
+      - description: tahun
+        in: query
+        name: tahun
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  $ref: '#/definitions/models.DashboardCardPegawai'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get Dashboard pegawai Overview
+      tags:
+      - Dashboard Pegawai
+  /dashboard-pegawai/prodi:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan drilldown prodi dashboard pegawai
+      parameters:
+      - description: status
+        in: query
+        name: status
+        type: string
+      - description: tahun
+        in: query
+        name: tahun
+        type: integer
+      - description: statusPegawai
+        in: query
+        name: statusPegawai
+        type: integer
+      - description: statusKeaktifan
+        in: query
+        name: statusKeaktifan
+        type: integer
+      - description: kodeJurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  $ref: '#/definitions/models.DrilldownItem'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get drilldown prodi pegawai Overview
+      tags:
+      - Dashboard Pegawai
+  /dosen/{niu}:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan detail data dosen
+      parameters:
+      - description: niu
+        in: query
+        name: niu
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  $ref: '#/definitions/models.Dosen'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get detail dosen
+      tags:
+      - Dosen
+  /dosen/history:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan data dosen berdasarkan filter dengan pagination
+      parameters:
+      - default: 1
+        description: 'Nomor halaman (default: 1)'
+        in: query
+        minimum: 1
+        name: page
+        type: integer
+      - default: 10
+        description: 'Jumlah data per halaman (default: 10, max: 100)'
+        in: query
+        maximum: 100
+        minimum: 1
+        name: limit
+        type: integer
+      - description: Filter berdasarkan kode fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan kode jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan kode program studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: Filter berdasarkan tahun akademik
+        in: query
+        name: tahun
+        type: integer
+      - description: Filter berdasarkan statusPegawai
+        in: query
+        name: statusPegawai
+        type: integer
+      - description: Filter berdasarkan statusKeaktifan
+        in: query
+        name: statusKeaktifan
+        type: integer
+      - description: Pencarian global
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListResponse'
+            - properties:
+                datas:
+                  items:
+                    $ref: '#/definitions/models.DosenHistoryResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get filtered dosen
+      tags:
+      - Dosen
+  /evaluasi-dosen:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan data Evaluasi Dosen berdasarkan filter dengan pagination
+      parameters:
+      - default: 1
+        description: 'Nomor halaman (default: 1)'
+        in: query
+        minimum: 1
+        name: page
+        type: integer
+      - default: 10
+        description: 'Jumlah data per halaman (default: 10, max: 100)'
+        in: query
+        maximum: 100
+        minimum: 1
+        name: limit
+        type: integer
+      - description: Filter berdasarkan kode fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan kode jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan kode program studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: Filter berdasarkan tahun akademik
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan semester
+        in: query
+        name: semester
+        type: string
+      - description: Filter berdasarkan namaDosen
+        in: query
+        name: namaDosen
+        type: string
+      - description: Pencarian global
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListResponse'
+            - properties:
+                datas:
+                  items:
+                    $ref: '#/definitions/models.EvaluasiDosen'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get filtered Evaluasi Dosen
+      tags:
+      - Evaluasi Dosen
   /health-check:
     get:
       description: HealthCheckHandler responds with the API health status.
@@ -1798,6 +3403,72 @@ paths:
       summary: Get filtered karya akhir
       tags:
       - Karya Akhir
+  /kerjasama:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan data kerjasama berdasarkan filter dengan pagination
+      parameters:
+      - default: 1
+        description: 'Nomor halaman (default: 1)'
+        in: query
+        minimum: 1
+        name: page
+        type: integer
+      - default: 10
+        description: 'Jumlah data per halaman (default: 10, max: 100)'
+        in: query
+        maximum: 100
+        minimum: 1
+        name: limit
+        type: integer
+      - description: Filter berdasarkan kode fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan kode jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan kode program studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: Filter berdasarkan tahun akademik
+        in: query
+        name: tahun
+        type: string
+      - description: Pencarian global
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListResponse'
+            - properties:
+                datas:
+                  items:
+                    $ref: '#/definitions/models.Kerjasama'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get filtered kerjasama
+      tags:
+      - Kerjasama
   /khs:
     get:
       consumes:
@@ -2008,6 +3679,232 @@ paths:
       summary: Get filtered mahasiswa wisuda
       tags:
       - Mahasiswa Wisuda
+  /mhs/{nim}:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan detail data mahasiswa
+      parameters:
+      - description: nim
+        in: query
+        name: nim
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  $ref: '#/definitions/models.Mahasiswa'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get detail mahasiswa
+      tags:
+      - Mahasiswa
+  /mhs/history:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan data mahasiswa berdasarkan filter dengan pagination
+      parameters:
+      - default: 1
+        description: 'Nomor halaman (default: 1)'
+        in: query
+        minimum: 1
+        name: page
+        type: integer
+      - default: 10
+        description: 'Jumlah data per halaman (default: 10, max: 100)'
+        in: query
+        maximum: 100
+        minimum: 1
+        name: limit
+        type: integer
+      - description: Filter berdasarkan kode fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan kode jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan kode program studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: Filter berdasarkan tahun akademik
+        in: query
+        name: tahun
+        type: integer
+      - description: Filter berdasarkan semester
+        in: query
+        name: semester
+        type: integer
+      - description: Filter berdasarkan angkatan
+        in: query
+        name: angkatan
+        type: integer
+      - description: Filter berdasarkan status
+        in: query
+        name: status
+        type: integer
+      - description: Filter berdasarkan kewarganegaraan
+        in: query
+        name: kewarganegaraan
+        type: string
+      - description: Pencarian global
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListResponse'
+            - properties:
+                datas:
+                  items:
+                    $ref: '#/definitions/models.MahasiswaHistoryResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get filtered mahasiswa
+      tags:
+      - Mahasiswa
+  /pegawai/{niu}:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan detail data Pegawai
+      parameters:
+      - description: niu
+        in: query
+        name: niu
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  $ref: '#/definitions/models.PegawaiHistory'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get detail Pegawai
+      tags:
+      - Pegawai
+  /pegawai/history:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan data Pegawai berdasarkan filter dengan pagination
+      parameters:
+      - default: 1
+        description: 'Nomor halaman (default: 1)'
+        in: query
+        minimum: 1
+        name: page
+        type: integer
+      - default: 10
+        description: 'Jumlah data per halaman (default: 10, max: 100)'
+        in: query
+        maximum: 100
+        minimum: 1
+        name: limit
+        type: integer
+      - description: Filter berdasarkan kode fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan kode jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan kode program studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: Filter berdasarkan tahun akademik
+        in: query
+        name: tahun
+        type: integer
+      - description: Filter berdasarkan statusPegawai
+        in: query
+        name: statusPegawai
+        type: integer
+      - description: Filter berdasarkan statusKeaktifan
+        in: query
+        name: statusKeaktifan
+        type: integer
+      - description: Pencarian global
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListResponse'
+            - properties:
+                datas:
+                  items:
+                    $ref: '#/definitions/models.PegawaiHistoryResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get filtered Pegawai
+      tags:
+      - Pegawai
   /penawaran:
     get:
       consumes:
@@ -2533,6 +4430,102 @@ paths:
       summary: Get filtered rekap pmb
       tags:
       - Rekap PMB
+  /status-keaktifan-pegawai:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan data status keaktifan pegawai
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  items:
+                    $ref: '#/definitions/models.Status'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get status keaktifan pegawai
+      tags:
+      - Status
+  /status-mhs:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan data status mahasiswa
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  items:
+                    $ref: '#/definitions/models.Status'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get status mahasiswa
+      tags:
+      - Status
+  /status-pegawai:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan data status pegawai
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  items:
+                    $ref: '#/definitions/models.Status'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get status pegawai
+      tags:
+      - Status
   /tracer:
     get:
       consumes:
@@ -2607,6 +4600,38 @@ paths:
       summary: Get filtered tracer
       tags:
       - Tracer
+  /unit-kerja:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan data unitkerja
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  items:
+                    $ref: '#/definitions/models.Data'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get unitkerja
+      tags:
+      - Unitkerja
 schemes:
 - http
 - https

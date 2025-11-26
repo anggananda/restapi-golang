@@ -1,0 +1,66 @@
+rekap_pmb_filtered:
+  datas:
+    - _id: 11001
+      tahun: 2024
+      kode: "S1IF"
+      nama_prodi: "Sarjana Teknik Informatika"
+      snbp:
+        peminat: "1200"
+        lulus: "40"
+        daftar: "38"
+      snbt:
+        peminat: "3500"
+        lulus: "80"
+        daftar: "75"
+      smbjm_cbt:
+        peminat: "500"
+        lulus: "50"
+        daftar: "45"
+      smbjm_raport:
+        peminat: "300"
+        lulus: "30"
+        daftar: "30"
+      smbjm_talent:
+        peminat: "50"
+        lulus: "5"
+        daftar: "5"
+      smbjm_utbk:
+        peminat: "800"
+        lulus: "40"
+        daftar: "35"
+      profesi:
+        peminat: "0"
+        lulus: "0"
+        daftar: "0"
+      internasional:
+        peminat: "10"
+        lulus: "3"
+        daftar: "2"
+      pasca:
+        peminat: "0"
+        lulus: "0"
+        daftar: "0"
+      adikpapua:
+        peminat: "5"
+        lulus: "2"
+        daftar: "2"
+      jumlah:
+        peminat: "6365"
+        lulus: "250"
+        daftar: "232"
+      unit:
+        uk_kode: "UNIT002"
+        fkt_kode: "FTI"
+        jrs_kode: "IF"
+        prd_kode: "S1IF"
+        fakultas: "Fakultas Teknologi Industri"
+        jurusan: "Teknik Informatika"
+        prodi: "Sarjana Teknik Informatika"
+
+  pagination:
+    limit: 1
+    page: 1
+    pages: 1
+    total: 1
+
+  status: "OK (mock)"

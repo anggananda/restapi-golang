@@ -1,0 +1,37 @@
+karya_akhir_filtered:
+  datas:
+    - _id: 1101
+      current_state: "LULUS"
+      judul: "Analisis Sentimen Ulasan Pengguna Aplikasi E-Commerce Menggunakan Metode Long Short-Term Memory (LSTM)"
+      main_stage: "Yudisium"
+      nama_lengkap: "Dewi Kartika Sari"
+      nama_pa: "Dr. John Doe, M.Kom."
+      nama_pembimbing_1: "Prof. Dr. Andi Wijaya, S.T., M.Sc."
+      nama_pembimbing_2: "Dr. Sinta Melati, M.T."
+      nama_pembimbing_3: ""
+      nama_penguji_1: "Dr. Budi Santoso, M.Kom."
+      nama_penguji_2: "Ir. Clara Puspita, M.Eng."
+      nama_penguji_3: "Dr. Risa Nurmala, M.T."
+      nama_penguji_4: ""
+      nama_penguji_5: ""
+      nama_penguji_6: ""
+      nilai_akhir: "A"
+      nim: "1301211001"
+      status_judul: "Disetujui"
+      tahun_masuk: 2021
+      unit:
+        uk_kode: "UNIT002"
+        fkt_kode: "FTI"
+        jrs_kode: "IF"
+        prd_kode: "S1IF"
+        fakultas: "Fakultas Teknologi Industri"
+        jurusan: "Teknik Informatika"
+        prodi: "Sarjana Teknik Informatika"
+
+  pagination:
+    limit: 1
+    page: 1
+    pages: 1
+    total: 1
+
+  status: "OK (mock)"

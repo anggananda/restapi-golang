@@ -23,6 +23,17 @@ func NewStatusHandler(service *services.StatusService, rdb *redis.Client) *Statu
 	}
 }
 
+// GetStatusMahasiswa mendapatkan  status mahasiswa
+// @Summary      Get status mahasiswa
+// @Description  Mendapatkan data status mahasiswa
+// @Tags         Status
+// @Accept       json
+// @Produce      json
+// @Success      200           {object}  models.ListDetailResponse{datas=[]models.Status}
+// @Failure      400           {object}  models.ErrorResponse
+// @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
+// @Router       /status-mhs [get]
 func (h *StatusHandler) GetStatusMahasiswa(c *gin.Context) {
 	ctx := context.Background()
 	key := "status_mahasiswa"
@@ -68,6 +79,17 @@ func (h *StatusHandler) GetStatusMahasiswa(c *gin.Context) {
 	})
 }
 
+// GetStatusPegawai mendapatkan  status pegawai
+// @Summary      Get status pegawai
+// @Description  Mendapatkan data status pegawai
+// @Tags         Status
+// @Accept       json
+// @Produce      json
+// @Success      200           {object}  models.ListDetailResponse{datas=[]models.Status}
+// @Failure      400           {object}  models.ErrorResponse
+// @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
+// @Router       /status-pegawai [get]
 func (h *StatusHandler) GetStatusPegawai(c *gin.Context) {
 	ctx := context.Background()
 	key := "status_pegawai"
@@ -113,6 +135,17 @@ func (h *StatusHandler) GetStatusPegawai(c *gin.Context) {
 	})
 }
 
+// GetStatusKeaktifanPegawai mendapatkan  status keaktifan pegawai
+// @Summary      Get status keaktifan pegawai
+// @Description  Mendapatkan data status keaktifan pegawai
+// @Tags         Status
+// @Accept       json
+// @Produce      json
+// @Success      200           {object}  models.ListDetailResponse{datas=[]models.Status}
+// @Failure      400           {object}  models.ErrorResponse
+// @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
+// @Router       /status-keaktifan-pegawai [get]
 func (h *StatusHandler) GetStatusKeaktifanPegawai(c *gin.Context) {
 	ctx := context.Background()
 	key := "status_keaktifan_pegawai"

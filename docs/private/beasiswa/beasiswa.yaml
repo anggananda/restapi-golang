@@ -1,0 +1,64 @@
+beasiswa_filtered:
+  datas:
+    - _id: 101
+      nim: "1301200001"
+      nama: "Budi Santoso"
+      jenis_beasiswa: "PPA"
+      ipk: 3.85
+      status: "Disetujui"
+      tahun: 2024
+      semester: "5"
+      semester_type: "Ganjil"
+      periode: "2024-1"
+      unit:
+        uk_kode: "UNIT002"
+        fkt_kode: "FTI"
+        jrs_kode: "IF"
+        prd_kode: "S1IF"
+        fakultas: "Fakultas Teknologi Industri"
+        jurusan: "Teknik Informatika"
+        prodi: "Sarjana Teknik Informatika"
+    - _id: 102
+      nim: "1301210002"
+      nama: "Citra Dewi"
+      jenis_beasiswa: "Bidikmisi"
+      ipk: 3.92
+      status: "Pending"
+      tahun: 2024
+      semester: "3"
+      semester_type: "Ganjil"
+      periode: "2024-1"
+      unit:
+        uk_kode: "UNIT003"
+        fkt_kode: "FEB"
+        jrs_kode: "AK"
+        prd_kode: "S1AK"
+        fakultas: "Fakultas Ekonomi dan Bisnis"
+        jurusan: "Akuntansi"
+        prodi: "Sarjana Akuntansi"
+    - _id: 103
+      nim: "1301190003"
+      nama: "Ahmad Zaki"
+      jenis_beasiswa: "Unggulan"
+      ipk: 3.55
+      status: "Ditolak"
+      tahun: 2023
+      semester: "7"
+      semester_type: "Genap"
+      periode: "2023-2"
+      unit:
+        uk_kode: "UNIT002"
+        fkt_kode: "FTI"
+        jrs_kode: "EL"
+        prd_kode: "S1EL"
+        fakultas: "Fakultas Teknologi Industri"
+        jurusan: "Teknik Elektro"
+        prodi: "Sarjana Teknik Elektro"
+
+  pagination:
+    limit: 10
+    page: 1
+    pages: 5
+    total: 50
+
+  status: "OK (mock)"

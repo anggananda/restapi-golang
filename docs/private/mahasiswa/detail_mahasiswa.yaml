@@ -1,0 +1,85 @@
+mahasiswa_filtered:
+  datas:
+    - _id: "60012300000001"
+      source_key: "SI-AKAD-2023"
+      nim: "1301230001"
+      nisn: "0051234567"
+      nama: "Bima Satria Nugraha"
+      jk: "L"
+      tmp_lahir: "Denpasar"
+      tgl_lahir: "2005-08-17"
+      alamat: "Jl. Cendrawasih No. 15"
+      rt: "001"
+      rw: "002"
+      kode_pos: "80111"
+      kelurahan: "Dauh Puri"
+      hp: "081211122233"
+      telp: "0361 777888"
+      wa: "081211122233"
+      email2: "bima.satria@gmail.com"
+      email: "bima.satria@sso.universitas.ac.id"
+      agama_key: 1
+      kode_provinsi: "51"
+      kode_kabupaten: "5171"
+      kode_kecamatan: "517101"
+      npsn_sekolah: "30101001"
+      jurusan_key: 20
+      last_status: "A"
+      nik: "5100000000000001"
+      dosen_pa_key: "197510252003121001"
+      spp: "5000000"
+      kurikulum: "Kurikulum 2023"
+      tempatkuliah: "Kampus Induk"
+      foto: "/path/to/foto/1301230001.jpg"
+      nama_gadis_ibu_kandung: "Siti Rahma"
+      kewarganegaraan: "WNI"
+      no_kps: ""
+      penerima_bidikmisi: "N"
+      tahun_masuk: "2023"
+      permalink: "/mhs/1301230001"
+      validasi: "Y"
+      keterangan: "Data valid dari Feeder Dikti"
+      jenis_jalur_mahasiswa_key: 1
+      created_at: "2023-09-01T08:00:00Z"
+      updated_at: "2024-11-20T10:00:00Z"
+      expiry_at: "0001-01-01T00:00:00Z"
+      metadata_key: 10
+      email_sso: "bima.satria@sso.universitas.ac.id"
+      uk_kode: "FTI"
+      uk_id: "UK002"
+      uk_program: "Sarjana"
+      semester_posisi: 3
+      id_mahasiswa: "MHS-2023-0001"
+      status: "Aktif"
+      id_status_mahasiswa: "A"
+      sumber: "Pusat Data"
+      tgl_mulai_kuliah: "2023-09-04T00:00:00Z"
+      unit:
+        uk_kode: "UNIT002"
+        fkt_kode: "FTI"
+        jrs_kode: "IF"
+        prd_kode: "S1IF"
+        fakultas: "Fakultas Teknologi Industri"
+        jurusan: "Teknik Informatika"
+        prodi: "Sarjana Teknik Informatika"
+      history:
+        - tahun: 2023
+          semester: 1
+          periode: "2023/2024 Ganjil"
+          status: "Aktif"
+          jenis_status_mahasiswa_key: 1
+          nama_pa: "Dr. Laila Sari, M.T."
+        - tahun: 2024
+          semester: 2
+          periode: "2023/2024 Genap"
+          status: "Aktif"
+          jenis_status_mahasiswa_key: 1
+          nama_pa: "Dr. Laila Sari, M.T."
+        - tahun: 2024
+          semester: 3
+          periode: "2024/2025 Ganjil"
+          status: "Aktif"
+          jenis_status_mahasiswa_key: 1
+          nama_pa: "Dr. Laila Sari, M.T."
+
+  message: "Data Mahasiswa berhasil diambil"

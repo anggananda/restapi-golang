@@ -1,0 +1,105 @@
+dosen_filtered:
+  datas:
+    - _id: "60012300000002"
+      id: 5002
+      dosen_id: 1002
+      dosen_key: "DSN-197510252003121001"
+      no_induk_undiksha: "751025031"
+      nidn: "0025107502"
+      nip: "197510252003121001"
+      nik: "5100000000000002"
+      nuptk: null
+      id_sdm_sister: "0025107502"
+      no_karpeg: "D0500123"
+      status_serdos: 1 # 1 = Tersertifikasi
+
+      nama: "Dr. Anton Subagyo, S.Kom., M.T."
+      nama_tanpa_gelar: "Anton Subagyo"
+      email: "anton.subagyo@universitas.ac.id"
+      email_sso: "anton.subagyo@sso.universitas.ac.id"
+      alamat: "Jl. Pendidikan No. 10, Singaraja"
+      jk: "L"
+      hp: "081399988877"
+      tempat_lahir: "Bandung"
+      tgl_lahir: "1975-10-25"
+      photo: "/path/to/photo/197510252003121001.jpg"
+      profil_singkat: "Pakar di bidang Kecerdasan Buatan dan Big Data."
+
+      id_status_pegawai: 1
+      status_pegawai: "Pegawai Negeri Sipil (PNS)"
+      id_status_sekarang: 1
+      status_keaktifan: "Aktif Mengajar"
+      tmt_status_pegawai: "2003-12-01"
+
+      jabatan_fungsional: "Lektor Kepala"
+      pangkat: "Pembina Tk. I"
+      golongan: "IV/b"
+      strata: "S3"
+      grade: 15
+      grade_fungsional: 5
+
+      golongan_tmt: "2019-04-01"
+
+      first_golongan: "III/a"
+      first_tmt: "2003-12-01"
+      first_tgl_sk: "2003-10-20"
+      first_tgl_terima_sk: "2003-11-15"
+
+      fungsional_tmt: "2015-07-01"
+      fungsional_tgl_sk: "2015-06-10"
+      fungsional_tgl_terima_sk: "2015-06-25"
+      fungsional_tmt_pak: "2015-07-01"
+      fungsional_tgl_sk_pak: "2015-06-10"
+      fungsional_tgl_terima_sk_pak: "2015-06-25"
+
+      unit_tugas:
+        id_jurusan: 20
+        kode_prodi: "S1IF"
+        kode_jurusan: "IF"
+      homebase:
+        uk_id: "UK002"
+        uk_kode: "FTI"
+        uk_nama: "Fakultas Teknologi Industri"
+        kode_prodi: "S1IF"
+        kode_jurusan: "IF"
+      akreditasi:
+        uk_id: "UK002"
+        uk_kode: "FTI"
+        uk_nama: "Fakultas Teknologi Industri"
+        kode_prodi: "S1IF"
+        kode_jurusan: "IF"
+      jabatan_struktural:
+        nama: "Ketua Jurusan Teknik Informatika"
+        jbt_id: 10
+        id_unit: 50
+        kode_unit: "JRS-IF"
+        tgl_selesai: "2026-12-31"
+      unit:
+        uk_kode: "FTI"
+        fkt_kode: "FTI"
+        jrs_kode: "IF"
+        prd_kode: "S1IF"
+        fakultas: "Fakultas Teknologi Industri"
+        jurusan: "Teknik Informatika"
+        prodi: "Sarjana Teknik Informatika"
+
+      history:
+        - tahun: 2022
+          status_pegawai: "PNS"
+          status_keaktifan: "Aktif Mengajar"
+          id_status_pegawai: 1
+          id_status_keaktifan: 1
+        - tahun: 2023
+          status_pegawai: "PNS"
+          status_keaktifan: "Aktif Mengajar"
+          id_status_pegawai: 1
+          id_status_keaktifan: 1
+        - tahun: 2024
+          status_pegawai: "PNS"
+          status_keaktifan: "Aktif Mengajar"
+          id_status_pegawai: 1
+          id_status_keaktifan: 1
+      created_at: "2003-12-01T08:00:00Z"
+      updated_at: "2025-11-20T10:00:00Z"
+
+  message: "Data Dosen berhasil diambil"

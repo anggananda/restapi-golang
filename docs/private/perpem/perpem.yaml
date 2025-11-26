@@ -1,0 +1,34 @@
+perpem_filtered:
+  datas:
+    - id_penawaran: "OFFER2024005"
+      kode: "CS305"
+      id_kelas: "CLASS2024005B"
+      mk: "Basis Data Lanjut"
+      kurikulum: "CURR2024"
+      pertemuan: "14"
+      dosen:
+        - "Dr. Sinta Melati, M.T."
+        - "Ir. Rudi Hartono, M.Kom."
+      metode: "Hybrid (Synchronous & Asynchronous)"
+      silabus: "/dokumen/silabus/CS305_S2024.pdf"
+      kontrak: "/dokumen/kontrak/CS305_S2024.pdf"
+      rps: "/dokumen/rps/CS305_S2024.pdf"
+      rtm: "/dokumen/rtm/CS305_S2024_P14.pdf"
+      semester: "5"
+      tahun: "2024"
+      unit:
+        uk_kode: "UNIT002"
+        fkt_kode: "FTI"
+        jrs_kode: "IF"
+        prd_kode: "S1IF"
+        fakultas: "Fakultas Teknologi Industri"
+        jurusan: "Teknik Informatika"
+        prodi: "Sarjana Teknik Informatika"
+
+  pagination:
+    limit: 1
+    page: 1
+    pages: 1
+    total: 1
+
+  status: "OK (mock)"

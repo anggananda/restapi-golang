@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"math"
 	"net/http"
 	"restapi-golang/services"
 	"restapi-golang/utils"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -81,4 +83,105 @@ func (h *TracerHandler) GetTracerFiltered(c *gin.Context) {
 			"pages": pages,
 		},
 	})
+}
+
+func (h *TracerHandler) ExportTracerCSV(c *gin.Context) {
+	limit := utils.StringToInt(c.Query("limit"), 0)
+	tahunStr := c.Query("tahun")
+	bulan := utils.StringToInt(c.Query("bulan"), 0)
+	kodeFakultas := c.Query("kodeFakultas")
+	kodeJurusan := c.Query("kodeJurusan")
+	kodeProdi := c.Query("kodeProdi")
+	statusTracer := c.Query("statusTracer")
+	search := c.Query("search")
+
+	var tahun int
+	if tahunStr == "" {
+		tahunStr = time.Now().Format("2006")
+	}
+	tahun = utils.StringToInt(tahunStr, 0)
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 60*time.Second)
+	defer cancel()
+
+	tracer, _, err := h.TracerService.GetTracerFiltered(ctx, kodeFakultas, kodeJurusan, kodeProdi, statusTracer, search, tahun, bulan, 1, limit)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	csvHeaders := []string{
+		"ID", "ID Mahasiswa", "User ID", "NIM", "Nama Lengkap", "Jenis Kelamin",
+		"Tgl Lahir", "Email", "No Telp", "NIK", "NPWP", "Jenjang",
+		"Bulan Lulus", "Tahun Lulus", "Tgl Lulus", "IPK", "Status Mahasiswa",
+		"Bulan Wisuda", "Tahun Wisuda", "No Ijazah", "No SK Yudisium", "ID Jurusan",
+		"Status Pengisian", "Persentase Pengisian", "Pengisian Terakhir", "Dikti Status",
+		"Status Saat Ini (Kerja/Lanjut/dll)", "Masa Tunggu Sebelum Lulus",
+		"Masa Tunggu Setelah Lulus", "Provinsi", "Kabupaten", "Deleted At",
+		"Nama Ayah", "Nama Ibu", "Nama Saudara", "Nama Wali",
+		"Nama Perusahaan", "Alamat Perusahaan", "Jenis Perusahaan", "Gaji",
+		"Jabatan Berwirausaha", "Tingkat Tempat Kerja", "Sumber Biaya Studi Lanjut",
+		"PT Lanjut", "Prodi Masuk Lanjut", "Tanggal Masuk Lanjut", "Sumber Biaya Lanjut",
+		"Unit UK Kode", "Unit Fakultas Kode", "Unit Jurusan Kode", "Unit Prodi Kode",
+		"Fakultas Unit", "Jurusan Unit", "Prodi Unit",
+	}
+
+	var csvData [][]string
+
+	for _, item := range tracer {
+
+		idStr := strconv.Itoa(item.ID)
+		idMhsStr := strconv.Itoa(item.IDMahasiswa)
+		userIdStr := strconv.Itoa(item.UserID)
+		idJurusanStr := strconv.Itoa(item.IDJurusan)
+
+		ipkStr := strconv.FormatFloat(item.IPKMahasiswa, 'f', 2, 64)
+		persenStr := strconv.Itoa(item.PersentasePengisian)
+
+		bulanLulusStr := strconv.Itoa(item.BulanLulusMahasiswa)
+		tahunLulusStr := strconv.Itoa(item.TahunLulusMahasiswa)
+
+		bulanWisudaStr := strconv.Itoa(item.BulanWisuda)
+		tahunWisudaStr := strconv.Itoa(item.TahunWisuda)
+
+		tglLahirStr := item.TglLahirMahasiswa.Format("02-01-2006")
+		tglLulusStr := item.TglLulusMahasiswa.Format("02-01-2006")
+		pengisianTerakhirStr := item.PengisianTerakhir.Format("02-01-2006 15:04:05")
+		deletedAtStr := item.DeletedAt.Format("02-01-2006 15:04:05")
+
+		row := []string{
+
+			idStr, idMhsStr, userIdStr, item.NIMMahasiswa, item.NamaMahasiswa, item.JenisKelaminMahasiswa,
+			tglLahirStr, item.EmailMahasiswa, item.NoTelp, item.NIKMahasiswa, item.NPWPMahasiswa, item.Jenjang,
+
+			bulanLulusStr, tahunLulusStr, tglLulusStr, ipkStr, item.StatusMahasiswa,
+			bulanWisudaStr, tahunWisudaStr, item.NoIjasah, item.NoSKYudisium, idJurusanStr,
+
+			item.StatusPengisian, persenStr, pengisianTerakhirStr, item.Dikti,
+
+			item.StatusSaatIni, item.MasaTungguSebelumLulus,
+			item.MasaTungguSetelahLulus, item.Provinsi, item.Kabupaten, deletedAtStr,
+
+			item.Ayah, item.Ibu, item.Saudara, item.Wali,
+
+			item.NamaPerusahaan, item.AlamatPerusahaan, item.JenisPerusahaan, item.Gaji,
+			item.JabatanDalamBerwirausaha, item.TingkatTempatKerja, item.SumberBiayaStudiLanjut,
+
+			item.PerguruanTinggiLanjut, item.ProdiMasukStudiLanjut, item.TanggalMasukStudiLanjut, item.SumberBiayaStudiLanjut,
+
+			item.Unit.UKKode,
+			item.Unit.FktKode,
+			item.Unit.JrsKose,
+			item.Unit.PrdKode,
+			item.Unit.Fakultas,
+			item.Unit.Jurusan,
+			item.Unit.Prodi,
+		}
+
+		csvData = append(csvData, row)
+	}
+
+	currentTime := time.Now().Format("20060102_150405")
+	filename := fmt.Sprintf("tracer_%d_%d_%s", tahun, bulan, currentTime)
+	utils.SendCSV(c, filename, csvHeaders, csvData)
 }

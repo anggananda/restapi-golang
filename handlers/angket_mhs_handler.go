@@ -2,10 +2,13 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"math"
 	"net/http"
 	"restapi-golang/services"
 	"restapi-golang/utils"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -78,4 +81,82 @@ func (h *AngketMhsHandler) GetAngketMhsFiltered(c *gin.Context) {
 			"pages": pages,
 		},
 	})
+}
+
+func (h *AngketMhsHandler) ExportAngketMhsCSV(c *gin.Context) {
+	limit := utils.StringToInt(c.Query("limit"), 0)
+	kodeFakultas := c.Query("kodeFakultas")
+	kodeJurusan := c.Query("kodeJurusan")
+	kodeProdi := c.Query("kodeProdi")
+	tahun := c.Query("tahun")
+	semester := c.Query("semester")
+	search := c.Query("search")
+
+	if tahun == "" {
+		tahun = time.Now().Format("2006")
+	}
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 60*time.Second)
+	defer cancel()
+
+	angketMhs, _, err := h.AngketMhsService.GetAngketMhsFiltered(ctx, kodeFakultas, kodeJurusan, kodeProdi, tahun, semester, search, 1, limit)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	csvHeaders := []string{
+		"ID (_id)",
+		"Mata Kuliah",
+		"Kode MK",
+		"ID Kelas",
+		"ID Penawaran",
+		"Dosen",
+		"NIP Dosen",
+		"Periode",
+		"Semester",
+		"Tahun",
+		"Unit UK Kode",
+		"Unit Fakultas Kode",
+		"Unit Jurusan Kode",
+		"Unit Prodi Kode",
+		"Fakultas",
+		"Jurusan",
+		"Program Studi",
+	}
+
+	var csvData [][]string
+
+	for _, item := range angketMhs {
+		dosenList := strings.Join(item.Dosen, ", ")
+		nipList := strings.Join(item.NipDosen, ", ")
+
+		idStr := strconv.Itoa(item.ID)
+
+		row := []string{
+			idStr,
+			item.Mk,
+			item.Kode,
+			item.IdKelas,
+			item.IdPenawaran,
+			dosenList,
+			nipList,
+			item.Periode,
+			item.Semester,
+			item.Tahun,
+			item.Unit.UKKode,
+			item.Unit.FktKode,
+			item.Unit.JrsKose,
+			item.Unit.PrdKode,
+			item.Unit.Fakultas,
+			item.Unit.Jurusan,
+			item.Unit.Prodi,
+		}
+
+		csvData = append(csvData, row)
+	}
+
+	currentTime := time.Now().Format("20060102_150405")
+	filename := fmt.Sprintf("angket_mahasiswa_%s_%s_%s", tahun, semester, currentTime)
+	utils.SendCSV(c, filename, csvHeaders, csvData)
 }

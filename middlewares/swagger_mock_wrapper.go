@@ -10,13 +10,10 @@ import (
 
 func SwaggerMockMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-
-		// Get headers
 		userAgent := c.GetHeader("User-Agent")
 		referer := c.GetHeader("Referer")
 		origin := c.GetHeader("Origin")
 
-		// Deteksi Swagger dari berbagai sumber
 		isSwaggerUA := strings.Contains(strings.ToLower(userAgent), "swagger")
 		isSwaggerReferer := strings.Contains(strings.ToLower(referer), "swagger") ||
 			strings.Contains(strings.ToLower(referer), "/swagger")

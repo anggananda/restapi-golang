@@ -1,0 +1,20 @@
+pegawai_history_filtered:
+  datas:
+    - nip: "198503102009012005"
+      no_induk_undiksha: "850310091"
+      nama: "Siti Rahayu, A.Md."
+      fakultas: "Fakultas Ekonomi dan Bisnis"
+      jurusan: "Tata Usaha"
+      prodi: "Administrasi Umum"
+      tahun: 2024
+      status_pegawai: "Pegawai Negeri Sipil (PNS)"
+      status_keaktifan: "Aktif"
+      last_strata: "D3"
+
+  pagination:
+    limit: 1
+    page: 1
+    pages: 1
+    total: 1
+
+  status: "OK (mock)"

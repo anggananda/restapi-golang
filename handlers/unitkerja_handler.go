@@ -23,6 +23,17 @@ func NewUnitKerjaHandler(service *services.UnitKerjaService, rdb *redis.Client) 
 	}
 }
 
+// GetUnitKerja mendapatkan  unitkerja
+// @Summary      Get unitkerja
+// @Description  Mendapatkan data unitkerja
+// @Tags         Unitkerja
+// @Accept       json
+// @Produce      json
+// @Success      200           {object}  models.ListDetailResponse{datas=[]models.Data}
+// @Failure      400           {object}  models.ErrorResponse
+// @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
+// @Router       /unit-kerja [get]
 func (h *UnitKerjaHandler) GetUnitKerja(c *gin.Context) {
 	ctx := context.Background()
 	key := "unit_kerja"

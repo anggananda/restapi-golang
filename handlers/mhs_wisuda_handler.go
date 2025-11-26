@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"math"
 	"net/http"
 	"restapi-golang/services"
 	"restapi-golang/utils"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -80,4 +82,68 @@ func (h *MhsWisudaHandler) GetMhsWisudaFiltered(c *gin.Context) {
 			"pages": pages,
 		},
 	})
+}
+
+func (h *MhsWisudaHandler) ExportMhsWisudaCSV(c *gin.Context) {
+	limit := utils.StringToInt(c.Query("limit"), 0)
+	kodeFakultas := c.Query("kodeFakultas")
+	kodeJurusan := c.Query("kodeJurusan")
+	kodeProdi := c.Query("kodeProdi")
+	search := c.Query("search")
+	tahunStr := c.Query("tahun")
+	bulan := utils.StringToInt(c.Query("bulan"), 0)
+
+	var tahun int
+	if tahunStr == "" {
+		tahunStr = time.Now().Format("2006")
+	}
+	tahun = utils.StringToInt(tahunStr, 0)
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 60*time.Second)
+	defer cancel()
+
+	mhsWisuda, _, err := h.MhsWisudaService.GetMhsWisudaFiltered(ctx, kodeFakultas, kodeJurusan, kodeProdi, search, tahun, bulan, 1, limit)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	csvHeaders := []string{
+		"ID", "NIM", "Nama Lengkap", "Tahun Wisuda", "Bulan Wisuda (Angka)", "Bulan Wisuda (Nama)",
+
+		"Unit UK Kode", "Unit Fakultas Kode", "Unit Jurusan Kode", "Unit Prodi Kode",
+		"Fakultas Unit", "Jurusan Unit", "Prodi Unit",
+	}
+
+	var csvData [][]string
+
+	for _, item := range mhsWisuda {
+
+		idStr := strconv.Itoa(item.ID)
+		tahunWisudaStr := strconv.Itoa(item.TahunWisuda)
+		bulanWisudaStr := strconv.Itoa(item.BulanWisuda)
+
+		row := []string{
+
+			idStr,
+			item.NIM,
+			item.NamaLengkap,
+			tahunWisudaStr,
+			bulanWisudaStr,
+			item.NamaBulan,
+
+			item.Unit.UKKode,
+			item.Unit.FktKode,
+			item.Unit.JrsKose,
+			item.Unit.PrdKode,
+			item.Unit.Fakultas,
+			item.Unit.Jurusan,
+			item.Unit.Prodi,
+		}
+
+		csvData = append(csvData, row)
+	}
+
+	currentTime := time.Now().Format("20060102_150405")
+	filename := fmt.Sprintf("mahasiswa_wisuda_%d_%d_%s", tahun, bulan, currentTime)
+	utils.SendCSV(c, filename, csvHeaders, csvData)
 }

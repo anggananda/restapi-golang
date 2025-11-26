@@ -2,66 +2,87 @@ package models
 
 import "time"
 
-type Pegawai struct {
-	UserType       string     `bson:"user_type" json:"user_type"`
-	PegawaiID      int64     `bson:"pegawai_id" json:"pegawai_id"`
-	PegawaiKey     int64     `bson:"pegawai_key" json:"pegawai_key"`
-	NIP            string     `bson:"nip" json:"nip"`
-	NIPLama        string     `bson:"nip_lama" json:"nip_lama"`
-	NIK            string     `bson:"nik" json:"nik"`
-	NoKarpeg       string     `bson:"no_karpeg" json:"no_karpeg"`
-	NamaLengkap    string     `bson:"nama_lengkap" json:"nama_lengkap"`
-	NamaTanpaGelar string     `bson:"nama_tanpa_gelar" json:"nama_tanpa_gelar"`
-	Email          string     `bson:"email" json:"email"`
-	Alamat         string     `bson:"alamat" json:"alamat"`
-	JenisKelamin   string     `bson:"jenis_kelamin" json:"jenis_kelamin"`
-	NoHP           string     `bson:"no_hp" json:"no_hp"`
-	TempatLahir    string     `bson:"tempat_lahir" json:"tempat_lahir"`
-	TanggalLahir   *time.Time `bson:"tanggal_lahir,omitempty" json:"tanggal_lahir,omitempty"`
-	Photo          string     `bson:"photo" json:"photo"`
-	TMTCPNS        *time.Time `bson:"tmt_cpns,omitempty" json:"tmt_cpns,omitempty"`
-
-	UnitKerja        UnitKerjaPegawai `bson:"unit_kerja" json:"unit_kerja"`
-	StrukturalFungsi string           `bson:"struktural_fungsional" json:"struktural_fungsional"`
-
-	StatusPegawai     StatusPegawaiPegawai `bson:"status_pegawai" json:"status_pegawai"`
-	JabatanFungsional *JabatanFungsional   `bson:"jabatan_fungsional,omitempty" json:"jabatan_fungsional,omitempty"`
-	JabatanStruktural *JabatanFungsional   `bson:"jabatan_struktural,omitempty" json:"jabatan_struktural,omitempty"`
-
-	Golongan Golongan `bson:"golongan" json:"golongan"`
-	Strata   string   `bson:"strata" json:"strata"`
-
-	IDSDMSister string     `bson:"id_sdm_sister" json:"id_sdm_sister"`
-	ExpiryAt    *time.Time `bson:"expiry_at,omitempty" json:"expiry_at,omitempty"`
-	CreatedAt   time.Time  `bson:"created_at" json:"created_at"`
-	UpdatedAt   time.Time  `bson:"updated_at" json:"updated_at"`
+type PegawaiHistory struct {
+	ID                string                `json:"_id" bson:"_id"`
+	Alamat            string                `json:"alamat" bson:"alamat"`
+	CreatedAt         time.Time             `json:"created_at" bson:"created_at"`
+	EmailAdmin        string                `json:"email_admin" bson:"email_admin"`
+	EmailSSO          string                `json:"email_sso" bson:"email_sso"`
+	ExpiryAt          *time.Time            `json:"expiry_at" bson:"expiry_at"`
+	FirstGolongan     string                `json:"first_golongan" bson:"first_golongan"`
+	FirstTglSK        string                `json:"first_tgl_sk" bson:"first_tgl_sk"`
+	FirstTglTerimaSK  string                `json:"first_tgl_terima_sk" bson:"first_tgl_terima_sk"`
+	FirstTMT          string                `json:"first_tmt" bson:"first_tmt"`
+	History           []HistoryPegawaiEntry `json:"history" bson:"history"`
+	HP                string                `json:"hp" bson:"hp"`
+	PrimaryID         int                   `json:"id" bson:"id"`
+	IDSDMSister       string                `json:"id_sdm_sister" bson:"id_sdm_sister"`
+	JabatanFungsional JabFungsional         `json:"jabatan_fungsional" bson:"jabatan_fungsional"`
+	JabatanStruktural JabStruktural         `json:"jabatan_struktural" bson:"jabatan_struktural"`
+	JK                string                `json:"jk" bson:"jk"`
+	LastGolongan      string                `json:"last_golongan" bson:"last_golongan"`
+	LastPangkat       string                `json:"last_pangkat" bson:"last_pangkat"`
+	LastStrata        string                `json:"last_strata" bson:"last_strata"`
+	Nama              string                `json:"nama" bson:"nama"`
+	NamaTanpaGelar    string                `json:"nama_tanpa_gelar" bson:"nama_tanpa_gelar"`
+	NIK               string                `json:"nik" bson:"nik"`
+	NIP               string                `json:"nip" bson:"nip"`
+	NIPLama           string                `json:"nip_lama" bson:"nip_lama"`
+	NoIndukUndiksha   string                `json:"no_induk_undiksha" bson:"no_induk_undiksha"`
+	NoKarpeg          string                `json:"no_karpeg" bson:"no_karpeg"`
+	PegawaiKey        int                   `json:"pegawai_key" bson:"pegawai_key"`
+	Photo             interface{}           `json:"photo" bson:"photo"`
+	Status            StatusPegawai         `json:"status" bson:"status"`
+	StrukturalFungsi  string                `json:"struktural_fungsional" bson:"struktural_fungsional"`
+	TempatLahir       string                `json:"tempat_lahir" bson:"tempat_lahir"`
+	TglLahir          string                `json:"tgl_lahir" bson:"tgl_lahir"`
+	TMTCPNS           string                `json:"tmt_cpns" bson:"tmt_cpns"`
+	Unit              Unit                  `json:"unit" bson:"unit"`
+	UpdatedAt         time.Time             `json:"updated_at" bson:"updated_at"`
 }
 
-type UnitKerjaPegawai struct {
-	Kode string `bson:"kode" json:"kode"`
-	ID   int64 `bson:"id" json:"id"`
-	Nama string `bson:"nama" json:"nama"`
+type HistoryPegawaiEntry struct {
+	Tahun           int    `json:"tahun" bson:"tahun"`
+	StatusPegawai   string `json:"status_pegawai" bson:"status_pegawai"`
+	StatusKeaktifan string `json:"status_keaktifan" bson:"status_keaktifan"`
+	IDStatusPegawai int    `json:"id_status_pegawai" bson:"id_status_pegawai"`
+	IDStatusAktif   int    `json:"id_status_keaktifan" bson:"id_status_keaktifan"`
 }
 
-type StatusPegawaiPegawai struct {
-	Status         string `bson:"status" json:"status"`
-	StatusSekarang string `bson:"status_sekarang" json:"status_sekarang"`
-	TMTStatus      string `bson:"tmt_status" json:"tmt_status"`
+type JabFungsional struct {
+	Nama    string `json:"nama" bson:"nama"`
+	ID      int    `json:"id" bson:"id"`
+	GradeID int    `json:"grade_id" bson:"grade_id"`
+	Unit    string `json:"unit" bson:"unit"`
+	UnitID  int    `json:"unit_id" bson:"unit_id"`
 }
 
-type JabatanFungsional struct {
-	Nama    string `bson:"nama" json:"nama"`
-	ID      int64 `bson:"id" json:"id"`
-	GradeID int64 `bson:"grade_id" json:"grade_id"`
-	Unit    string `bson:"unit" json:"unit"`
-	UnitID  int64 `bson:"unit_id" json:"unit_id"`
+type JabStruktural struct {
+	Nama    string `json:"nama" bson:"nama"`
+	ID      int    `json:"id" bson:"id"`
+	GradeID int    `json:"grade_id" bson:"grade_id"`
+	Unit    string `json:"unit" bson:"unit"`
+	UnitID  int    `json:"unit_id" bson:"unit_id"`
 }
 
-type Golongan struct {
-	Last          string     `bson:"last" json:"last"`
-	Pangkat       string     `bson:"pangkat" json:"pangkat"`
-	First         string     `bson:"first" json:"first"`
-	FirstTMT      *time.Time `bson:"first_tmt,omitempty" json:"first_tmt,omitempty"`
-	FirstTglSK    *time.Time `bson:"first_tgl_sk,omitempty" json:"first_tgl_sk,omitempty"`
-	FirstTerimaSK *time.Time `bson:"first_tgl_terima_sk,omitempty" json:"first_tgl_terima_sk,omitempty"`
+type StatusPegawai struct {
+	PKey              int    `json:"p_key" bson:"p_key"`
+	StatusKey         int    `json:"status_key" bson:"status_key"`
+	StatusKepKey      int    `json:"statuskep_key" bson:"statuskep_key"`
+	StatusPegawaiNama string `json:"status_pegawai_nama" bson:"status_pegawai_nama"`
+	StatusKeaktifan   string `json:"status_keaktifan" bson:"status_keaktifan"`
+	TMTStatusPegawai  string `json:"tmt_status_pegawai" bson:"tmt_status_pegawai"`
+}
+
+type PegawaiHistoryResponse struct {
+	NIP             string `json:"nip" bson:"nip"`
+	NoIndukUndiksha string `bson:"no_induk_undiksha" json:"no_induk_undiksha"`
+	Nama            string `json:"nama" bson:"nama"`
+	Fakultas        string `json:"fakultas" bson:"fakultas"`
+	Jurusan         string `json:"jurusan" bson:"jurusan"`
+	Prodi           string `json:"prodi" bson:"prodi"`
+	Tahun           int    `json:"tahun" bson:"tahun"`
+	StatusPegawai   string `json:"status_pegawai" bson:"status_pegawai"`
+	StatusKeaktifan string `json:"status_keaktifan" bson:"status_keaktifan"`
+	LastStrata      string `bson:"last_strata" json:"last_strata"`
 }

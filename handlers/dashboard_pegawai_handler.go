@@ -20,6 +20,18 @@ func NewDashboardPegawaiHandler(service *services.DashboardPegawaiService) *Dash
 	}
 }
 
+// GetDashboardPegawaiOverview mendapatkan  overview dashboard pegawai
+// @Summary      Get Dashboard pegawai Overview
+// @Description  Mendapatkan overview dashboard pegawai
+// @Tags         Dashboard Pegawai
+// @Accept       json
+// @Produce      json
+// @Param        tahun        query     int  false  "tahun"
+// @Success      200           {object}  models.ListDetailResponse{datas=models.DashboardCardPegawai}
+// @Failure      400           {object}  models.ErrorResponse
+// @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
+// @Router       /dashboard-pegawai/overview [get]
 func (h *DashboardPegawaiHandler) GetDashboardPegawaiOverview(c *gin.Context) {
 	tahunStr := c.Query("tahun")
 
@@ -42,6 +54,21 @@ func (h *DashboardPegawaiHandler) GetDashboardPegawaiOverview(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "OK", "datas": result})
 }
 
+// GetDrilldownPegawaiFakultas mendapatkan drilldown fakultas dashboard pegawai
+// @Summary      Get drilldown fakultas pegawai Overview
+// @Description  Mendapatkan drilldown fakultas dashboard pegawai
+// @Tags         Dashboard Pegawai
+// @Accept       json
+// @Produce      json
+// @Param        status        query     string  false  "status"
+// @Param        tahun        query     int  false  "tahun"
+// @Param        statusPegawai        query     int  false  "statusPegawai"
+// @Param        statusKeaktifan        query     int  false  "statusKeaktifan"
+// @Success      200           {object}  models.ListDetailResponse{datas=models.DrilldownItem}
+// @Failure      400           {object}  models.ErrorResponse
+// @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
+// @Router       /dashboard-pegawai/fakultas [get]
 func (h *DashboardPegawaiHandler) GetDrilldownPegawaiFakultas(c *gin.Context) {
 	tahunStr := c.Query("tahun")
 	statusPegawaiStr := c.Query("statusPegawai")
@@ -72,6 +99,22 @@ func (h *DashboardPegawaiHandler) GetDrilldownPegawaiFakultas(c *gin.Context) {
 	})
 }
 
+// GetDrilldownPegawaiJurusan mendapatkan drilldown jurusan dashboard pegawai
+// @Summary      Get drilldown jurusan pegawai Overview
+// @Description  Mendapatkan drilldown jurusan dashboard pegawai
+// @Tags         Dashboard Pegawai
+// @Accept       json
+// @Produce      json
+// @Param        status        query     string  false  "status"
+// @Param        tahun        query     int  false  "tahun"
+// @Param        statusPegawai        query     int  false  "statusPegawai"
+// @Param        statusKeaktifan        query     int  false  "statusKeaktifan"
+// @Param        kodeFakultas        query     string  false  "kodeFakultas"
+// @Success      200           {object}  models.ListDetailResponse{datas=models.DrilldownItem}
+// @Failure      400           {object}  models.ErrorResponse
+// @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
+// @Router       /dashboard-pegawai/jurusan [get]
 func (h *DashboardPegawaiHandler) GetDrilldownPegawaiJurusan(c *gin.Context) {
 	tahunStr := c.Query("tahun")
 	statusPegawaiStr := c.Query("statusPegawai")
@@ -103,6 +146,22 @@ func (h *DashboardPegawaiHandler) GetDrilldownPegawaiJurusan(c *gin.Context) {
 	})
 }
 
+// GetDrilldownPegawaiProdi mendapatkan drilldown prodi dashboard pegawai
+// @Summary      Get drilldown prodi pegawai Overview
+// @Description  Mendapatkan drilldown prodi dashboard pegawai
+// @Tags         Dashboard Pegawai
+// @Accept       json
+// @Produce      json
+// @Param        status        query     string  false  "status"
+// @Param        tahun        query     int  false  "tahun"
+// @Param        statusPegawai        query     int  false  "statusPegawai"
+// @Param        statusKeaktifan        query     int  false  "statusKeaktifan"
+// @Param        kodeJurusan        query     string  false  "kodeJurusan"
+// @Success      200           {object}  models.ListDetailResponse{datas=models.DrilldownItem}
+// @Failure      400           {object}  models.ErrorResponse
+// @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
+// @Router       /dashboard-pegawai/prodi [get]
 func (h *DashboardPegawaiHandler) GetDrilldownPegawaiProdi(c *gin.Context) {
 	tahunStr := c.Query("tahun")
 	statusPegawaiStr := c.Query("statusPegawai")

@@ -1,0 +1,24 @@
+status_filtered:
+  datas:
+    - _id: 10
+      id_status: 1
+      status: "Aktif"
+      created_at: "2020-01-01T00:00:00Z"
+      updated_at: "2020-01-01T00:00:00Z"
+    - _id: 20
+      id_status: 2
+      status: "Cuti"
+      created_at: "2020-01-01T00:00:00Z"
+      updated_at: "2020-01-01T00:00:00Z"
+    - _id: 30
+      id_status: 3
+      status: "Lulus"
+      created_at: "2020-01-01T00:00:00Z"
+      updated_at: "2020-01-01T00:00:00Z"
+    - _id: 40
+      id_status: 4
+      status: "Mengundurkan Diri"
+      created_at: "2020-01-01T00:00:00Z"
+      updated_at: "2020-01-01T00:00:00Z"
+
+  message: "Data Status berhasil diambil"

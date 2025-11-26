@@ -19,6 +19,19 @@ func NewDashboardMhsHandler(service *services.DashboardMhsService) *DashboardMhs
 	}
 }
 
+// GetDashboardMhsOverview mendapatkan  overview dashboard mahasiswa
+// @Summary      Get Dashboard Mhs Overview
+// @Description  Mendapatkan overview dashboard mahasiswa
+// @Tags         Dashboard Mahasiswa
+// @Accept       json
+// @Produce      json
+// @Param        tahun        query     int  false  "tahun"
+// @Param        semester        query     int  false  "semester"
+// @Success      200           {object}  models.ListDetailResponse{datas=models.DashboardCard}
+// @Failure      400           {object}  models.ErrorResponse
+// @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
+// @Router       /dashboard-mhs/overview [get]
 func (h *DashboardMhsHandler) GetDashboardMhsOverview(c *gin.Context) {
 	tahunStr := c.Query("tahun")
 	semesterStr := c.Query("semester")
@@ -40,6 +53,20 @@ func (h *DashboardMhsHandler) GetDashboardMhsOverview(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "OK", "datas": result})
 }
 
+// GetDrilldownMhsFakultas mendapatkan drilldown fakultas dashboard mahasiswa
+// @Summary      Get drilldown fakultas Mhs Overview
+// @Description  Mendapatkan drilldown fakultas dashboard mahasiswa
+// @Tags         Dashboard Mahasiswa
+// @Accept       json
+// @Produce      json
+// @Param        status        query     string  false  "status"
+// @Param        tahun        query     int  false  "tahun"
+// @Param        semester        query     int  false  "semester"
+// @Success      200           {object}  models.ListDetailResponse{datas=models.DrilldownItem}
+// @Failure      400           {object}  models.ErrorResponse
+// @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
+// @Router       /dashboard-mhs/fakultas [get]
 func (h *DashboardMhsHandler) GetDrilldownMhsFakultas(c *gin.Context) {
 	status := c.Query("status")
 	tahunStr := c.Query("tahun")
@@ -65,6 +92,21 @@ func (h *DashboardMhsHandler) GetDrilldownMhsFakultas(c *gin.Context) {
 	})
 }
 
+// GetDrilldownMhsJurusan mendapatkan drilldown jurusan dashboard mahasiswa
+// @Summary      Get drilldown jurusan Mhs Overview
+// @Description  Mendapatkan drilldown jurusan dashboard mahasiswa
+// @Tags         Dashboard Mahasiswa
+// @Accept       json
+// @Produce      json
+// @Param        status        query     string  false  "status"
+// @Param        kodeFakultas        query     string  false  "kodeFakultas"
+// @Param        tahun        query     int  false  "tahun"
+// @Param        semester        query     int  false  "semester"
+// @Success      200           {object}  models.ListDetailResponse{datas=models.DrilldownItem}
+// @Failure      400           {object}  models.ErrorResponse
+// @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
+// @Router       /dashboard-mhs/jurusan [get]
 func (h *DashboardMhsHandler) GetDrilldownMhsJurusan(c *gin.Context) {
 	tahunStr := c.Query("tahun")
 	semesterStr := c.Query("semester")
@@ -92,6 +134,21 @@ func (h *DashboardMhsHandler) GetDrilldownMhsJurusan(c *gin.Context) {
 	})
 }
 
+// GetDrilldownMhsProdi mendapatkan drilldown prodi dashboard mahasiswa
+// @Summary      Get drilldown prodi Mhs Overview
+// @Description  Mendapatkan drilldown prodi dashboard mahasiswa
+// @Tags         Dashboard Mahasiswa
+// @Accept       json
+// @Produce      json
+// @Param        status        query     string  false  "status"
+// @Param        kodeJurusan        query     string  false  "kodeJurusan"
+// @Param        tahun        query     int  false  "tahun"
+// @Param        semester        query     int  false  "semester"
+// @Success      200           {object}  models.ListDetailResponse{datas=models.DrilldownItem}
+// @Failure      400           {object}  models.ErrorResponse
+// @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
+// @Router       /dashboard-mhs/prodi [get]
 func (h *DashboardMhsHandler) GetDrilldownMhsProdi(c *gin.Context) {
 	status := c.Query("status")
 	kodeJurusan := c.Query("kodeJurusan")

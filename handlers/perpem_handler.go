@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"math"
 	"net/http"
 	"restapi-golang/services"
 	"restapi-golang/utils"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -76,4 +78,80 @@ func (h *PerpemHandler) GetPerpemFiltered(c *gin.Context) {
 			"pages": pages,
 		},
 	})
+}
+
+func (h *PerpemHandler) ExportPerpemCSV(c *gin.Context) {
+	limit := utils.StringToInt(c.Query("limit"), 0)
+	kodeFakultas := c.Query("kodeFakultas")
+	kodeJurusan := c.Query("kodeJurusan")
+	kodeProdi := c.Query("kodeProdi")
+	tahun := c.Query("tahun")
+	semester := c.Query("semester")
+	search := c.Query("search")
+
+	if tahun == "" {
+		tahun = time.Now().Format("2006")
+	}
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 60*time.Second)
+	defer cancel()
+
+	perpem, _, err := h.PerpemService.GetPerpemFiltered(ctx, kodeFakultas, kodeJurusan, kodeProdi, tahun, semester, search, 1, limit)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	csvHeaders := []string{
+		"ID Penawaran", "Kode Mata Kuliah", "ID Kelas", "Mata Kuliah",
+		"Kurikulum", "Pertemuan Ke-", "Metode Pembelajaran",
+
+		"Dosen Pengampu (Gabungan)",
+
+		"Semester", "Tahun",
+
+		"File Silabus", "File Kontrak Kuliah", "File RPS", "File RTM",
+
+		"Unit UK Kode", "Unit Fakultas Kode", "Unit Jurusan Kode", "Unit Prodi Kode",
+		"Fakultas Unit", "Jurusan Unit", "Prodi Unit",
+	}
+
+	var csvData [][]string
+
+	for _, item := range perpem {
+		dosenList := strings.Join(item.Dosen, " | ")
+		row := []string{
+
+			item.IdPenarawan,
+			item.Kode,
+			item.IdKelas,
+			item.MK,
+			item.Kurikulum,
+			item.Pertemuan,
+			item.Metode,
+
+			dosenList,
+
+			item.Semester,
+			item.Tahun,
+
+			item.Silabus,
+			item.Kontrak,
+			item.Rps,
+			item.Rtm,
+
+			item.Unit.UKKode,
+			item.Unit.FktKode,
+			item.Unit.JrsKose,
+			item.Unit.PrdKode,
+			item.Unit.Fakultas,
+			item.Unit.Jurusan,
+			item.Unit.Prodi,
+		}
+
+		csvData = append(csvData, row)
+	}
+	currentTime := time.Now().Format("20060102_150405")
+	filename := fmt.Sprintf("perangkat_pembelajaran_%s_%s_%s", tahun, semester, currentTime)
+	utils.SendCSV(c, filename, csvHeaders, csvData)
 }

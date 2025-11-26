@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"math"
 	"net/http"
 	"restapi-golang/services"
 	"restapi-golang/utils"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -78,4 +80,87 @@ func (h *KaryaAkhirHandler) GetKaryaAkhirFiltered(c *gin.Context) {
 			"pages": pages,
 		},
 	})
+}
+
+func (h *KaryaAkhirHandler) ExportKaryaAkhirCSV(c *gin.Context) {
+	limit := utils.StringToInt(c.Query("limit"), 0)
+	kodeFakultas := c.Query("kodeFakultas")
+	kodeJurusan := c.Query("kodeJurusan")
+	kodeProdi := c.Query("kodeProdi")
+	search := c.Query("search")
+	tahunStr := c.Query("tahun")
+
+	var tahun int
+	if tahunStr == "" {
+		tahunStr = time.Now().Format("2006")
+	}
+	tahun = utils.StringToInt(tahunStr, 0)
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 60*time.Second)
+	defer cancel()
+
+	karyaAkhir, _, err := h.KaryaAkhirService.GetKaryaAkhirFiltered(ctx, kodeFakultas, kodeJurusan, kodeProdi, search, tahun, 1, limit)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	csvHeaders := []string{
+		"ID", "NIM", "Nama Lengkap Mahasiswa", "Tahun Masuk", "Judul Karya Akhir",
+		"Current State", "Main Stage", "Status Judul", "Nama PA", "Nilai Akhir",
+
+		"Pembimbing 1", "Pembimbing 2", "Pembimbing 3",
+
+		"Penguji 1", "Penguji 2", "Penguji 3", "Penguji 4", "Penguji 5", "Penguji 6",
+
+		"Unit UK Kode", "Unit Fakultas Kode", "Unit Jurusan Kode", "Unit Prodi Kode",
+		"Fakultas Unit", "Jurusan Unit", "Prodi Unit",
+	}
+
+	var csvData [][]string
+
+	for _, item := range karyaAkhir {
+
+		idStr := strconv.Itoa(item.ID)
+		tahunMasukStr := strconv.Itoa(item.TahunMasuk)
+
+		row := []string{
+
+			idStr,
+			item.NIM,
+			item.NamaLengkap,
+			tahunMasukStr,
+			item.Judul,
+			item.CurrentState,
+			item.MainStage,
+			item.StatusJudul,
+			item.NamaPA,
+			item.NilaiAkhir,
+
+			item.NamaPembimbing1,
+			item.NamaPembimbing2,
+			item.NamaPembimbing3,
+
+			item.NamaPenguji1,
+			item.NamaPenguji2,
+			item.NamaPenguji3,
+			item.NamaPenguji4,
+			item.NamaPenguji5,
+			item.NamaPenguji6,
+
+			item.Unit.UKKode,
+			item.Unit.FktKode,
+			item.Unit.JrsKose,
+			item.Unit.PrdKode,
+			item.Unit.Fakultas,
+			item.Unit.Jurusan,
+			item.Unit.Prodi,
+		}
+
+		csvData = append(csvData, row)
+	}
+
+	currentTime := time.Now().Format("20060102_150405")
+	filename := fmt.Sprintf("karya_akhi_%d_%s", tahun, currentTime)
+	utils.SendCSV(c, filename, csvHeaders, csvData)
 }

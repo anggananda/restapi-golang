@@ -1,0 +1,21 @@
+realisasi_unit_filtered:
+  datas:
+    - _id: 10001
+      kode: "RU2025FIT"
+      kode_unit: "FIT"
+      nama_unit: "Fakultas Teknologi Informasi"
+      pagu_pnbp: "5000000000"
+      pagu_rm: "1000000000"
+      pagu_rm_boptn: "500000000"
+      realisasi_pnbp: "3500000000"
+      realisasi_rm: "750000000"
+      realisasi_rm_boptn: "400000000"
+      tahun_anggaran: "2025"
+
+  pagination:
+    limit: 1
+    page: 1
+    pages: 1
+    total: 1
+
+  status: "OK (mock)"

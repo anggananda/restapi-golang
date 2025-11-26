@@ -10,7 +10,6 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// LoadYAMLFile memuat seluruh isi file YAML
 func LoadYAMLFile(filename string) (map[string]interface{}, error) {
 	_, currentFile, _, _ := runtime.Caller(0)
 	baseDir := filepath.Join(filepath.Dir(currentFile), "..") // root
@@ -33,7 +32,6 @@ func LoadYAMLFile(filename string) (map[string]interface{}, error) {
 	return result, nil
 }
 
-// LoadYAMLSection memuat hanya satu bagian (key) dari file YAML
 func LoadYAMLSection(filename, section string) (map[string]interface{}, error) {
 	allData, err := LoadYAMLFile(filename)
 	if err != nil {

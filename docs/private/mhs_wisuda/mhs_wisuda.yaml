@@ -1,0 +1,24 @@
+mhs_wisuda_filtered:
+  datas:
+    - _id: 4001
+      nim: "1301190010"
+      nama_lengkap: "Rizky Firmansyah"
+      tahun_wisuda: 2024
+      bulan_wisuda: 10
+      nama_bulan: "Oktober"
+      unit:
+        uk_kode: "UNIT003"
+        fkt_kode: "FEB"
+        jrs_kode: "MN"
+        prd_kode: "S1MN"
+        fakultas: "Fakultas Ekonomi dan Bisnis"
+        jurusan: "Manajemen"
+        prodi: "Sarjana Manajemen"
+
+  pagination:
+    limit: 1
+    page: 1
+    pages: 1
+    total: 1
+
+  status: "OK (mock)"

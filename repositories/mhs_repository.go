@@ -2,25 +2,27 @@ package repositories
 
 import (
 	"context"
+	"fmt"
 	"restapi-golang/interfaces"
 	"restapi-golang/models"
 	"restapi-golang/utils"
+	"sync"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-type MhsRepository struct {
+type MhsMongoRepository struct {
 	Collection *mongo.Collection
 }
 
-func NewMhsRepository(db *mongo.Database) interfaces.MhsRepository {
-	return &MhsRepository{
-		Collection: db.Collection("mahasiswa_v3"),
+func NewMhsMongoRepository(db *mongo.Database) interfaces.MhsRepository {
+	return &MhsMongoRepository{
+		Collection: db.Collection("mahasiswa"),
 	}
 }
 
-func (repo *MhsRepository) GetDetailMhs(ctx context.Context, nim string) (*models.Mahasiswa, error) {
+func (repo *MhsMongoRepository) GetDetailMhs(ctx context.Context, nim string) (*models.Mahasiswa, error) {
 	var mh models.Mahasiswa
 
 	if err := repo.Collection.FindOne(ctx, bson.M{"nim": nim}).Decode(&mh); err != nil {
@@ -30,188 +32,157 @@ func (repo *MhsRepository) GetDetailMhs(ctx context.Context, nim string) (*model
 	return &mh, nil
 }
 
-func (repo *MhsRepository) GetMahasiswaHistoryByStatus(ctx context.Context, status string, page, limit int, tahun int, semesterType string) ([]models.MahasiswaHistoryResponse, int64, error) {
-	skip := (page - 1) * limit
+func (repo *MhsMongoRepository) GetMahasiswaHistoryFiltered(
+	ctx context.Context,
+	kodeFakultas, kodeJurusan, kodeProdi, kewarganegaraan, search string,
+	tahun, semester, angkatan, status, page, limit int,
+) ([]models.MahasiswaHistoryResponse, int64, error) {
 
-	pipeline := bson.A{
-		// Match dokumen yang memiliki history sesuai kriteria
-		bson.M{"$match": bson.M{
-			"history.tahun":         tahun,
-			"history.semester_type": semesterType,
-			"history.status":        status,
-		}},
+	normalMatch := bson.M{
+		"history.tahun":    tahun,
+		"history.semester": semester,
+	}
 
-		// Project dengan filter history
-		bson.M{"$project": bson.M{
+	if kodeFakultas != "" {
+		normalMatch["unit.fkt_kode"] = kodeFakultas
+	}
+	if kodeJurusan != "" {
+		normalMatch["unit.jrs_kode"] = kodeJurusan
+	}
+	if kodeProdi != "" {
+		normalMatch["unit.prd_kode"] = kodeProdi
+	}
+	if status != 0 {
+		normalMatch["history.jenis_status_mahasiswa_key"] = status
+	}
+	if kewarganegaraan != "" {
+		normalMatch["kewarganegaraan"] = kewarganegaraan
+	}
+	if angkatan != 0 {
+		normalMatch["tahun_masuk"] = angkatan
+	}
+
+	var textStage bson.A
+	if search != "" {
+		textStage = bson.A{
+			bson.M{"$match": bson.M{
+				"$text": bson.M{"$search": search},
+			}},
+		}
+	}
+
+	basePipeline := bson.A{
+		bson.M{"$unwind": "$history"},
+		bson.M{"$match": normalMatch},
+	}
+
+	projection := bson.M{
+		"$project": bson.M{
 			"nim":             1,
 			"nama":            1,
 			"tahun_masuk":     1,
 			"kewarganegaraan": 1,
+			"telp":            1,
+			"email_sso":       1,
 			"fakultas":        "$unit.fakultas",
 			"jurusan":         "$unit.jurusan",
 			"prodi":           "$unit.prodi",
-
-			// Filter history yang sesuai kriteria
-			"filtered_history": bson.M{
-				"$filter": bson.M{
-					"input": "$history",
-					"as":    "h",
-					"cond": bson.M{
-						"$and": bson.A{
-							bson.M{"$eq": bson.A{"$$h.tahun", tahun}},
-							bson.M{"$eq": bson.A{"$$h.semester_type", semesterType}},
-							bson.M{"$eq": bson.A{"$$h.status", status}},
-						},
-					},
-				},
-			},
-		}},
-
-		// Unwind hanya history yang sudah difilter
-		bson.M{"$unwind": "$filtered_history"},
-
-		// Facet untuk data dan total
-		bson.M{"$facet": bson.M{
-			"data": bson.A{
-				bson.M{"$project": bson.M{
-					"nim":              "$nim",
-					"nama":             "$nama",
-					"tahun_masuk":      "$tahun_masuk",
-					"kewarganegaraan":  "$kewarganegaraan",
-					"fakultas":         "$fakultas",
-					"jurusan":          "$jurusan",
-					"prodi":            "$prodi",
-					"tahun":            "$filtered_history.tahun",
-					"semester":         "$filtered_history.semester",
-					"status":           "$filtered_history.status",
-					"status_singkatan": "$filtered_history.status_singkatan",
-					"nama_pa":          "$filtered_history.nama_pa",
-				}},
-				bson.M{"$sort": bson.M{"nim": 1, "tahun": 1, "semester": 1}},
-				bson.M{"$skip": skip},
-				bson.M{"$limit": limit},
-			},
-			"total": bson.A{
-				bson.M{"$count": "total"},
-			},
-		}},
+			"tahun":           "$history.tahun",
+			"semester":        "$history.semester",
+			"status":          "$history.status",
+			"periode":         "$history.periode",
+			"nama_pa":         "$history.nama_pa",
+		},
 	}
 
-	cursor, err := repo.Collection.Aggregate(ctx, pipeline)
-	if err != nil {
-		return nil, 0, err
-	}
-	defer cursor.Close(ctx)
-
-	// Parse hasil
-	var facetResult []struct {
-		Data  []models.MahasiswaHistoryResponse `bson:"data"`
-		Total []struct {
-			Total int64 `bson:"total"`
-		} `bson:"total"`
+	if search != "" {
+		projection["$project"].(bson.M)["score"] = bson.M{"$meta": "textScore"}
 	}
 
-	if err = cursor.All(ctx, &facetResult); err != nil {
-		return nil, 0, err
+	sortStage := bson.M{"$sort": bson.M{
+		"nim":      1,
+		"tahun":    1,
+		"semester": 1,
+	}}
+
+	if search != "" {
+		sortStage = bson.M{"$sort": bson.M{
+			"score":    bson.M{"$meta": "textScore"},
+			"nim":      1,
+			"tahun":    1,
+			"semester": 1,
+		}}
 	}
 
-	// Handle hasil
-	var results []models.MahasiswaHistoryResponse
-	var total int64
-
-	if len(facetResult) > 0 {
-		results = facetResult[0].Data
-		if len(facetResult[0].Total) > 0 {
-			total = facetResult[0].Total[0].Total
+	var paging bson.A
+	if limit > 0 {
+		skip := (page - 1) * limit
+		paging = bson.A{
+			bson.M{"$skip": skip},
+			bson.M{"$limit": limit},
 		}
+	} else {
+		paging = bson.A{}
 	}
 
-	return results, total, nil
-}
-
-func (repo *MhsRepository) GetMahasiswaHistoryFiltered(ctx context.Context, filter models.MahasiswaHistoryRequest) ([]models.MahasiswaHistoryResponse, int64, error) {
-	matchConditions := bson.M{
-		"history.tahun":         filter.Tahun,
-		"history.semester_type": filter.Semester,
-	}
-
-	if filter.Nama != "" {
-		matchConditions["nama"] = filter.Nama
-	}
-	if filter.Fakultas != "" {
-		matchConditions["unit.fakultas"] = filter.Fakultas
-	}
-	if filter.Jurusan != "" {
-		matchConditions["unit.jurusan"] = filter.Jurusan
-	}
-	if filter.Prodi != "" {
-		matchConditions["unit.prodi"] = filter.Prodi
-	}
-	if filter.Status != "" {
-		matchConditions["history.status"] = filter.Status
-	}
-	if filter.Kewarganegaraan != "" {
-		matchConditions["kewarganegaraan"] = filter.Kewarganegaraan
-	}
-	if filter.NIM != "" {
-		matchConditions["nim"] = filter.NIM
-	}
-
-	skip := (filter.Page - 1) * filter.Limit
-
-	pipeline := bson.A{
-		bson.M{"$unwind": "$history"},
-		bson.M{"$match": matchConditions},
-		bson.M{"$project": bson.M{
-			"nim":              1,
-			"nama":             1,
-			"tahun_masuk":      1,
-			"kewarganegaraan":  1,
-			"fakultas":         "$unit.fakultas",
-			"jurusan":          "$unit.jurusan",
-			"prodi":            "$unit.prodi",
-			"tahun":            "$history.tahun",
-			"semester":         "$history.semester",
-			"status":           "$history.status",
-			"status_singkatan": "$history.status_singkatan",
-			"nama_pa":          "$history.nama_pa",
-		}},
-		bson.M{"$sort": bson.M{"nim": 1, "tahun": 1, "semester": 1}},
-		bson.M{"$skip": skip},
-		bson.M{"$limit": filter.Limit},
-	}
-
-	cursor, err := repo.Collection.Aggregate(ctx, pipeline)
-	if err != nil {
-		return nil, 0, err
-	}
-	defer cursor.Close(ctx)
+	var wg sync.WaitGroup
+	wg.Add(2)
 
 	var results []models.MahasiswaHistoryResponse
-	if err = cursor.All(ctx, &results); err != nil {
-		return nil, 0, err
-	}
-
-	countPipeline := bson.A{
-		bson.M{"$unwind": "$history"},
-		bson.M{"$match": matchConditions},
-		bson.M{"$count": "total"},
-	}
-
-	countCursor, err := repo.Collection.Aggregate(ctx, countPipeline)
-	if err != nil {
-		return nil, 0, err
-	}
-	defer countCursor.Close(ctx)
-
-	var countResult []bson.M
-	if err = countCursor.All(ctx, &countResult); err != nil {
-		return nil, 0, err
-	}
-
 	var total int64
-	if len(countResult) > 0 {
-		total = utils.ConvertToInt64(countResult[0]["total"])
+	var dataErr, countErr error
+
+	go func() {
+		defer wg.Done()
+
+		pipeline := append(textStage, basePipeline...)
+		pipeline = append(pipeline, projection, sortStage)
+		pipeline = append(pipeline, paging...)
+
+		cursor, err := repo.Collection.Aggregate(ctx, pipeline)
+		if err != nil {
+			dataErr = err
+			return
+		}
+		defer cursor.Close(ctx)
+
+		if err := cursor.All(ctx, &results); err != nil {
+			dataErr = err
+			return
+		}
+	}()
+
+	go func() {
+		defer wg.Done()
+
+		countPipeline := append(textStage, basePipeline...)
+		countPipeline = append(countPipeline, bson.M{"$count": "total"})
+
+		cursor, err := repo.Collection.Aggregate(ctx, countPipeline)
+		if err != nil {
+			countErr = err
+			return
+		}
+		defer cursor.Close(ctx)
+
+		var countResult []bson.M
+		if err := cursor.All(ctx, &countResult); err != nil {
+			countErr = err
+			return
+		}
+
+		if len(countResult) > 0 {
+			total = utils.ConvertToInt64(countResult[0]["total"])
+		}
+	}()
+
+	wg.Wait()
+
+	if dataErr != nil {
+		return nil, 0, fmt.Errorf("failed to get data: %v", dataErr)
+	}
+	if countErr != nil {
+		return nil, 0, fmt.Errorf("failed to count documents: %v", countErr)
 	}
 
 	return results, total, nil

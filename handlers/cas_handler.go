@@ -41,10 +41,9 @@ func NewCASHandler(casURL, frontendURL, hostUrl string, service *services.UserSe
 	}, nil
 }
 
-// CASMiddleware - middleware untuk handle CAS authentication
 func (h *CASHandler) CASMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// Prevent caching
+
 		c.Writer.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
 		c.Writer.Header().Set("Pragma", "no-cache")
 		c.Writer.Header().Set("Expires", "0")
@@ -62,14 +61,11 @@ func (h *CASHandler) CASMiddleware() gin.HandlerFunc {
 	}
 }
 
-// LoginHandler - handle login request
 func (h *CASHandler) LoginHandler(c *gin.Context) {
 	log.Printf("Login handler called")
 
-	// Clear cookies dengan lebih agresif
 	h.clearCookies(c)
 
-	// Hit CAS logout terlebih dahulu untuk clear server session
 	logoutURL := fmt.Sprintf("%s/logout", h.casURL.String())
 	client := &http.Client{
 		Timeout: 2 * time.Second,
@@ -87,10 +83,8 @@ func (h *CASHandler) LoginHandler(c *gin.Context) {
 		}
 	}
 
-	// Generate service URL untuk callback
 	serviceURL := fmt.Sprintf("%s/api/v1/auth/callback", h.hostUrl)
 
-	// Build CAS login URL dengan renew=true
 	loginURL := fmt.Sprintf("%s/login?service=%s&renew=true",
 		h.casURL.String(),
 		url.QueryEscape(serviceURL))
@@ -102,7 +96,6 @@ func (h *CASHandler) LoginHandler(c *gin.Context) {
 	})
 }
 
-// CallbackHandler - handle callback dari CAS setelah login
 func (h *CASHandler) CallbackHandler(c *gin.Context) {
 	username, exists := c.Get("cas_username")
 	if !exists || username == "" {
@@ -118,7 +111,6 @@ func (h *CASHandler) CallbackHandler(c *gin.Context) {
 	usernameStr := username.(string)
 	log.Printf("Processing login for: %s", usernameStr)
 
-	// Check user in database
 	_, err := h.UserService.CheckUserByUsername(ctx, usernameStr)
 	if err != nil {
 		log.Printf("User not found: %s, error: %v", usernameStr, err)
@@ -127,7 +119,6 @@ func (h *CASHandler) CallbackHandler(c *gin.Context) {
 		return
 	}
 
-	// Generate JWT token
 	tokenString, expirationTime, err := utils.GenerateJWT(usernameStr)
 	if err != nil {
 		log.Printf("Token generation failed: %v", err)
@@ -136,7 +127,6 @@ func (h *CASHandler) CallbackHandler(c *gin.Context) {
 		return
 	}
 
-	// Redirect ke frontend dengan token
 	callbackURL := fmt.Sprintf("%s/sso/callback?token=%s&expires_at=%d&username=%s",
 		h.frontendURL,
 		url.QueryEscape(tokenString),
@@ -150,23 +140,20 @@ func (h *CASHandler) CallbackHandler(c *gin.Context) {
 func (h *CASHandler) LogoutHandler(c *gin.Context) {
 	log.Printf("Logout handler called")
 
-	// Clear cookies terlebih dahulu
 	h.clearCookies(c)
 
-	// Buat HTTP request ke CAS logout untuk memastikan server-side session dihapus
 	logoutURL := fmt.Sprintf("%s/logout", h.casURL.String())
 
-	// Hit CAS logout endpoint untuk destroy server session
 	client := &http.Client{
 		Timeout: 3 * time.Second,
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
-			return http.ErrUseLastResponse // Jangan ikuti redirect
+			return http.ErrUseLastResponse
 		},
 	}
 
 	req, err := http.NewRequest("GET", logoutURL, nil)
 	if err == nil {
-		// Copy cookies dari request saat ini ke logout request
+
 		for _, cookie := range c.Request.Cookies() {
 			req.AddCookie(cookie)
 		}
@@ -178,8 +165,6 @@ func (h *CASHandler) LogoutHandler(c *gin.Context) {
 		}
 	}
 
-	// Redirect ke CAS logout dengan service parameter mengarah ke frontend
-	// Ini akan memastikan CAS logout complete, lalu redirect ke frontend
 	timestamp := time.Now().UnixNano()
 	frontendURL := fmt.Sprintf("%s?logout=true&_=%d", h.frontendURL, timestamp)
 
@@ -189,7 +174,6 @@ func (h *CASHandler) LogoutHandler(c *gin.Context) {
 
 	log.Printf("Final redirect to CAS logout with service: %s", finalLogoutURL)
 
-	// Set headers untuk prevent caching
 	c.Writer.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
 	c.Writer.Header().Set("Pragma", "no-cache")
 	c.Writer.Header().Set("Expires", "0")
@@ -198,18 +182,16 @@ func (h *CASHandler) LogoutHandler(c *gin.Context) {
 	c.Redirect(http.StatusFound, finalLogoutURL)
 }
 
-// clearCookies - helper untuk clear cookies
 func (h *CASHandler) clearCookies(c *gin.Context) {
 	cookiesToClear := []string{
 		"CASTGC",
-		"JSESSIONID", // Penting untuk session tracking
+		"JSESSIONID",
 		"SESSION",
 		"TGC",
 		"token",
 		"auth",
 	}
 
-	// Clear cookies dengan berbagai path dan domain
 	paths := []string{"/", "/cas", "/cas/"}
 	domains := []string{"", "sso.undiksha.ac.id", ".undiksha.ac.id"}
 
@@ -217,12 +199,11 @@ func (h *CASHandler) clearCookies(c *gin.Context) {
 		for _, path := range paths {
 			for _, domain := range domains {
 				c.SetCookie(cookieName, "", -1, path, domain, false, true)
-				c.SetCookie(cookieName, "", -1, path, domain, true, true) // secure version
+				c.SetCookie(cookieName, "", -1, path, domain, true, true)
 			}
 		}
 	}
 
-	// Clear semua cookies yang ada di request
 	for _, cookie := range c.Request.Cookies() {
 		c.SetCookie(cookie.Name, "", -1, "/", "", false, true)
 		if cookie.Path != "" {
@@ -233,7 +214,6 @@ func (h *CASHandler) clearCookies(c *gin.Context) {
 	log.Printf("Cleared all cookies including JSESSIONID")
 }
 
-// Health check untuk test CAS server
 func (h *CASHandler) HealthCheckHandler(c *gin.Context) {
 
 	resp, err := http.Get(h.casURL.String())
@@ -265,57 +245,3 @@ func (h *CASHandler) HealthCheckHandler(c *gin.Context) {
 		},
 	})
 }
-
-// LogoutHandler - handle logout request
-// func (h *CASHandler) LogoutHandler(c *gin.Context) {
-// 	service := c.Query("service")
-// 	log.Printf("Logout handler called")
-
-// 	// Clear cookies terlebih dahulu
-// 	h.clearCookies(c)
-
-// 	// Buat HTTP request ke CAS logout untuk memastikan server-side session dihapus
-// 	logoutURL := fmt.Sprintf("%s/logout", h.casURL.String())
-
-// 	// Hit CAS logout endpoint untuk destroy server session
-// 	client := &http.Client{
-// 		Timeout: 3 * time.Second,
-// 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
-// 			return http.ErrUseLastResponse // Jangan ikuti redirect
-// 		},
-// 	}
-
-// 	req, err := http.NewRequest("GET", logoutURL, nil)
-// 	if err == nil {
-// 		// Copy cookies dari request saat ini ke logout request
-// 		for _, cookie := range c.Request.Cookies() {
-// 			req.AddCookie(cookie)
-// 		}
-
-// 		resp, err := client.Do(req)
-// 		if err == nil {
-// 			resp.Body.Close()
-// 			log.Printf("CAS server logout completed with status: %d", resp.StatusCode)
-// 		}
-// 	}
-
-// 	// Build final logout URL dengan service jika ada
-// 	var finalLogoutURL string
-// 	if service != "" {
-// 		finalLogoutURL = fmt.Sprintf("%s/logout?service=%s",
-// 			h.casURL.String(),
-// 			url.QueryEscape(service))
-// 	} else {
-// 		finalLogoutURL = logoutURL
-// 	}
-
-// 	log.Printf("Final redirect to CAS logout: %s", finalLogoutURL)
-
-// 	// Set headers untuk prevent caching
-// 	c.Writer.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
-// 	c.Writer.Header().Set("Pragma", "no-cache")
-// 	c.Writer.Header().Set("Expires", "0")
-// 	c.Writer.Header().Set("Clear-Site-Data", "\"cookies\"")
-
-// 	c.Redirect(http.StatusFound, finalLogoutURL)
-// }

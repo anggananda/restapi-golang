@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"math"
 	"net/http"
 	"restapi-golang/services"
 	"restapi-golang/utils"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -70,4 +72,53 @@ func (h *RealisasiBulanHandler) GetRealisasiBulanFiltered(c *gin.Context) {
 			"pages": pages,
 		},
 	})
+}
+
+func (h *RealisasiBulanHandler) ExportRealisasiBulanCSV(c *gin.Context) {
+	limit := utils.StringToInt(c.Query("limit"), 0)
+	tahun := c.Query("tahun")
+	search := c.Query("search")
+
+	if tahun == "" {
+		tahun = time.Now().Format("2006")
+	}
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 60*time.Second)
+	defer cancel()
+
+	realisasiBulan, _, err := h.RealisasiBulanService.GetRealisasiBulanFiltered(ctx, tahun, search, 1, limit)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	csvHeaders := []string{
+		"ID", "Kode ID", "Tahun Anggaran", "Bulan",
+		"Realisasi Total PNBP", "Realisasi Total RM", "Realisasi Total RM BOPTN",
+	}
+
+	var csvData [][]string
+
+	for _, item := range realisasiBulan {
+
+		idStr := strconv.Itoa(item.ID)
+
+		row := []string{
+
+			idStr,
+			item.Kode,
+			item.TahunAnggaran,
+			item.Bulan,
+
+			item.RealisasiTotalPNBP,
+			item.RealisasiTotalRM,
+			item.RealisasiTotalRMBOPTN,
+		}
+
+		csvData = append(csvData, row)
+	}
+
+	currentTime := time.Now().Format("20060102_150405")
+	filename := fmt.Sprintf("realisasi_bulan_%s_%s", tahun, currentTime)
+	utils.SendCSV(c, filename, csvHeaders, csvData)
 }

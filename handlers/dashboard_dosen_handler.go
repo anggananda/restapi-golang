@@ -20,6 +20,18 @@ func NewDashboardDosenHandler(service *services.DashboardDosenService) *Dashboar
 	}
 }
 
+// GetDashboardDosenOverview mendapatkan  overview dashboard dosen
+// @Summary      Get Dashboard Dosen Overview
+// @Description  Mendapatkan overview dashboard dosen
+// @Tags         Dashboard Dosen
+// @Accept       json
+// @Produce      json
+// @Param        tahun        query     int  false  "tahun"
+// @Success      200           {object}  models.ListDetailResponse{datas=models.DashboardCardPegawai}
+// @Failure      400           {object}  models.ErrorResponse
+// @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
+// @Router       /dashboard-dosen/overview [get]
 func (h *DashboardDosenHandler) GetDashboardDosenOverview(c *gin.Context) {
 	tahunStr := c.Query("tahun")
 
@@ -42,6 +54,21 @@ func (h *DashboardDosenHandler) GetDashboardDosenOverview(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "OK", "datas": result})
 }
 
+// GetDrilldownDosenFakultas mendapatkan drilldown fakultas dashboard Dosen
+// @Summary      Get drilldown fakultas dosen Overview
+// @Description  Mendapatkan drilldown fakultas dashboard Dosen
+// @Tags         Dashboard Dosen
+// @Accept       json
+// @Produce      json
+// @Param        status        query     string  false  "status"
+// @Param        tahun        query     int  false  "tahun"
+// @Param        statusPegawai        query     int  false  "statusPegawai"
+// @Param        statusKeaktifan        query     int  false  "statusKeaktifan"
+// @Success      200           {object}  models.ListDetailResponse{datas=models.DrilldownItem}
+// @Failure      400           {object}  models.ErrorResponse
+// @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
+// @Router       /dashboard-dosen/fakultas [get]
 func (h *DashboardDosenHandler) GetDrilldownDosenFakultas(c *gin.Context) {
 	tahunStr := c.Query("tahun")
 	statusPegawaiStr := c.Query("statusPegawai")
@@ -72,6 +99,22 @@ func (h *DashboardDosenHandler) GetDrilldownDosenFakultas(c *gin.Context) {
 	})
 }
 
+// GetDrilldownDosenJurusan mendapatkan drilldown jurusan dashboard Dosen
+// @Summary      Get drilldown jurusan dosen Overview
+// @Description  Mendapatkan drilldown jurusan dashboard Dosen
+// @Tags         Dashboard Dosen
+// @Accept       json
+// @Produce      json
+// @Param        status        query     string  false  "status"
+// @Param        tahun        query     int  false  "tahun"
+// @Param        statusPegawai        query     int  false  "statusPegawai"
+// @Param        statusKeaktifan        query     int  false  "statusKeaktifan"
+// @Param        kodeFakultas        query     string  false  "kodeFakultas"
+// @Success      200           {object}  models.ListDetailResponse{datas=models.DrilldownItem}
+// @Failure      400           {object}  models.ErrorResponse
+// @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
+// @Router       /dashboard-dosen/jurusan [get]
 func (h *DashboardDosenHandler) GetDrilldownDosenJurusan(c *gin.Context) {
 	tahunStr := c.Query("tahun")
 	statusPegawaiStr := c.Query("statusPegawai")
@@ -103,6 +146,22 @@ func (h *DashboardDosenHandler) GetDrilldownDosenJurusan(c *gin.Context) {
 	})
 }
 
+// GetDrilldownDosenProdi mendapatkan drilldown prodi dashboard Dosen
+// @Summary      Get drilldown prodi dosen Overview
+// @Description  Mendapatkan drilldown prodi dashboard Dosen
+// @Tags         Dashboard Dosen
+// @Accept       json
+// @Produce      json
+// @Param        status        query     string  false  "status"
+// @Param        tahun        query     int  false  "tahun"
+// @Param        statusPegawai        query     int  false  "statusPegawai"
+// @Param        statusKeaktifan        query     int  false  "statusKeaktifan"
+// @Param        kodeJurusan        query     string  false  "kodeJurusan"
+// @Success      200           {object}  models.ListDetailResponse{datas=models.DrilldownItem}
+// @Failure      400           {object}  models.ErrorResponse
+// @Failure      500           {object}  models.ErrorResponse
+// @Security     BearerAuth
+// @Router       /dashboard-dosen/prodi [get]
 func (h *DashboardDosenHandler) GetDrilldownDosenProdi(c *gin.Context) {
 	tahunStr := c.Query("tahun")
 	statusPegawaiStr := c.Query("statusPegawai")

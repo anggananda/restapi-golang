@@ -1,0 +1,28 @@
+kritik_saran_filtered:
+  datas:
+    - _id: 3001
+      nip: "197805202005011003"
+      nama: "Dr. Bambang Kusumo, M.Sc."
+      saran:
+        - "Materi kuliah perlu diperbarui dengan studi kasus industri 4.0 yang lebih relevan."
+        - "Perlu penambahan sesi praktikum untuk mata kuliah Basis Data Lanjut."
+        - "Sistem informasi akademik seringkali lambat di jam-jam sibuk, mohon ditingkatkan kinerjanya."
+      tahun: "2024"
+      semester: "Genap"
+      periode: "2023-2"
+      unit:
+        uk_kode: "UNIT002"
+        fkt_kode: "FTI"
+        jrs_kode: "IF"
+        prd_kode: "S1IF"
+        fakultas: "Fakultas Teknologi Industri"
+        jurusan: "Teknik Informatika"
+        prodi: "Sarjana Teknik Informatika"
+
+  pagination:
+    limit: 1
+    page: 1
+    pages: 1
+    total: 1
+
+  status: "OK (mock)"

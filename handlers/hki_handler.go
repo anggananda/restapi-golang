@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"math"
 	"net/http"
 	"restapi-golang/services"
 	"restapi-golang/utils"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -78,4 +80,128 @@ func (h *HkiHandler) GetHkiFiltered(c *gin.Context) {
 			"pages": pages,
 		},
 	})
+}
+
+func (h *HkiHandler) ExportHkiCSV(c *gin.Context) {
+	limit := utils.StringToInt(c.Query("limit"), 0)
+	kodeFakultas := c.Query("kodeFakultas")
+	kodeJurusan := c.Query("kodeJurusan")
+	kodeProdi := c.Query("kodeProdi")
+	tahun := c.Query("tahun")
+	semester := c.Query("semester")
+	search := c.Query("search")
+
+	if tahun == "" {
+		tahun = time.Now().Format("2006")
+	}
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 60*time.Second)
+	defer cancel()
+
+	hki, _, err := h.HkiService.GetHkiFiltered(ctx, kodeFakultas, kodeJurusan, kodeProdi, tahun, semester, search, 1, limit)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	csvHeaders := []string{
+		"ID", "Tahun Ajaran", "Semester", "Semester Type", "Tahun Data", "Periode", "Waktu Pelaksanaan",
+		"Tanggal Pendaftaran", "Created At", "Updated At", "Deleted At", "Cron Tahun", "Cron Semester", "Deskripsi Karya",
+
+		"Nama Karya", "Jenis Paten", "Kode Jenis Paten", "No Pendaftaran", "No Pendatatan Sertifikat",
+		"Scope", "Kode Scope",
+
+		"Nama Dosen Pencipta", "Posisi", "Create Dosen ID", "Level Capaian", "Jml Penulis", "Jml Negara Pengaku",
+
+		"IsValid", "Valid IPK", "Valid IPK Komentar", "Komentar Validasi", "File Penilaian Reviewer",
+
+		"Is Produk", "Sumber Produk",
+		"Produk Penelitian Judul", "Produk Penelitian ID", "Produk Penelitian", "Mahasiswa Penelitian",
+		"Produk Pengabdian Judul", "Produk Pengabdian ID", "Produk Pengabdian", "Anggota Penelitian",
+
+		"File Bukti Kinerja", "File Sertifikat Paten", "File Pendaftaran",
+		"File Pemeriksaan Substansi", "File Uji Publik", "File Sertifikasi",
+		"File Hasil Uji Plagiarisme", "Tb Name", "Primary Key",
+
+		"Unit UK Kode", "Unit Fakultas Kode", "Unit Jurusan Kode", "Unit Prodi Kode",
+		"Fakultas Unit", "Jurusan Unit", "Prodi Unit",
+	}
+
+	var csvData [][]string
+
+	for _, item := range hki {
+		idStr := strconv.Itoa(item.ID)
+
+		row := []string{
+			idStr,
+			item.TahunAjaran,
+			item.Semester,
+			item.SemesterType,
+			item.TahunData,
+			item.Periode,
+			item.WaktuPelaksanaan,
+			item.Tanggal,
+			item.CreatedAt,
+			item.UpdatedAt,
+			item.DeletedAt,
+			item.CronTahun,
+			item.CronSemester,
+			item.Deskripsi,
+
+			item.NamaKarya,
+			item.JenisPaten,
+			item.KodeJenisPaten,
+			item.NoPendaftaran,
+			item.NoPendatatanSertifikat,
+			item.Scope,
+			item.KodeScope,
+
+			item.NamaDosen,
+			item.Posisi,
+			item.CreateDosenID,
+			item.LevelCapaian,
+			item.JmlPenulis,
+			item.JmlNegaraPengaku,
+
+			item.IsValid,
+			item.ValidIpk,
+			item.ValidIpkKomentar,
+			item.Komentar,
+			item.FilePenilaianReviewer,
+
+			item.IsProduk,
+			item.SumberProduk,
+			item.ProdukPenelitianJudul,
+			item.ProdukPenelitianID,
+			item.ProdukPenelitian,
+			item.MahasiswaPenelitian,
+			item.ProdukPengabdianJudul,
+			item.ProdukPengabdianID,
+			item.ProdukPengabdian,
+			item.AnggotaPenelitian,
+
+			item.FileBuktiKinerja,
+			item.FileSertifikatPaten,
+			item.FilePendaftaran,
+			item.FilePemeriksaanSubstansi,
+			item.FileUjiPublik,
+			item.FileSertifikasi,
+			item.FileHasilUjiPlagiarim,
+			item.TbName,
+			item.PrimaryKey,
+
+			item.Unit.UKKode,
+			item.Unit.FktKode,
+			item.Unit.JrsKose,
+			item.Unit.PrdKode,
+			item.Unit.Fakultas,
+			item.Unit.Jurusan,
+			item.Unit.Prodi,
+		}
+
+		csvData = append(csvData, row)
+	}
+	currentTime := time.Now().Format("20060102_150405")
+	filename := fmt.Sprintf("hki_%s_%s_%s", tahun, semester, currentTime)
+	utils.SendCSV(c, filename, csvHeaders, csvData)
 }

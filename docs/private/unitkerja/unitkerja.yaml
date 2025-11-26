@@ -1,0 +1,51 @@
+unit_kerja_filtered:
+  datas:
+    - _id: "UK-MAP-2025"
+      last_updated: "2025-01-01T10:00:00Z"
+      data:
+        - uk_id: 100
+          uk_kode: "UNIV"
+          uk_nama: "Universitas XYZ (Rektorat)"
+          children:
+            - uk_id: 200
+              uk_kode: "FEB"
+              uk_nama: "Fakultas Ekonomi dan Bisnis"
+              children:
+                - uk_id: 210
+                  uk_kode: "AK"
+                  uk_nama: "Jurusan Akuntansi"
+                  children:
+                    - uk_id: 211
+                      uk_kode: "S1AK"
+                      uk_nama: "Prodi S1 Akuntansi"
+                      children: []
+                    - uk_id: 212
+                      uk_kode: "D3AK"
+                      uk_nama: "Prodi D3 Akuntansi"
+                      children: []
+                - uk_id: 220
+                  uk_kode: "MN"
+                  uk_nama: "Jurusan Manajemen"
+                  children:
+                    - uk_id: 221
+                      uk_kode: "S1MN"
+                      uk_nama: "Prodi S1 Manajemen"
+                      children: []
+            - uk_id: 300
+              uk_kode: "FTI"
+              uk_nama: "Fakultas Teknologi Industri"
+              children:
+                - uk_id: 310
+                  uk_kode: "IF"
+                  uk_nama: "Jurusan Teknik Informatika"
+                  children:
+                    - uk_id: 311
+                      uk_kode: "S1IF"
+                      uk_nama: "Prodi S1 Teknik Informatika"
+                      children: []
+                    - uk_id: 312
+                      uk_kode: "S2IF"
+                      uk_nama: "Prodi S2 Teknik Informatika"
+                      children: []
+
+  message: "Mapping Unit Kerja berhasil diambil"

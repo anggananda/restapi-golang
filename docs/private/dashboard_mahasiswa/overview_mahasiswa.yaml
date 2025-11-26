@@ -1,0 +1,20 @@
+dashboard_card_filtered:
+  datas:
+    - title: "Total Mahasiswa Aktif"
+      value: 15450
+      status: "Tahun 2024/2025"
+      drilldown: true
+    - title: "Total Dosen PNS"
+      value: 685
+      status: "Data Kepegawaian Terbaru"
+      drilldown: true
+    - title: "Publikasi Q1 Tahun Ini"
+      value: 12
+      status: "Peningkatan 20% dari Tahun Lalu"
+      drilldown: true
+    - title: "Anggaran Terserap (PNBP)"
+      value: 78
+      status: "Realisasi (%)"
+      drilldown: true
+
+  message: "Data kartu dashboard berhasil diambil"

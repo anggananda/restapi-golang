@@ -1,0 +1,17 @@
+realisasi_bulan_filtered:
+  datas:
+    - _id: 9001
+      kode: "RB202505"
+      bulan: "Mei"
+      realisasi_total_pnbp: "1500000000"
+      realisasi_total_rm: "250000000"
+      realisasi_total_rm_boptn: "100000000"
+      tahun_anggaran: "2025"
+
+  pagination:
+    limit: 1
+    page: 1
+    pages: 1
+    total: 1
+
+  status: "OK (mock)"

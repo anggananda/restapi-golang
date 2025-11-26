@@ -1,0 +1,21 @@
+dosen_history_filtered:
+  datas:
+    - nip: "197510252003121001"
+      no_induk_undiksha: "751025031"
+      nama: "Dr. Anton Subagyo, S.Kom., M.T."
+      fakultas: "Fakultas Teknologi Industri"
+      jurusan: "Teknik Informatika"
+      prodi: "Sarjana Teknik Informatika"
+      tahun: 2024
+      status_pegawai: "Pegawai Negeri Sipil (PNS)"
+      status_keaktifan: "Aktif Mengajar"
+      jabatan_fungsional: "Lektor Kepala"
+      strata: "S3 (Doktor)"
+
+  pagination:
+    limit: 1
+    page: 1
+    pages: 1
+    total: 1
+
+  status: "OK (mock)"

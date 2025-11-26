@@ -1,0 +1,78 @@
+pegawai_filtered:
+  datas:
+    - _id: "60012300000003"
+      alamat: "Jl. Merdeka No. 45, Buleleng"
+      created_at: "2009-01-01T08:00:00Z"
+      email_admin: "siti.rahayu@admin.ac.id"
+      email_sso: "siti.rahayu@sso.universitas.ac.id"
+      expiry_at: null
+      first_golongan: "II/a"
+      first_tgl_sk: "2009-01-01"
+      first_tgl_terima_sk: "2009-01-15"
+      first_tmt: "2009-01-01"
+      history:
+        - tahun: 2022
+          status_pegawai: "PNS"
+          status_keaktifan: "Aktif"
+          id_status_pegawai: 1
+          id_status_keaktifan: 1
+        - tahun: 2023
+          status_pegawai: "PNS"
+          status_keaktifan: "Aktif"
+          id_status_pegawai: 1
+          id_status_keaktifan: 1
+        - tahun: 2024
+          status_pegawai: "PNS"
+          status_keaktifan: "Aktif"
+          id_status_pegawai: 1
+          id_status_keaktifan: 1
+      hp: "081233344455"
+      id: 6003
+      id_sdm_sister: ""
+      jabatan_fungsional:
+        nama: ""
+        id: 0
+        grade_id: 0
+        unit: ""
+        unit_id: 0
+      jabatan_struktural:
+        nama: "Kepala Sub Bagian Kepegawaian"
+        id: 50
+        grade_id: 10
+        unit: "Fakultas Ekonomi dan Bisnis"
+        unit_id: 3
+      jk: "P"
+      last_golongan: "III/b"
+      last_pangkat: "Penata Muda Tk. I"
+      last_strata: "D3"
+      nama: "Siti Rahayu, A.Md."
+      nama_tanpa_gelar: "Siti Rahayu"
+      nik: "5100000000000003"
+      nip: "198503102009012005"
+      nip_lama: "850310091"
+      no_induk_undiksha: "850310091"
+      no_karpeg: "E0500123"
+      pegawai_key: 3001
+      photo: "/path/to/photo/198503102009012005.jpg"
+      status:
+        p_key: 1
+        status_key: 1
+        statuskep_key: 1
+        status_pegawai_nama: "Pegawai Negeri Sipil (PNS)"
+        status_keaktifan: "Aktif"
+        tmt_status_pegawai: "2009-01-01"
+      struktural_fungsional: "Struktural"
+      tempat_lahir: "Buleleng"
+      tgl_lahir: "1985-03-10"
+      tmt_cpns: "2009-01-01"
+      unit:
+        uk_kode: "FEB"
+        fkt_kode: "FEB"
+        jrs_kode: "TU"
+        prd_kode: "AU"
+        fakultas: "Fakultas Ekonomi dan Bisnis"
+        jurusan: "Tata Usaha"
+        prodi: "Administrasi Umum"
+      updated_at: "2024-11-20T10:00:00Z"
+
+  message: "Data Pegawai berhasil diambil"

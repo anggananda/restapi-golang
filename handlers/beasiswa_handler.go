@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"math"
 	"net/http"
 	"restapi-golang/services"
 	"restapi-golang/utils"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -82,5 +84,86 @@ func (h *BeasiswaHandler) GetBeasiswaFiltered(c *gin.Context) {
 			"pages": pages,
 		},
 	})
+
+}
+
+func (h *BeasiswaHandler) ExportBeasiswaCSV(c *gin.Context) {
+	limit := utils.StringToInt(c.Query("limit"), 0)
+	tahunStr := c.Query("tahun")
+	kodeFakultas := c.Query("kodeFakultas")
+	kodeJurusan := c.Query("kodeJurusan")
+	kodeProdi := c.Query("kodeProdi")
+	semester := c.Query("semester")
+	jenisBeasiswa := c.Query("jenisBeasiswa")
+	search := c.Query("search")
+
+	var tahun int
+	if tahunStr == "" {
+		tahunStr = time.Now().Format("2006")
+	}
+	tahun = utils.StringToInt(tahunStr, 0)
+
+	ctx, cancel := context.WithTimeout(c.Request.Context(), 60*time.Second)
+	defer cancel()
+
+	beasiswa, _, err := h.BeasiswaService.GetBeasiswaFiltered(ctx, kodeFakultas, kodeJurusan, kodeProdi, semester, jenisBeasiswa, search, tahun, 1, limit)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	csvHeaders := []string{
+		"ID (_id)",
+		"NIM",
+		"Nama",
+		"Jenis Beasiswa",
+		"IPK",
+		"Status",
+		"Tahun",
+		"Semester",
+		"Semester Type",
+		"Periode",
+		"Unit UK Kode",
+		"Unit Fakultas Kode",
+		"Unit Jurusan Kode",
+		"Unit Prodi Kode",
+		"Fakultas",
+		"Jurusan",
+		"Program Studi",
+	}
+
+	var csvData [][]string
+
+	for _, item := range beasiswa {
+
+		idStr := strconv.Itoa(item.ID)
+		tahunStr := strconv.Itoa(item.Tahun)
+		ipkStr := strconv.Itoa(int(item.IPK))
+
+		row := []string{
+			idStr,
+			item.NIM,
+			item.Nama,
+			item.JenisBeasiswa,
+			ipkStr,
+			item.Status,
+			tahunStr,
+			item.Semester,
+			item.SemesterType,
+			item.Unit.UKKode,
+			item.Unit.FktKode,
+			item.Unit.JrsKose,
+			item.Unit.PrdKode,
+			item.Unit.Fakultas,
+			item.Unit.Jurusan,
+			item.Unit.Prodi,
+		}
+
+		csvData = append(csvData, row)
+	}
+
+	currentTime := time.Now().Format("20060102_150405")
+	filename := fmt.Sprintf("beasiswa_%d_%s_%s", tahun, semester, currentTime)
+	utils.SendCSV(c, filename, csvHeaders, csvData)
 
 }

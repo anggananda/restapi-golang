@@ -470,6 +470,1204 @@ const docTemplate = `{
                 }
             }
         },
+        "/dashboard-dosen/fakultas": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan drilldown fakultas dashboard Dosen",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dashboard Dosen"
+                ],
+                "summary": "Get drilldown fakultas dosen Overview",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "tahun",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "statusPegawai",
+                        "name": "statusPegawai",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "statusKeaktifan",
+                        "name": "statusKeaktifan",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/definitions/models.DrilldownItem"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard-dosen/jurusan": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan drilldown jurusan dashboard Dosen",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dashboard Dosen"
+                ],
+                "summary": "Get drilldown jurusan dosen Overview",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "tahun",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "statusPegawai",
+                        "name": "statusPegawai",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "statusKeaktifan",
+                        "name": "statusKeaktifan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "kodeFakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/definitions/models.DrilldownItem"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard-dosen/overview": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan overview dashboard dosen",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dashboard Dosen"
+                ],
+                "summary": "Get Dashboard Dosen Overview",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "tahun",
+                        "name": "tahun",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/definitions/models.DashboardCardPegawai"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard-dosen/prodi": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan drilldown prodi dashboard Dosen",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dashboard Dosen"
+                ],
+                "summary": "Get drilldown prodi dosen Overview",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "tahun",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "statusPegawai",
+                        "name": "statusPegawai",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "statusKeaktifan",
+                        "name": "statusKeaktifan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "kodeJurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/definitions/models.DrilldownItem"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard-mhs/fakultas": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan drilldown fakultas dashboard mahasiswa",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dashboard Mahasiswa"
+                ],
+                "summary": "Get drilldown fakultas Mhs Overview",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "tahun",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "semester",
+                        "name": "semester",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/definitions/models.DrilldownItem"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard-mhs/jurusan": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan drilldown jurusan dashboard mahasiswa",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dashboard Mahasiswa"
+                ],
+                "summary": "Get drilldown jurusan Mhs Overview",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "kodeFakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "tahun",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "semester",
+                        "name": "semester",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/definitions/models.DrilldownItem"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard-mhs/overview": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan overview dashboard mahasiswa",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dashboard Mahasiswa"
+                ],
+                "summary": "Get Dashboard Mhs Overview",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "tahun",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "semester",
+                        "name": "semester",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/definitions/models.DashboardCard"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard-mhs/prodi": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan drilldown prodi dashboard mahasiswa",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dashboard Mahasiswa"
+                ],
+                "summary": "Get drilldown prodi Mhs Overview",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "kodeJurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "tahun",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "semester",
+                        "name": "semester",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/definitions/models.DrilldownItem"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard-pegawai/fakultas": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan drilldown fakultas dashboard pegawai",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dashboard Pegawai"
+                ],
+                "summary": "Get drilldown fakultas pegawai Overview",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "tahun",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "statusPegawai",
+                        "name": "statusPegawai",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "statusKeaktifan",
+                        "name": "statusKeaktifan",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/definitions/models.DrilldownItem"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard-pegawai/jurusan": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan drilldown jurusan dashboard pegawai",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dashboard Pegawai"
+                ],
+                "summary": "Get drilldown jurusan pegawai Overview",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "tahun",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "statusPegawai",
+                        "name": "statusPegawai",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "statusKeaktifan",
+                        "name": "statusKeaktifan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "kodeFakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/definitions/models.DrilldownItem"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard-pegawai/overview": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan overview dashboard pegawai",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dashboard Pegawai"
+                ],
+                "summary": "Get Dashboard pegawai Overview",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "tahun",
+                        "name": "tahun",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/definitions/models.DashboardCardPegawai"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/dashboard-pegawai/prodi": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan drilldown prodi dashboard pegawai",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dashboard Pegawai"
+                ],
+                "summary": "Get drilldown prodi pegawai Overview",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "tahun",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "statusPegawai",
+                        "name": "statusPegawai",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "statusKeaktifan",
+                        "name": "statusKeaktifan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "kodeJurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/definitions/models.DrilldownItem"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/dosen/history": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan data dosen berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dosen"
+                ],
+                "summary": "Get filtered dosen",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan statusPegawai",
+                        "name": "statusPegawai",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan statusKeaktifan",
+                        "name": "statusKeaktifan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.DosenHistoryResponse"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/dosen/{niu}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan detail data dosen",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dosen"
+                ],
+                "summary": "Get detail dosen",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "niu",
+                        "name": "niu",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/definitions/models.Dosen"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/evaluasi-dosen": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan data Evaluasi Dosen berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Evaluasi Dosen"
+                ],
+                "summary": "Get filtered Evaluasi Dosen",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan namaDosen",
+                        "name": "namaDosen",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.EvaluasiDosen"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/health-check": {
             "get": {
                 "description": "HealthCheckHandler responds with the API health status.",
@@ -835,6 +2033,110 @@ const docTemplate = `{
                 }
             }
         },
+        "/kerjasama": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan data kerjasama berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Kerjasama"
+                ],
+                "summary": "Get filtered kerjasama",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Kerjasama"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/khs": {
             "get": {
                 "security": [
@@ -1144,6 +2446,370 @@ const docTemplate = `{
                                             "items": {
                                                 "$ref": "#/definitions/models.MhsWisuda"
                                             }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mhs/history": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan data mahasiswa berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Mahasiswa"
+                ],
+                "summary": "Get filtered mahasiswa",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan angkatan",
+                        "name": "angkatan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kewarganegaraan",
+                        "name": "kewarganegaraan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.MahasiswaHistoryResponse"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mhs/{nim}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan detail data mahasiswa",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Mahasiswa"
+                ],
+                "summary": "Get detail mahasiswa",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "nim",
+                        "name": "nim",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/definitions/models.Mahasiswa"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pegawai/history": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan data Pegawai berdasarkan filter dengan pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pegawai"
+                ],
+                "summary": "Get filtered Pegawai",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Nomor halaman (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "minimum": 1,
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Jumlah data per halaman (default: 10, max: 100)",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kode program studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan tahun akademik",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan statusPegawai",
+                        "name": "statusPegawai",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan statusKeaktifan",
+                        "name": "statusKeaktifan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian global",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.PegawaiHistoryResponse"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/pegawai/{niu}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan detail data Pegawai",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pegawai"
+                ],
+                "summary": "Get detail Pegawai",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "niu",
+                        "name": "niu",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/definitions/models.PegawaiHistory"
                                         }
                                     }
                                 }
@@ -1991,6 +3657,171 @@ const docTemplate = `{
                 }
             }
         },
+        "/status-keaktifan-pegawai": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan data status keaktifan pegawai",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Status"
+                ],
+                "summary": "Get status keaktifan pegawai",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Status"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/status-mhs": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan data status mahasiswa",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Status"
+                ],
+                "summary": "Get status mahasiswa",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Status"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/status-pegawai": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan data status pegawai",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Status"
+                ],
+                "summary": "Get status pegawai",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Status"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/tracer": {
             "get": {
                 "security": [
@@ -2085,6 +3916,61 @@ const docTemplate = `{
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/definitions/models.Tracer"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/unit-kerja": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan data unitkerja",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Unitkerja"
+                ],
+                "summary": "Get unitkerja",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.Data"
                                             }
                                         }
                                     }
@@ -2432,12 +4318,467 @@ const docTemplate = `{
                 }
             }
         },
+        "models.DashboardCard": {
+            "type": "object",
+            "properties": {
+                "drilldown": {
+                    "type": "boolean"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.DashboardCardPegawai": {
+            "type": "object",
+            "properties": {
+                "drilldown": {
+                    "type": "boolean"
+                },
+                "id_status_keaktifan": {
+                    "type": "integer"
+                },
+                "id_status_pegawai": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.Data": {
+            "type": "object",
+            "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Data"
+                    }
+                },
+                "uk_id": {
+                    "type": "integer"
+                },
+                "uk_kode": {
+                    "type": "string"
+                },
+                "uk_nama": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Dosen": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "akreditasi": {
+                    "$ref": "#/definitions/models.UnitKerjaHomebase"
+                },
+                "alamat": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "dosen_id": {
+                    "type": "integer"
+                },
+                "dosen_key": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "email_sso": {
+                    "type": "string"
+                },
+                "first_golongan": {
+                    "type": "string"
+                },
+                "first_tgl_sk": {
+                    "type": "string"
+                },
+                "first_tgl_terima_sk": {
+                    "type": "string"
+                },
+                "first_tmt": {
+                    "type": "string"
+                },
+                "fungsional_tgl_sk": {
+                    "type": "string"
+                },
+                "fungsional_tgl_sk_pak": {
+                    "type": "string"
+                },
+                "fungsional_tgl_terima_sk": {
+                    "type": "string"
+                },
+                "fungsional_tgl_terima_sk_pak": {
+                    "type": "string"
+                },
+                "fungsional_tmt": {
+                    "type": "string"
+                },
+                "fungsional_tmt_pak": {
+                    "type": "string"
+                },
+                "golongan": {
+                    "type": "string"
+                },
+                "golongan_tmt": {
+                    "type": "string"
+                },
+                "grade": {
+                    "type": "integer"
+                },
+                "grade_fungsional": {
+                    "type": "integer"
+                },
+                "history": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.HistoryDosen"
+                    }
+                },
+                "homebase": {
+                    "$ref": "#/definitions/models.UnitKerjaHomebase"
+                },
+                "hp": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_sdm_sister": {
+                    "type": "string"
+                },
+                "id_status_pegawai": {
+                    "type": "integer"
+                },
+                "id_status_sekarang": {
+                    "type": "integer"
+                },
+                "jabatan_fungsional": {
+                    "type": "string"
+                },
+                "jabatan_struktural": {
+                    "$ref": "#/definitions/models.JabatanStruktural"
+                },
+                "jk": {
+                    "type": "string"
+                },
+                "nama": {
+                    "type": "string"
+                },
+                "nama_tanpa_gelar": {
+                    "type": "string"
+                },
+                "nidn": {
+                    "type": "string"
+                },
+                "nik": {
+                    "type": "string"
+                },
+                "nip": {
+                    "type": "string"
+                },
+                "no_induk_undiksha": {
+                    "type": "string"
+                },
+                "no_karpeg": {
+                    "type": "string"
+                },
+                "nuptk": {
+                    "type": "string"
+                },
+                "pangkat": {
+                    "type": "string"
+                },
+                "photo": {
+                    "type": "string"
+                },
+                "profil_singkat": {
+                    "type": "string"
+                },
+                "status_keaktifan": {
+                    "type": "string"
+                },
+                "status_pegawai": {
+                    "type": "string"
+                },
+                "status_serdos": {
+                    "type": "integer"
+                },
+                "strata": {
+                    "type": "string"
+                },
+                "tempat_lahir": {
+                    "type": "string"
+                },
+                "tgl_lahir": {
+                    "type": "string"
+                },
+                "tmt_status_pegawai": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.UnitLengkap"
+                },
+                "unit_tugas": {
+                    "$ref": "#/definitions/models.UnitKerjaTugas"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.DosenHistoryResponse": {
+            "type": "object",
+            "properties": {
+                "fakultas": {
+                    "type": "string"
+                },
+                "jabatan_fungsional": {
+                    "type": "string"
+                },
+                "jurusan": {
+                    "type": "string"
+                },
+                "nama": {
+                    "type": "string"
+                },
+                "nip": {
+                    "type": "string"
+                },
+                "no_induk_undiksha": {
+                    "type": "string"
+                },
+                "prodi": {
+                    "type": "string"
+                },
+                "status_keaktifan": {
+                    "type": "string"
+                },
+                "status_pegawai": {
+                    "type": "string"
+                },
+                "strata": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.DrilldownItem": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "level": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            }
+        },
         "models.ErrorResponse": {
             "type": "object",
             "properties": {
                 "error": {
                     "type": "string",
                     "example": "error message"
+                }
+            }
+        },
+        "models.EvaluasiDosen": {
+            "type": "object",
+            "properties": {
+                "Inovasi_dalam_perkuliahan": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Kedisiplinan": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Kemampuan_berinteraksi_sosial_dengan_mahasiswa": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Kemampuan_berkomunikasi": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Keteladanan_dalam_bersikap_dan_bertindak": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Kreatifitas_dalam_perkuliahan": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Media_pembelajaran": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Metode_dan_pendekatan_perkuliahan": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Motivasi_dan_antusiasme_mengajar": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Pemberian_tugas_perkuliahan": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Penciptaan_iklim_belajar": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Penegakan_aturan_perkuliahan": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Pengelolaan_kelas": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Pengembangan_karakter_mahasiswa": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Penggunaan_bahasa_lisan_dan_tulisan": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Penguasaan_materi_perkuliahan": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Penilaian_hasil_belajar": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Penilaian_proses_belajar": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Perencanaan_perkuliahan": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Relevansi_materi_dengan_tujuan_pembelajaran": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "Sumber_belajar": {
+                    "$ref": "#/definitions/models.Penilaian"
+                },
+                "_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "kode_fakultas": {
+                    "type": "string"
+                },
+                "kode_matakuliah": {
+                    "type": "string"
+                },
+                "kode_prodi": {
+                    "type": "string"
+                },
+                "nama_kelas": {
+                    "type": "string"
+                },
+                "nama_lengkap": {
+                    "type": "string"
+                },
+                "nama_matakuliah": {
+                    "type": "string"
+                },
+                "nip": {
+                    "type": "string"
+                },
+                "no_induk_undiksha": {
+                    "type": "string"
+                },
+                "semester": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.HistoryDosen": {
+            "type": "object",
+            "properties": {
+                "id_status_keaktifan": {
+                    "type": "integer"
+                },
+                "id_status_pegawai": {
+                    "type": "integer"
+                },
+                "status_keaktifan": {
+                    "type": "string"
+                },
+                "status_pegawai": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.HistoryEntry": {
+            "type": "object",
+            "properties": {
+                "jenis_status_mahasiswa_key": {
+                    "type": "integer"
+                },
+                "nama_pa": {
+                    "type": "string"
+                },
+                "periode": {
+                    "type": "string"
+                },
+                "semester": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.HistoryPegawaiEntry": {
+            "type": "object",
+            "properties": {
+                "id_status_keaktifan": {
+                    "type": "integer"
+                },
+                "id_status_pegawai": {
+                    "type": "integer"
+                },
+                "status_keaktifan": {
+                    "type": "string"
+                },
+                "status_pegawai": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "integer"
                 }
             }
         },
@@ -2598,6 +4939,66 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "waktu_pelaksanaan": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.JabFungsional": {
+            "type": "object",
+            "properties": {
+                "grade_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "nama": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": "string"
+                },
+                "unit_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.JabStruktural": {
+            "type": "object",
+            "properties": {
+                "grade_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "nama": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": "string"
+                },
+                "unit_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.JabatanStruktural": {
+            "type": "object",
+            "properties": {
+                "id_unit": {
+                    "type": "integer"
+                },
+                "jbt_id": {
+                    "type": "integer"
+                },
+                "kode_unit": {
+                    "type": "string"
+                },
+                "nama": {
+                    "type": "string"
+                },
+                "tgl_selesai": {
                     "type": "string"
                 }
             }
@@ -2912,6 +5313,290 @@ const docTemplate = `{
                 }
             }
         },
+        "models.Kerjasama": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "integer"
+                },
+                "alamat": {
+                    "type": "string"
+                },
+                "alokasi_anggaran": {
+                    "type": "string"
+                },
+                "bntkrjsma_id": {
+                    "type": "string"
+                },
+                "bntkrjsma_nama": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "created_name": {
+                    "type": "string"
+                },
+                "deskripsi_singkat": {
+                    "type": "string"
+                },
+                "dokumen_url": {
+                    "type": "string"
+                },
+                "dokument_nama": {
+                    "type": "string"
+                },
+                "durasi_bulan": {
+                    "type": "string"
+                },
+                "durasi_hari": {
+                    "type": "string"
+                },
+                "durasi_minggu": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "hasil_pelaksanaan": {
+                    "type": "string"
+                },
+                "id_status_mitra": {
+                    "type": "string"
+                },
+                "indikator_kinerja_id": {
+                    "type": "string"
+                },
+                "indikator_kinerja_nama": {
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "string"
+                },
+                "is_dokumen_valid": {
+                    "type": "string"
+                },
+                "is_jdih": {
+                    "type": "string"
+                },
+                "is_kampus_qs": {
+                    "type": "string"
+                },
+                "is_upload": {
+                    "type": "string"
+                },
+                "is_upload_pusat": {
+                    "type": "string"
+                },
+                "jns_asalmitra_id": {
+                    "type": "string"
+                },
+                "jns_asalmitra_nama": {
+                    "type": "string"
+                },
+                "jnsdok_id": {
+                    "type": "string"
+                },
+                "jnsdok_nama": {
+                    "type": "string"
+                },
+                "jnspar_nama": {
+                    "type": "string"
+                },
+                "jnspar_nama_ptnbh": {
+                    "type": "string"
+                },
+                "kategori_dok_id": {
+                    "type": "string"
+                },
+                "kategori_dok_nama": {
+                    "type": "string"
+                },
+                "keterangan_validasi": {
+                    "type": "string"
+                },
+                "ks_registrasi": {
+                    "type": "string"
+                },
+                "lap_singkat_pelaksanaan": {
+                    "type": "string"
+                },
+                "laporan_url": {
+                    "type": "string"
+                },
+                "luaran_volume": {
+                    "type": "string"
+                },
+                "negara_id": {
+                    "type": "string"
+                },
+                "negara_nama": {
+                    "type": "string"
+                },
+                "nilai_kontrak": {
+                    "type": "string"
+                },
+                "nilai_pendapatan": {
+                    "type": "string"
+                },
+                "nomor_dokumen_mitra": {
+                    "type": "string"
+                },
+                "nomor_surat_undiksha": {
+                    "type": "string"
+                },
+                "partner_id": {
+                    "type": "string"
+                },
+                "partner_is_active": {
+                    "type": "string"
+                },
+                "partner_nama": {
+                    "type": "string"
+                },
+                "partner_penandatangan_jabatan": {
+                    "type": "string"
+                },
+                "partner_penandatangan_nama": {
+                    "type": "string"
+                },
+                "partner_penanggungjawab_email": {
+                    "type": "string"
+                },
+                "partner_penanggungjawab_jabatan": {
+                    "type": "string"
+                },
+                "partner_penanggungjawab_nama": {
+                    "type": "string"
+                },
+                "periode_id": {
+                    "type": "string"
+                },
+                "pihak_nama_mitra": {
+                    "type": "string"
+                },
+                "ref_ks_id": {
+                    "type": "string"
+                },
+                "ref_ks_registrasi": {
+                    "type": "string"
+                },
+                "ruang_lingkup_id": {
+                    "type": "string"
+                },
+                "ruang_lingkup_nama": {
+                    "type": "string"
+                },
+                "ruang_lingkup_other": {
+                    "type": "string"
+                },
+                "sasaran_id": {
+                    "type": "string"
+                },
+                "sasaran_nama": {
+                    "type": "string"
+                },
+                "sedang_berjalan": {
+                    "type": "string"
+                },
+                "status_mitra_nama": {
+                    "type": "string"
+                },
+                "stskrjsma_nama": {
+                    "type": "string"
+                },
+                "sumberdana_id": {
+                    "type": "string"
+                },
+                "sumberdana_nama": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "string"
+                },
+                "tahun_dokumen": {
+                    "type": "string"
+                },
+                "tanggal_akhir": {
+                    "type": "string"
+                },
+                "tanggal_awal": {
+                    "type": "string"
+                },
+                "tautan": {
+                    "type": "string"
+                },
+                "telp": {
+                    "type": "string"
+                },
+                "tgl_laporan": {
+                    "type": "string"
+                },
+                "uk_id_kerjasama": {
+                    "type": "string"
+                },
+                "uk_id_pelaksana": {
+                    "type": "string"
+                },
+                "uk_kerjasama": {
+                    "type": "string"
+                },
+                "uk_pelaksana": {
+                    "type": "string"
+                },
+                "undiksha_penandatangan_email": {
+                    "type": "string"
+                },
+                "undiksha_penandatangan_jabatan": {
+                    "type": "string"
+                },
+                "undiksha_penandatangan_kontak_telp_hp": {
+                    "type": "string"
+                },
+                "undiksha_penandatangan_nama": {
+                    "type": "string"
+                },
+                "undiksha_penanggungjawab_email": {
+                    "type": "string"
+                },
+                "undiksha_penanggungjawab_jabatan": {
+                    "type": "string"
+                },
+                "undiksha_penanggungjawab_kontak_telp_hp": {
+                    "type": "string"
+                },
+                "undiksha_penanggungjawab_nama": {
+                    "type": "string"
+                },
+                "undiksha_pic_dosen_id": {
+                    "type": "string"
+                },
+                "undiksha_pic_dosen_jabatan": {
+                    "type": "string"
+                },
+                "undiksha_pic_dosen_nama": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.UnitDetail"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "type": "string"
+                },
+                "updated_name": {
+                    "type": "string"
+                },
+                "valid_nama": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Khs": {
             "type": "object",
             "properties": {
@@ -2973,6 +5658,15 @@ const docTemplate = `{
                 }
             }
         },
+        "models.ListDetailResponse": {
+            "type": "object",
+            "properties": {
+                "datas": {},
+                "messagae": {
+                    "type": "string"
+                }
+            }
+        },
         "models.ListResponse": {
             "type": "object",
             "properties": {
@@ -2983,6 +5677,229 @@ const docTemplate = `{
                 "status": {
                     "type": "string",
                     "example": "success"
+                }
+            }
+        },
+        "models.Mahasiswa": {
+            "type": "object",
+            "properties": {
+                "agama_key": {
+                    "type": "integer"
+                },
+                "alamat": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "dosen_pa_key": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "email2": {
+                    "type": "string"
+                },
+                "email_sso": {
+                    "type": "string"
+                },
+                "expiry_at": {
+                    "type": "string"
+                },
+                "foto": {
+                    "type": "string"
+                },
+                "history": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.HistoryEntry"
+                    }
+                },
+                "hp": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "id_mahasiswa": {
+                    "type": "string"
+                },
+                "id_status_mahasiswa": {
+                    "type": "string"
+                },
+                "jenis_jalur_mahasiswa_key": {
+                    "type": "integer"
+                },
+                "jk": {
+                    "type": "string"
+                },
+                "jurusan_key": {
+                    "type": "integer"
+                },
+                "kelurahan": {
+                    "type": "string"
+                },
+                "keterangan": {
+                    "type": "string"
+                },
+                "kewarganegaraan": {
+                    "type": "string"
+                },
+                "kode_kabupaten": {
+                    "type": "string"
+                },
+                "kode_kecamatan": {
+                    "type": "string"
+                },
+                "kode_pos": {
+                    "type": "string"
+                },
+                "kode_provinsi": {
+                    "type": "string"
+                },
+                "kurikulum": {
+                    "type": "string"
+                },
+                "last_status": {
+                    "type": "string"
+                },
+                "metadata_key": {
+                    "type": "integer"
+                },
+                "nama": {
+                    "type": "string"
+                },
+                "nama_gadis_ibu_kandung": {
+                    "type": "string"
+                },
+                "nik": {
+                    "type": "string"
+                },
+                "nim": {
+                    "type": "string"
+                },
+                "nisn": {
+                    "type": "string"
+                },
+                "no_kps": {
+                    "type": "string"
+                },
+                "npsn_sekolah": {
+                    "type": "string"
+                },
+                "penerima_bidikmisi": {
+                    "type": "string"
+                },
+                "permalink": {
+                    "type": "string"
+                },
+                "rt": {
+                    "type": "string"
+                },
+                "rw": {
+                    "type": "string"
+                },
+                "semester_posisi": {
+                    "type": "integer"
+                },
+                "source_key": {
+                    "type": "string"
+                },
+                "spp": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "sumber": {
+                    "type": "string"
+                },
+                "tahun_masuk": {
+                    "type": "string"
+                },
+                "telp": {
+                    "type": "string"
+                },
+                "tempatkuliah": {
+                    "type": "string"
+                },
+                "tgl_lahir": {
+                    "type": "string"
+                },
+                "tgl_mulai_kuliah": {
+                    "type": "string"
+                },
+                "tmp_lahir": {
+                    "type": "string"
+                },
+                "uk_id": {
+                    "type": "string"
+                },
+                "uk_kode": {
+                    "type": "string"
+                },
+                "uk_program": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "validasi": {
+                    "type": "string"
+                },
+                "wa": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.MahasiswaHistoryResponse": {
+            "type": "object",
+            "properties": {
+                "email_sso": {
+                    "type": "string"
+                },
+                "fakultas": {
+                    "type": "string"
+                },
+                "jurusan": {
+                    "type": "string"
+                },
+                "kewarganegaraan": {
+                    "type": "string"
+                },
+                "nama": {
+                    "type": "string"
+                },
+                "nama_pa": {
+                    "type": "string"
+                },
+                "nim": {
+                    "type": "string"
+                },
+                "periode": {
+                    "type": "string"
+                },
+                "prodi": {
+                    "type": "string"
+                },
+                "semester": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "integer"
+                },
+                "tahun_masuk": {
+                    "type": "string"
+                },
+                "telp": {
+                    "type": "string"
                 }
             }
         },
@@ -3030,6 +5947,155 @@ const docTemplate = `{
                 "total": {
                     "type": "integer",
                     "example": 100
+                }
+            }
+        },
+        "models.PegawaiHistory": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "alamat": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "email_admin": {
+                    "type": "string"
+                },
+                "email_sso": {
+                    "type": "string"
+                },
+                "expiry_at": {
+                    "type": "string"
+                },
+                "first_golongan": {
+                    "type": "string"
+                },
+                "first_tgl_sk": {
+                    "type": "string"
+                },
+                "first_tgl_terima_sk": {
+                    "type": "string"
+                },
+                "first_tmt": {
+                    "type": "string"
+                },
+                "history": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.HistoryPegawaiEntry"
+                    }
+                },
+                "hp": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_sdm_sister": {
+                    "type": "string"
+                },
+                "jabatan_fungsional": {
+                    "$ref": "#/definitions/models.JabFungsional"
+                },
+                "jabatan_struktural": {
+                    "$ref": "#/definitions/models.JabStruktural"
+                },
+                "jk": {
+                    "type": "string"
+                },
+                "last_golongan": {
+                    "type": "string"
+                },
+                "last_pangkat": {
+                    "type": "string"
+                },
+                "last_strata": {
+                    "type": "string"
+                },
+                "nama": {
+                    "type": "string"
+                },
+                "nama_tanpa_gelar": {
+                    "type": "string"
+                },
+                "nik": {
+                    "type": "string"
+                },
+                "nip": {
+                    "type": "string"
+                },
+                "nip_lama": {
+                    "type": "string"
+                },
+                "no_induk_undiksha": {
+                    "type": "string"
+                },
+                "no_karpeg": {
+                    "type": "string"
+                },
+                "pegawai_key": {
+                    "type": "integer"
+                },
+                "photo": {},
+                "status": {
+                    "$ref": "#/definitions/models.StatusPegawai"
+                },
+                "struktural_fungsional": {
+                    "type": "string"
+                },
+                "tempat_lahir": {
+                    "type": "string"
+                },
+                "tgl_lahir": {
+                    "type": "string"
+                },
+                "tmt_cpns": {
+                    "type": "string"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.Unit"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.PegawaiHistoryResponse": {
+            "type": "object",
+            "properties": {
+                "fakultas": {
+                    "type": "string"
+                },
+                "jurusan": {
+                    "type": "string"
+                },
+                "last_strata": {
+                    "type": "string"
+                },
+                "nama": {
+                    "type": "string"
+                },
+                "nip": {
+                    "type": "string"
+                },
+                "no_induk_undiksha": {
+                    "type": "string"
+                },
+                "prodi": {
+                    "type": "string"
+                },
+                "status_keaktifan": {
+                    "type": "string"
+                },
+                "status_pegawai": {
+                    "type": "string"
+                },
+                "tahun": {
+                    "type": "integer"
                 }
             }
         },
@@ -3447,6 +6513,23 @@ const docTemplate = `{
                 }
             }
         },
+        "models.Penilaian": {
+            "type": "object",
+            "properties": {
+                "baik": {
+                    "type": "integer"
+                },
+                "cukup": {
+                    "type": "integer"
+                },
+                "kurang": {
+                    "type": "integer"
+                },
+                "sangat_baik": {
+                    "type": "integer"
+                }
+            }
+        },
         "models.Perpem": {
             "type": "object",
             "properties": {
@@ -3828,6 +6911,49 @@ const docTemplate = `{
                 }
             }
         },
+        "models.Status": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id_status": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.StatusPegawai": {
+            "type": "object",
+            "properties": {
+                "p_key": {
+                    "type": "integer"
+                },
+                "status_keaktifan": {
+                    "type": "string"
+                },
+                "status_key": {
+                    "type": "integer"
+                },
+                "status_pegawai_nama": {
+                    "type": "string"
+                },
+                "statuskep_key": {
+                    "type": "integer"
+                },
+                "tmt_status_pegawai": {
+                    "type": "string"
+                }
+            }
+        },
         "models.SuccessResponse": {
             "type": "object",
             "properties": {
@@ -3984,6 +7110,95 @@ const docTemplate = `{
             }
         },
         "models.Unit": {
+            "type": "object",
+            "properties": {
+                "fakultas": {
+                    "type": "string"
+                },
+                "fkt_kode": {
+                    "type": "string"
+                },
+                "jrs_kode": {
+                    "type": "string"
+                },
+                "jurusan": {
+                    "type": "string"
+                },
+                "prd_kode": {
+                    "type": "string"
+                },
+                "prodi": {
+                    "type": "string"
+                },
+                "uk_kode": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UnitDetail": {
+            "type": "object",
+            "properties": {
+                "fakultas": {
+                    "type": "string"
+                },
+                "fkt_kode": {
+                    "type": "string"
+                },
+                "jrs_kode": {
+                    "type": "string"
+                },
+                "jurusan": {
+                    "type": "string"
+                },
+                "prd_kode": {
+                    "type": "string"
+                },
+                "prodi": {
+                    "type": "string"
+                },
+                "uk_id": {
+                    "type": "string"
+                },
+                "uk_kode": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UnitKerjaHomebase": {
+            "type": "object",
+            "properties": {
+                "kode_jurusan": {
+                    "type": "string"
+                },
+                "kode_prodi": {
+                    "type": "string"
+                },
+                "uk_id": {
+                    "type": "string"
+                },
+                "uk_kode": {
+                    "type": "string"
+                },
+                "uk_nama": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UnitKerjaTugas": {
+            "type": "object",
+            "properties": {
+                "id_jurusan": {
+                    "type": "integer"
+                },
+                "kode_jurusan": {
+                    "type": "string"
+                },
+                "kode_prodi": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UnitLengkap": {
             "type": "object",
             "properties": {
                 "fakultas": {

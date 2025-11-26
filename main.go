@@ -74,9 +74,17 @@ func main() {
 		panic(fmt.Sprintf("Failed to initialize CAS: %v", err))
 	}
 
-	mhsRepo := repositories.NewMhsRepository(config.DB)
+	mhsRepo := repositories.NewMhsMongoRepository(config.DB)
 	mhsService := services.NewMhsService(mhsRepo)
 	mhsHandler := handlers.NewMhsHandler(mhsService)
+
+	dosenRepo := repositories.NewDosenMongoRepository(config.DB)
+	dosenService := services.NewDosenService(dosenRepo)
+	dosenHandler := handlers.NewDosenHandler(dosenService)
+
+	pegawaiRepo := repositories.NewPegawaiMongoRepository(config.DB)
+	pegawaiService := services.NewPegawaiService(pegawaiRepo)
+	pegawaiHandler := handlers.NewPegawaiHandler(pegawaiService)
 
 	dashboardMhsRepo := repositories.NewDashboardMhsRepository(config.DB)
 	dashboardMhsservice := services.NewDashboardMhsService(dashboardMhsRepo)
@@ -186,7 +194,7 @@ func main() {
 	statusService := services.NewStatusService(statusMahasiswaRepo, statusPegawaiRepo, statusKeaktifanPegawaiRepo)
 	statusHandler := handlers.NewStatusHandler(statusService, config.RDB)
 
-	routes.SetUpRoutes(router, casHandler, userHandler, mhsHandler, dashboardMhsHandler, dashboardDosenHandler, dashboardPegawaiHandler, perpemHandler, evaluasiDosenHandler, angketMhsHandler, kritikSaranHandler, agendaMengajarHandler, mhsWisudaHandler, rekapPMBHandler, khsHandler, penawaranHandler, karyaAkhirHandler, kerjasamaHandler, realisasiUnitHandler, realisasiBulanHandler, penelitianHandler, pengabdianHandler, jurnalHandler, hkiHandler, prosidingHandler, bukuHandler, beasiswaHandler, tracerHandler, unitKerjaHandler, statusHandler)
+	routes.SetUpRoutes(router, casHandler, userHandler, mhsHandler, dosenHandler, pegawaiHandler, dashboardMhsHandler, dashboardDosenHandler, dashboardPegawaiHandler, perpemHandler, evaluasiDosenHandler, angketMhsHandler, kritikSaranHandler, agendaMengajarHandler, mhsWisudaHandler, rekapPMBHandler, khsHandler, penawaranHandler, karyaAkhirHandler, kerjasamaHandler, realisasiUnitHandler, realisasiBulanHandler, penelitianHandler, pengabdianHandler, jurnalHandler, hkiHandler, prosidingHandler, bukuHandler, beasiswaHandler, tracerHandler, unitKerjaHandler, statusHandler)
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.Run(":8080")
