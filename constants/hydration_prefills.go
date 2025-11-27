@@ -12,5 +12,20 @@ func GetPrefillRedisKeys() []models.PrefillEntry {
 			Value: os.Getenv("UNIT_KERJA"),
 			TTL:   0,
 		},
+		{
+			Key:   "status_mahasiswa",
+			Value: os.Getenv("STATUS_MAHASISWA"),
+			TTL:   0,
+		},
+		{
+			Key:   "status_pegawai",
+			Value: os.Getenv("STATUS_PEGAWAI"),
+			TTL:   0,
+		},
+		{
+			Key:   "status_keaktifan_pegawai",
+			Value: os.Getenv("STATUS_KEAKTIFAN_PEGAWAI"),
+			TTL:   0,
+		},
 	}
 }

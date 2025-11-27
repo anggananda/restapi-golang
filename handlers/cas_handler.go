@@ -85,15 +85,13 @@ func (h *CASHandler) LoginHandler(c *gin.Context) {
 
 	serviceURL := fmt.Sprintf("%s/api/v1/auth/callback", h.hostUrl)
 
-	loginURL := fmt.Sprintf("%s/login?service=%s&renew=true",
+	loginURL := fmt.Sprintf("%s/login?service=%s",
 		h.casURL.String(),
 		url.QueryEscape(serviceURL))
 
 	log.Printf("Redirecting to CAS login: %s", loginURL)
 
-	c.JSON(http.StatusOK, gin.H{
-		"login_url": loginURL,
-	})
+	c.Redirect(http.StatusFound, loginURL)
 }
 
 func (h *CASHandler) CallbackHandler(c *gin.Context) {
@@ -127,7 +125,7 @@ func (h *CASHandler) CallbackHandler(c *gin.Context) {
 		return
 	}
 
-	callbackURL := fmt.Sprintf("%s/sso/callback?token=%s&expires_at=%d&username=%s",
+	callbackURL := fmt.Sprintf("%s/sso/callback#token=%s&expires_at=%d&username=%s",
 		h.frontendURL,
 		url.QueryEscape(tokenString),
 		expirationTime,

@@ -15,7 +15,7 @@ type UserMongoRepository struct {
 
 func NewUserMongoRepository(db *mongo.Database) interfaces.UserRepository {
 	return &UserMongoRepository{
-		Collection: db.Collection("user_auth_v1"),
+		Collection: db.Collection("user_auth"),
 	}
 }
 
