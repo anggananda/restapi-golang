@@ -85,6 +85,22 @@ func (h *TracerHandler) GetTracerFiltered(c *gin.Context) {
 	})
 }
 
+// ExportTracerCSV mengekspor data tracer ke format CSV
+// @Summary      Export Tracer ke CSV
+// @Description  Mengekspor daftar tracer yang telah difilter ke dalam file CSV.
+// @Tags         Tracer
+// @Accept       json
+// @Produce      application/octet-stream
+// @Param        limit           query    int    false    "Maksimal data yang akan diekspor"
+// @Param        kodeFakultas    query    string false    "Filter berdasarkan Kode Fakultas"
+// @Param        kodeJurusan     query    string false    "Filter berdasarkan Kode Jurusan"
+// @Param        kodeProdi       query    string false    "Filter berdasarkan Kode Program Studi"
+// @Param        tahun           query    string false    "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)"
+// @Param        search          query    string false    "Pencarian bebas"
+// @Success      200           {file}  string "File CSV berhasil diunduh"
+// @Failure      500           {object}  models.ErrorResponse "Kesalahan pada server saat pengambilan data"
+// @Security     BearerAuth
+// @Router       /tracer/export-csv [get]
 func (h *TracerHandler) ExportTracerCSV(c *gin.Context) {
 	limit := utils.StringToInt(c.Query("limit"), 0)
 	tahunStr := c.Query("tahun")

@@ -86,6 +86,25 @@ func (h *JurnalHandler) GetJurnalFiltered(c *gin.Context) {
 	})
 }
 
+// ExportJurnalCSV mengekspor data jurnal ke format CSV
+// @Summary      Export Jurnal ke CSV
+// @Description  Mengekspor daftar jurnal yang telah difilter ke dalam file CSV.
+// @Tags         Jurnal
+// @Accept       json
+// @Produce      application/octet-stream
+// @Param        limit           query    int    false    "Maksimal data yang akan diekspor"
+// @Param        kodeFakultas    query    string false    "Filter berdasarkan Kode Fakultas"
+// @Param        kodeJurusan     query    string false    "Filter berdasarkan Kode Jurusan"
+// @Param        kodeProdi       query    string false    "Filter berdasarkan Kode Program Studi"
+// @Param        tahun           query    string false    "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)"
+// @Param        semester        query    string false    "Filter berdasarkan semester"
+// @Param        indexer        query    string false    "Filter berdasarkan indexer"
+// @Param        akreditasi        query    string false    "Filter berdasarkan akreditasi"
+// @Param        search          query    string false    "Pencarian bebas"
+// @Success      200           {file}  string "File CSV berhasil diunduh"
+// @Failure      500           {object}  models.ErrorResponse "Kesalahan pada server saat pengambilan data"
+// @Security     BearerAuth
+// @Router       /jurnal/export-csv [get]
 func (h *JurnalHandler) ExportJurnalCSV(c *gin.Context) {
 	limit := utils.StringToInt(c.Query("limit"), 0)
 	kodeFakultas := c.Query("kodeFakultas")

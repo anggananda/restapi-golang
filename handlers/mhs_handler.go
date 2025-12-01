@@ -116,6 +116,26 @@ func (h *MhsHandler) GetMahasiswaHistoryFiltered(c *gin.Context) {
 	})
 }
 
+// ExportMhsCSV mengekspor data mahasiswa ke format CSV
+// @Summary      Export Mahasiswa ke CSV
+// @Description  Mengekspor daftar mahasiswa yang telah difilter ke dalam file CSV.
+// @Tags         Mahasiswa
+// @Accept       json
+// @Produce      application/octet-stream
+// @Param        limit           query    int    false    "Maksimal data yang akan diekspor"
+// @Param        kodeFakultas    query    string false    "Filter berdasarkan Kode Fakultas"
+// @Param        kodeJurusan     query    string false    "Filter berdasarkan Kode Jurusan"
+// @Param        kodeProdi       query    string false    "Filter berdasarkan Kode Program Studi"
+// @Param        tahun           query    string false    "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)"
+// @Param        semester        query    int false    "Filter berdasarkan semester"
+// @Param        angkatan        query    int false    "Filter berdasarkan angkatan"
+// @Param        status        query    int false    "Filter berdasarkan status"
+// @Param        kewarganegaraan        query    string false    "Filter berdasarkan kewarganegaraan"
+// @Param        search          query    string false    "Pencarian bebas"
+// @Success      200           {file}  string "File CSV berhasil diunduh"
+// @Failure      500           {object}  models.ErrorResponse "Kesalahan pada server saat pengambilan data"
+// @Security     BearerAuth
+// @Router       /mhs/history/export-csv [get]
 func (h *MhsHandler) ExportMhsCSV(c *gin.Context) {
 	limit := utils.StringToInt(c.Query("limit"), 0)
 	kodeFakultas := c.Query("kodeFakultas")

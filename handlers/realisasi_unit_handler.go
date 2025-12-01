@@ -73,6 +73,19 @@ func (h *RealisasiUnitHandler) GetRealisasiUnitFiltered(c *gin.Context) {
 	})
 }
 
+// ExportRealisasiUnitCSV mengekspor data realisasi unit ke format CSV
+// @Summary      Export Realisasi Unit ke CSV
+// @Description  Mengekspor daftar realisasi unit yang telah difilter ke dalam file CSV.
+// @Tags         Realisasi Unit
+// @Accept       json
+// @Produce      application/octet-stream
+// @Param        limit           query    int    false    "Maksimal data yang akan diekspor"
+// @Param        tahun           query    string false    "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)"
+// @Param        search          query    string false    "Pencarian bebas"
+// @Success      200           {file}  string "File CSV berhasil diunduh"
+// @Failure      500           {object}  models.ErrorResponse "Kesalahan pada server saat pengambilan data"
+// @Security     BearerAuth
+// @Router       /realisasi-unit/export-csv [get]
 func (h *RealisasiUnitHandler) ExportRealisasiUnitCSV(c *gin.Context) {
 	limit := utils.StringToInt(c.Query("limit"), 0)
 	search := c.Query("search")

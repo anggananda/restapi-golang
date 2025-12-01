@@ -1,0 +1,35 @@
+user_profile:
+  datas:
+    - _id: "197510252003121001"
+      auth_info:
+        id_level: 2
+        email_sso: "laila.sari@sso.universitas.ac.id"
+        niu: "197510252003121001"
+        jenis: "Dosen"
+        level_akun: 2
+        level_kode: "DSN"
+        custom_pass: null
+        edited: "N"
+        created_at: "2015-01-10T09:00:00Z"
+        updated_at: "2024-11-20T10:30:00Z"
+      profile:
+        user_type: "Dosen"
+        email: "laila.sari@universitas.ac.id"
+        niu: "197510252003121001"
+        full_name: "Dr. Laila Sari, M.T."
+        key: "197510252003121001"
+        nidn: "0025107501"
+        nip: "197510252003121001"
+      unit:
+        uk_id: 2
+        uk_kode: "FTI"
+        uk_nama: "Fakultas Teknologi Industri"
+        uk_group: 1
+        fkt_kode: "FTI"
+        jrs_kode: "IF"
+        prd_kode: "S1IF"
+        fakultas: "Fakultas Teknologi Industri"
+        jurusan: "Teknik Informatika"
+        prodi: "Sarjana Teknik Informatika"
+
+  message: "Data User berhasil diambil"

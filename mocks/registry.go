@@ -13,6 +13,9 @@ func Initialize() {
 			"/api/v1/health-check": {
 				"GET": loadMock("docs/public/health_check/health_check.yaml", "health"),
 			},
+			"/api/v1/user/details": {
+				"GET": loadMock("docs/private/user/user.yaml", "user_profile"),
+			},
 			"/api/v1/agenda-mengajar": {
 				"GET": loadMock("docs/private/agenda_mengajar/agenda_mengajar.yaml", "agenda_mengajar_filtered"),
 			},

@@ -82,6 +82,23 @@ func (h *KHSHandler) GetKHSFiltered(c *gin.Context) {
 	})
 }
 
+// ExportKhsCSV mengekspor data khs ke format CSV
+// @Summary      Export Khs ke CSV
+// @Description  Mengekspor daftar khs yang telah difilter ke dalam file CSV.
+// @Tags         Khs
+// @Accept       json
+// @Produce      application/octet-stream
+// @Param        limit           query    int    false    "Maksimal data yang akan diekspor"
+// @Param        kodeFakultas    query    string false    "Filter berdasarkan Kode Fakultas"
+// @Param        kodeJurusan     query    string false    "Filter berdasarkan Kode Jurusan"
+// @Param        kodeProdi       query    string false    "Filter berdasarkan Kode Program Studi"
+// @Param        tahun           query    string false    "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)"
+// @Param        semester          query    string false    "Filter berdasarkan semester"
+// @Param        search          query    string false    "Pencarian bebas"
+// @Success      200           {file}  string "File CSV berhasil diunduh"
+// @Failure      500           {object}  models.ErrorResponse "Kesalahan pada server saat pengambilan data"
+// @Security     BearerAuth
+// @Router       /khs/export-csv [get]
 func (h *KHSHandler) ExportKhsCSV(c *gin.Context) {
 	limit := utils.StringToInt(c.Query("limit"), 10)
 	kodeFakultas := c.Query("kodeFakultas")

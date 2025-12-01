@@ -61,6 +61,14 @@ func (h *CASHandler) CASMiddleware() gin.HandlerFunc {
 	}
 }
 
+// LoginHandler mengarahkan pengguna ke halaman login CAS
+// @Summary      Redirect ke halaman login CAS
+// @Description  Mengarahkan pengguna ke server CAS untuk proses autentikasi. Tidak mengembalikan data JSON.
+// @Tags         Auth
+// @Accept       json
+// @Produce      html
+// @Success      302           {string}  string "Redirect ke halaman login CAS"
+// @Router       /auth/login [get]
 func (h *CASHandler) LoginHandler(c *gin.Context) {
 	log.Printf("Login handler called")
 
@@ -135,6 +143,14 @@ func (h *CASHandler) CallbackHandler(c *gin.Context) {
 	c.Redirect(http.StatusFound, callbackURL)
 }
 
+// LogoutHandler menghapus sesi dan mengarahkan ke halaman logout CAS
+// @Summary      Hapus sesi dan Redirect ke halaman logout CAS
+// @Description  Menghapus cookies sesi lokal, melakukan logout di server CAS, lalu mengarahkan ke URL frontend yang telah ditentukan.
+// @Tags         Auth
+// @Accept       json
+// @Produce      html
+// @Success      302           {string}  string "Redirect ke halaman logout CAS"
+// @Router       /auth/logout [get]
 func (h *CASHandler) LogoutHandler(c *gin.Context) {
 	log.Printf("Logout handler called")
 

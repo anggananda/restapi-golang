@@ -113,6 +113,24 @@ func (h *PegawaiHandler) GetPegawaiHistoryFiltered(c *gin.Context) {
 	})
 }
 
+// ExportPegawaiCSV mengekspor data pegawai ke format CSV
+// @Summary      Export Pegawai ke CSV
+// @Description  Mengekspor daftar pegawai yang telah difilter ke dalam file CSV.
+// @Tags         Pegawai
+// @Accept       json
+// @Produce      application/octet-stream
+// @Param        limit           query    int    false    "Maksimal data yang akan diekspor"
+// @Param        kodeFakultas    query    string false    "Filter berdasarkan Kode Fakultas"
+// @Param        kodeJurusan     query    string false    "Filter berdasarkan Kode Jurusan"
+// @Param        kodeProdi       query    string false    "Filter berdasarkan Kode Program Studi"
+// @Param        tahun           query    string false    "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)"
+// @Param        statusPegawai        query    int false    "Filter berdasarkan statusPegawai"
+// @Param        statusKeaktifan        query    int false    "Filter berdasarkan statusKeaktifan"
+// @Param        search          query    string false    "Pencarian bebas"
+// @Success      200           {file}  string "File CSV berhasil diunduh"
+// @Failure      500           {object}  models.ErrorResponse "Kesalahan pada server saat pengambilan data"
+// @Security     BearerAuth
+// @Router       /pegawai/history/export-csv [get]
 func (h *PegawaiHandler) ExportPegawaiCSV(c *gin.Context) {
 	limit := utils.StringToInt(c.Query("limit"), 0)
 	kodeFakultas := c.Query("kodeFakultas")

@@ -134,6 +134,84 @@ const docTemplate = `{
                 }
             }
         },
+        "/agenda-mengajar/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar agenda mengajar yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Agenda Mengajar"
+                ],
+                "summary": "Export Agenda Mengajar ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/angket-mhs": {
             "get": {
                 "security": [
@@ -239,6 +317,130 @@ const docTemplate = `{
                         "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/angket-mhs/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar angket mahasiswa yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Angket Mahasiswa"
+                ],
+                "summary": "Export Angket Mahasiswa ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Semester ",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "get": {
+                "description": "Mengarahkan pengguna ke server CAS untuk proses autentikasi. Tidak mengembalikan data JSON.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "text/html"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Redirect ke halaman login CAS",
+                "responses": {
+                    "302": {
+                        "description": "Redirect ke halaman login CAS",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "get": {
+                "description": "Menghapus cookies sesi lokal, melakukan logout di server CAS, lalu mengarahkan ke URL frontend yang telah ditentukan.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "text/html"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Hapus sesi dan Redirect ke halaman logout CAS",
+                "responses": {
+                    "302": {
+                        "description": "Redirect ke halaman logout CAS",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 }
@@ -360,6 +562,90 @@ const docTemplate = `{
                 }
             }
         },
+        "/beasiswa/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar beasiswa yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Beasiswa"
+                ],
+                "summary": "Export Beasiswa ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan jenisBeasiswa",
+                        "name": "jenisBeasiswa",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/buku": {
             "get": {
                 "security": [
@@ -463,6 +749,84 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/buku/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar buku yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Buku"
+                ],
+                "summary": "Export Buku ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
                         "schema": {
                             "$ref": "#/definitions/models.ErrorResponse"
                         }
@@ -1492,6 +1856,90 @@ const docTemplate = `{
                 }
             }
         },
+        "/dosen/history/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar dosen yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Dosen"
+                ],
+                "summary": "Export Dosen ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan statusPegawai",
+                        "name": "statusPegawai",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan statusKeaktifan",
+                        "name": "statusKeaktifan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/dosen/{niu}": {
             "get": {
                 "security": [
@@ -1668,6 +2116,90 @@ const docTemplate = `{
                 }
             }
         },
+        "/evaluasi-dosen/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar Evaluasi dosen yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Evaluasi Dosen"
+                ],
+                "summary": "Export evaluasi Dosen ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan namaDosen",
+                        "name": "namaDosen",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/health-check": {
             "get": {
                 "description": "HealthCheckHandler responds with the API health status.",
@@ -1807,6 +2339,84 @@ const docTemplate = `{
                 }
             }
         },
+        "/hki/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar hki yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Hki"
+                ],
+                "summary": "Export Hki ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/jurnal": {
             "get": {
                 "security": [
@@ -1929,6 +2539,96 @@ const docTemplate = `{
                 }
             }
         },
+        "/jurnal/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar jurnal yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Jurnal"
+                ],
+                "summary": "Export Jurnal ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan indexer",
+                        "name": "indexer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan akreditasi",
+                        "name": "akreditasi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/karya-akhir": {
             "get": {
                 "security": [
@@ -2033,6 +2733,78 @@ const docTemplate = `{
                 }
             }
         },
+        "/karya-akhir/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar karya akhir yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Karya Akhir"
+                ],
+                "summary": "Export Karya Akhir ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/kerjasama": {
             "get": {
                 "security": [
@@ -2130,6 +2902,78 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/kerjasama/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar kerjasama yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Kerjasama"
+                ],
+                "summary": "Export Kerjasama ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
                         "schema": {
                             "$ref": "#/definitions/models.ErrorResponse"
                         }
@@ -2247,6 +3091,84 @@ const docTemplate = `{
                 }
             }
         },
+        "/khs/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar khs yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Khs"
+                ],
+                "summary": "Export Khs ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/kritik-saran": {
             "get": {
                 "security": [
@@ -2357,6 +3279,84 @@ const docTemplate = `{
                 }
             }
         },
+        "/kritik-saran/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar kritik saran yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Kritik \u0026 Saran"
+                ],
+                "summary": "Export Kritik Saran ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/mhs-wisuda": {
             "get": {
                 "security": [
@@ -2460,6 +3460,90 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mhs-wisuda/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar mahasiswa wisuda yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Mahasiswa Wisuda"
+                ],
+                "summary": "Export mahasiswa wisuda ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan bulan",
+                        "name": "bulan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
                         "schema": {
                             "$ref": "#/definitions/models.ErrorResponse"
                         }
@@ -2588,6 +3672,102 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mhs/history/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar mahasiswa yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Mahasiswa"
+                ],
+                "summary": "Export Mahasiswa ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan angkatan",
+                        "name": "angkatan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan kewarganegaraan",
+                        "name": "kewarganegaraan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
                         "schema": {
                             "$ref": "#/definitions/models.ErrorResponse"
                         }
@@ -2771,6 +3951,90 @@ const docTemplate = `{
                 }
             }
         },
+        "/pegawai/history/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar pegawai yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Pegawai"
+                ],
+                "summary": "Export Pegawai ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan statusPegawai",
+                        "name": "statusPegawai",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Filter berdasarkan statusKeaktifan",
+                        "name": "statusKeaktifan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/pegawai/{niu}": {
             "get": {
                 "security": [
@@ -2941,6 +4205,84 @@ const docTemplate = `{
                 }
             }
         },
+        "/penawaran/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar penawaran yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Penawaran"
+                ],
+                "summary": "Export Penawaran ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/penelitian": {
             "get": {
                 "security": [
@@ -3044,6 +4386,84 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/penelitian/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar penelitian yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Penelitian"
+                ],
+                "summary": "Export Penelitian ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
                         "schema": {
                             "$ref": "#/definitions/models.ErrorResponse"
                         }
@@ -3161,6 +4581,84 @@ const docTemplate = `{
                 }
             }
         },
+        "/pengabdian/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar pengabdian yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Pengabdian"
+                ],
+                "summary": "Export Pengabdian ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/perpem": {
             "get": {
                 "security": [
@@ -3264,6 +4762,84 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/perpem/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar perpem yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Perangkat Pembelajaran"
+                ],
+                "summary": "Export Perpem ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
                         "schema": {
                             "$ref": "#/definitions/models.ErrorResponse"
                         }
@@ -3387,6 +4963,90 @@ const docTemplate = `{
                 }
             }
         },
+        "/prosiding/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar prosiding yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Prosiding"
+                ],
+                "summary": "Export Prosiding ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan semester",
+                        "name": "semester",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan indexer",
+                        "name": "indexer",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/realisasi-bulan": {
             "get": {
                 "security": [
@@ -3473,6 +5133,60 @@ const docTemplate = `{
                 }
             }
         },
+        "/realisasi-bulan/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar realisasi bulan yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Realisasi Bulan"
+                ],
+                "summary": "Export Realisasi Bulan ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/realisasi-unit": {
             "get": {
                 "security": [
@@ -3546,6 +5260,60 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/realisasi-unit/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar realisasi unit yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Realisasi Unit"
+                ],
+                "summary": "Export Realisasi Unit ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
                         "schema": {
                             "$ref": "#/definitions/models.ErrorResponse"
                         }
@@ -3650,6 +5418,78 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/rekap-pmb/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar rekap pmb yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Rekap PMB"
+                ],
+                "summary": "Export Rekap PMB ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
                         "schema": {
                             "$ref": "#/definitions/models.ErrorResponse"
                         }
@@ -3938,6 +5778,78 @@ const docTemplate = `{
                 }
             }
         },
+        "/tracer/export-csv": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mengekspor daftar tracer yang telah difilter ke dalam file CSV.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "Tracer"
+                ],
+                "summary": "Export Tracer ke CSV",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Maksimal data yang akan diekspor",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Fakultas",
+                        "name": "kodeFakultas",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Jurusan",
+                        "name": "kodeJurusan",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Kode Program Studi",
+                        "name": "kodeProdi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)",
+                        "name": "tahun",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Pencarian bebas",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File CSV berhasil diunduh",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "500": {
+                        "description": "Kesalahan pada server saat pengambilan data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/unit-kerja": {
             "get": {
                 "security": [
@@ -3972,6 +5884,58 @@ const docTemplate = `{
                                             "items": {
                                                 "$ref": "#/definitions/models.Data"
                                             }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/details": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Mendapatkan data profile",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get data profile",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.ListDetailResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/definitions/models.UserAuth"
                                         }
                                     }
                                 }
@@ -4092,6 +6056,41 @@ const docTemplate = `{
                 },
                 "unit": {
                     "$ref": "#/definitions/models.Unit"
+                }
+            }
+        },
+        "models.AuthInfo": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "custom_pass": {
+                    "type": "string"
+                },
+                "edited": {
+                    "type": "string"
+                },
+                "email_sso": {
+                    "type": "string"
+                },
+                "id_level": {
+                    "type": "integer"
+                },
+                "jenis": {
+                    "type": "string"
+                },
+                "level_akun": {
+                    "type": "integer"
+                },
+                "level_kode": {
+                    "type": "string"
+                },
+                "niu": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
                 }
             }
         },
@@ -6583,6 +8582,32 @@ const docTemplate = `{
                 }
             }
         },
+        "models.ProfileInfo": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "full_name": {
+                    "type": "string"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "nidn": {
+                    "type": "string"
+                },
+                "nip": {
+                    "type": "string"
+                },
+                "niu": {
+                    "type": "string"
+                },
+                "user_type": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Prosiding": {
             "type": "object",
             "properties": {
@@ -7164,6 +9189,41 @@ const docTemplate = `{
                 }
             }
         },
+        "models.UnitInfo": {
+            "type": "object",
+            "properties": {
+                "fakultas": {
+                    "type": "string"
+                },
+                "fkt_kode": {
+                    "type": "string"
+                },
+                "jrs_kode": {
+                    "type": "string"
+                },
+                "jurusan": {
+                    "type": "string"
+                },
+                "prd_kode": {
+                    "type": "string"
+                },
+                "prodi": {
+                    "type": "string"
+                },
+                "uk_group": {
+                    "type": "integer"
+                },
+                "uk_id": {
+                    "type": "integer"
+                },
+                "uk_kode": {
+                    "type": "string"
+                },
+                "uk_nama": {
+                    "type": "string"
+                }
+            }
+        },
         "models.UnitKerjaHomebase": {
             "type": "object",
             "properties": {
@@ -7221,6 +9281,23 @@ const docTemplate = `{
                 },
                 "uk_kode": {
                     "type": "string"
+                }
+            }
+        },
+        "models.UserAuth": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "auth_info": {
+                    "$ref": "#/definitions/models.AuthInfo"
+                },
+                "profile": {
+                    "$ref": "#/definitions/models.ProfileInfo"
+                },
+                "unit": {
+                    "$ref": "#/definitions/models.UnitInfo"
                 }
             }
         }

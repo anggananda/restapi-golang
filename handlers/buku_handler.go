@@ -82,6 +82,23 @@ func (h *BukuHandler) GetBukuFiltered(c *gin.Context) {
 	})
 }
 
+// ExportBukuCSV mengekspor data buku ke format CSV
+// @Summary      Export Buku ke CSV
+// @Description  Mengekspor daftar buku yang telah difilter ke dalam file CSV.
+// @Tags         Buku
+// @Accept       json
+// @Produce      application/octet-stream
+// @Param        limit           query    int    false    "Maksimal data yang akan diekspor"
+// @Param        kodeFakultas    query    string false    "Filter berdasarkan Kode Fakultas"
+// @Param        kodeJurusan     query    string false    "Filter berdasarkan Kode Jurusan"
+// @Param        kodeProdi       query    string false    "Filter berdasarkan Kode Program Studi"
+// @Param        tahun           query    string false    "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)"
+// @Param        semester        query    string false    "Filter berdasarkan Semester"
+// @Param        search          query    string false    "Pencarian bebas"
+// @Success      200           {file}  string "File CSV berhasil diunduh"
+// @Failure      500           {object}  models.ErrorResponse "Kesalahan pada server saat pengambilan data"
+// @Security     BearerAuth
+// @Router       /buku/export-csv [get]
 func (h *BukuHandler) ExportBukuCSV(c *gin.Context) {
 	limit := utils.StringToInt(c.Query("limit"), 10)
 	kodeFakultas := c.Query("kodeFakultas")

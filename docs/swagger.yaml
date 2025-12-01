@@ -66,6 +66,29 @@ definitions:
       unit:
         $ref: '#/definitions/models.Unit'
     type: object
+  models.AuthInfo:
+    properties:
+      created_at:
+        type: string
+      custom_pass:
+        type: string
+      edited:
+        type: string
+      email_sso:
+        type: string
+      id_level:
+        type: integer
+      jenis:
+        type: string
+      level_akun:
+        type: integer
+      level_kode:
+        type: string
+      niu:
+        type: string
+      updated_at:
+        type: string
+    type: object
   models.Beasiswa:
     properties:
       _id:
@@ -1716,6 +1739,23 @@ definitions:
       unit:
         $ref: '#/definitions/models.Unit'
     type: object
+  models.ProfileInfo:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      key:
+        type: string
+      nidn:
+        type: string
+      nip:
+        type: string
+      niu:
+        type: string
+      user_type:
+        type: string
+    type: object
   models.Prosiding:
     properties:
       _id:
@@ -2100,6 +2140,29 @@ definitions:
       uk_kode:
         type: string
     type: object
+  models.UnitInfo:
+    properties:
+      fakultas:
+        type: string
+      fkt_kode:
+        type: string
+      jrs_kode:
+        type: string
+      jurusan:
+        type: string
+      prd_kode:
+        type: string
+      prodi:
+        type: string
+      uk_group:
+        type: integer
+      uk_id:
+        type: integer
+      uk_kode:
+        type: string
+      uk_nama:
+        type: string
+    type: object
   models.UnitKerjaHomebase:
     properties:
       kode_jurusan:
@@ -2138,6 +2201,17 @@ definitions:
         type: string
       uk_kode:
         type: string
+    type: object
+  models.UserAuth:
+    properties:
+      _id:
+        type: string
+      auth_info:
+        $ref: '#/definitions/models.AuthInfo'
+      profile:
+        $ref: '#/definitions/models.ProfileInfo'
+      unit:
+        $ref: '#/definitions/models.UnitInfo'
     type: object
 externalDocs:
   description: OpenAPI
@@ -2229,6 +2303,57 @@ paths:
       summary: Get filtered agenda mengajar
       tags:
       - Agenda Mengajar
+  /agenda-mengajar/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar agenda mengajar yang telah difilter ke dalam
+        file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan Semester
+        in: query
+        name: semester
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Agenda Mengajar ke CSV
+      tags:
+      - Agenda Mengajar
   /angket-mhs:
     get:
       consumes:
@@ -2299,6 +2424,89 @@ paths:
       summary: Get filtered Angket Mahasiswa
       tags:
       - Angket Mahasiswa
+  /angket-mhs/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar angket mahasiswa yang telah difilter ke dalam
+        file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: 'Filter berdasarkan Semester '
+        in: query
+        name: semester
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Angket Mahasiswa ke CSV
+      tags:
+      - Angket Mahasiswa
+  /auth/login:
+    get:
+      consumes:
+      - application/json
+      description: Mengarahkan pengguna ke server CAS untuk proses autentikasi. Tidak
+        mengembalikan data JSON.
+      produces:
+      - text/html
+      responses:
+        "302":
+          description: Redirect ke halaman login CAS
+          schema:
+            type: string
+      summary: Redirect ke halaman login CAS
+      tags:
+      - Auth
+  /auth/logout:
+    get:
+      consumes:
+      - application/json
+      description: Menghapus cookies sesi lokal, melakukan logout di server CAS, lalu
+        mengarahkan ke URL frontend yang telah ditentukan.
+      produces:
+      - text/html
+      responses:
+        "302":
+          description: Redirect ke halaman logout CAS
+          schema:
+            type: string
+      summary: Hapus sesi dan Redirect ke halaman logout CAS
+      tags:
+      - Auth
   /beasiswa:
     get:
       consumes:
@@ -2373,6 +2581,60 @@ paths:
       summary: Get filtered Beasiswa
       tags:
       - Beasiswa
+  /beasiswa/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar beasiswa yang telah difilter ke dalam file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan Semester
+        in: query
+        name: semester
+        type: string
+      - description: Filter berdasarkan jenisBeasiswa
+        in: query
+        name: jenisBeasiswa
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Beasiswa ke CSV
+      tags:
+      - Beasiswa
   /buku:
     get:
       consumes:
@@ -2441,6 +2703,56 @@ paths:
       security:
       - BearerAuth: []
       summary: Get filtered Buku
+      tags:
+      - Buku
+  /buku/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar buku yang telah difilter ke dalam file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan Semester
+        in: query
+        name: semester
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Buku ke CSV
       tags:
       - Buku
   /dashboard-dosen/fakultas:
@@ -3096,6 +3408,60 @@ paths:
       summary: Get filtered dosen
       tags:
       - Dosen
+  /dosen/history/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar dosen yang telah difilter ke dalam file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan statusPegawai
+        in: query
+        name: statusPegawai
+        type: integer
+      - description: Filter berdasarkan statusKeaktifan
+        in: query
+        name: statusKeaktifan
+        type: integer
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Dosen ke CSV
+      tags:
+      - Dosen
   /evaluasi-dosen:
     get:
       consumes:
@@ -3168,6 +3534,61 @@ paths:
       security:
       - BearerAuth: []
       summary: Get filtered Evaluasi Dosen
+      tags:
+      - Evaluasi Dosen
+  /evaluasi-dosen/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar Evaluasi dosen yang telah difilter ke dalam file
+        CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan semester
+        in: query
+        name: semester
+        type: string
+      - description: Filter berdasarkan namaDosen
+        in: query
+        name: namaDosen
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export evaluasi Dosen ke CSV
       tags:
       - Evaluasi Dosen
   /health-check:
@@ -3259,6 +3680,56 @@ paths:
       summary: Get filtered hki
       tags:
       - Hki
+  /hki/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar hki yang telah difilter ke dalam file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan semester
+        in: query
+        name: semester
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Hki ke CSV
+      tags:
+      - Hki
   /jurnal:
     get:
       consumes:
@@ -3337,6 +3808,64 @@ paths:
       summary: Get filtered jurnal
       tags:
       - Jurnal
+  /jurnal/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar jurnal yang telah difilter ke dalam file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan semester
+        in: query
+        name: semester
+        type: string
+      - description: Filter berdasarkan indexer
+        in: query
+        name: indexer
+        type: string
+      - description: Filter berdasarkan akreditasi
+        in: query
+        name: akreditasi
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Jurnal ke CSV
+      tags:
+      - Jurnal
   /karya-akhir:
     get:
       consumes:
@@ -3403,6 +3932,53 @@ paths:
       summary: Get filtered karya akhir
       tags:
       - Karya Akhir
+  /karya-akhir/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar karya akhir yang telah difilter ke dalam file
+        CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Karya Akhir ke CSV
+      tags:
+      - Karya Akhir
   /kerjasama:
     get:
       consumes:
@@ -3467,6 +4043,52 @@ paths:
       security:
       - BearerAuth: []
       summary: Get filtered kerjasama
+      tags:
+      - Kerjasama
+  /kerjasama/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar kerjasama yang telah difilter ke dalam file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Kerjasama ke CSV
       tags:
       - Kerjasama
   /khs:
@@ -3539,6 +4161,56 @@ paths:
       summary: Get filtered khs
       tags:
       - Khs
+  /khs/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar khs yang telah difilter ke dalam file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan semester
+        in: query
+        name: semester
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Khs ke CSV
+      tags:
+      - Khs
   /kritik-saran:
     get:
       consumes:
@@ -3609,6 +4281,57 @@ paths:
       summary: Get filtered kritik & saran
       tags:
       - Kritik & Saran
+  /kritik-saran/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar kritik saran yang telah difilter ke dalam file
+        CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan semester
+        in: query
+        name: semester
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Kritik Saran ke CSV
+      tags:
+      - Kritik & Saran
   /mhs-wisuda:
     get:
       consumes:
@@ -3677,6 +4400,61 @@ paths:
       security:
       - BearerAuth: []
       summary: Get filtered mahasiswa wisuda
+      tags:
+      - Mahasiswa Wisuda
+  /mhs-wisuda/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar mahasiswa wisuda yang telah difilter ke dalam
+        file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan bulan
+        in: query
+        name: bulan
+        type: integer
+      - description: Filter berdasarkan semester
+        in: query
+        name: semester
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export mahasiswa wisuda ke CSV
       tags:
       - Mahasiswa Wisuda
   /mhs/{nim}:
@@ -3796,6 +4574,68 @@ paths:
       summary: Get filtered mahasiswa
       tags:
       - Mahasiswa
+  /mhs/history/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar mahasiswa yang telah difilter ke dalam file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan semester
+        in: query
+        name: semester
+        type: integer
+      - description: Filter berdasarkan angkatan
+        in: query
+        name: angkatan
+        type: integer
+      - description: Filter berdasarkan status
+        in: query
+        name: status
+        type: integer
+      - description: Filter berdasarkan kewarganegaraan
+        in: query
+        name: kewarganegaraan
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Mahasiswa ke CSV
+      tags:
+      - Mahasiswa
   /pegawai/{niu}:
     get:
       consumes:
@@ -3905,6 +4745,60 @@ paths:
       summary: Get filtered Pegawai
       tags:
       - Pegawai
+  /pegawai/history/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar pegawai yang telah difilter ke dalam file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan statusPegawai
+        in: query
+        name: statusPegawai
+        type: integer
+      - description: Filter berdasarkan statusKeaktifan
+        in: query
+        name: statusKeaktifan
+        type: integer
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Pegawai ke CSV
+      tags:
+      - Pegawai
   /penawaran:
     get:
       consumes:
@@ -3973,6 +4867,56 @@ paths:
       security:
       - BearerAuth: []
       summary: Get filtered penawaran
+      tags:
+      - Penawaran
+  /penawaran/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar penawaran yang telah difilter ke dalam file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan semester
+        in: query
+        name: semester
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Penawaran ke CSV
       tags:
       - Penawaran
   /penelitian:
@@ -4045,6 +4989,57 @@ paths:
       summary: Get filtered Penelitian
       tags:
       - Penelitian
+  /penelitian/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar penelitian yang telah difilter ke dalam file
+        CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan semester
+        in: query
+        name: semester
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Penelitian ke CSV
+      tags:
+      - Penelitian
   /pengabdian:
     get:
       consumes:
@@ -4113,6 +5108,57 @@ paths:
       security:
       - BearerAuth: []
       summary: Get filtered Pengabdian
+      tags:
+      - Pengabdian
+  /pengabdian/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar pengabdian yang telah difilter ke dalam file
+        CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan semester
+        in: query
+        name: semester
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Pengabdian ke CSV
       tags:
       - Pengabdian
   /perpem:
@@ -4184,6 +5230,56 @@ paths:
       security:
       - BearerAuth: []
       summary: Get filtered perangkat pembelajaran
+      tags:
+      - Perangkat Pembelajaran
+  /perpem/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar perpem yang telah difilter ke dalam file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan semester
+        in: query
+        name: semester
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Perpem ke CSV
       tags:
       - Perangkat Pembelajaran
   /prosiding:
@@ -4260,6 +5356,60 @@ paths:
       summary: Get filtered prosiding
       tags:
       - Prosiding
+  /prosiding/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar prosiding yang telah difilter ke dalam file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Filter berdasarkan semester
+        in: query
+        name: semester
+        type: string
+      - description: Filter berdasarkan indexer
+        in: query
+        name: indexer
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Prosiding ke CSV
+      tags:
+      - Prosiding
   /realisasi-bulan:
     get:
       consumes:
@@ -4314,6 +5464,41 @@ paths:
       summary: Get filtered realisasi bulan
       tags:
       - Realisasi Bulan
+  /realisasi-bulan/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar realisasi bulan yang telah difilter ke dalam
+        file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Realisasi Bulan ke CSV
+      tags:
+      - Realisasi Bulan
   /realisasi-unit:
     get:
       consumes:
@@ -4362,6 +5547,41 @@ paths:
       security:
       - BearerAuth: []
       summary: Get filtered ralisasi unit
+      tags:
+      - Realisasi Unit
+  /realisasi-unit/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar realisasi unit yang telah difilter ke dalam file
+        CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Realisasi Unit ke CSV
       tags:
       - Realisasi Unit
   /rekap-pmb:
@@ -4428,6 +5648,52 @@ paths:
       security:
       - BearerAuth: []
       summary: Get filtered rekap pmb
+      tags:
+      - Rekap PMB
+  /rekap-pmb/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar rekap pmb yang telah difilter ke dalam file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Rekap PMB ke CSV
       tags:
       - Rekap PMB
   /status-keaktifan-pegawai:
@@ -4600,6 +5866,52 @@ paths:
       summary: Get filtered tracer
       tags:
       - Tracer
+  /tracer/export-csv:
+    get:
+      consumes:
+      - application/json
+      description: Mengekspor daftar tracer yang telah difilter ke dalam file CSV.
+      parameters:
+      - description: Maksimal data yang akan diekspor
+        in: query
+        name: limit
+        type: integer
+      - description: Filter berdasarkan Kode Fakultas
+        in: query
+        name: kodeFakultas
+        type: string
+      - description: Filter berdasarkan Kode Jurusan
+        in: query
+        name: kodeJurusan
+        type: string
+      - description: Filter berdasarkan Kode Program Studi
+        in: query
+        name: kodeProdi
+        type: string
+      - description: 'Filter berdasarkan Tahun Ajaran (default: tahun sekarang)'
+        in: query
+        name: tahun
+        type: string
+      - description: Pencarian bebas
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: File CSV berhasil diunduh
+          schema:
+            type: file
+        "500":
+          description: Kesalahan pada server saat pengambilan data
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Export Tracer ke CSV
+      tags:
+      - Tracer
   /unit-kerja:
     get:
       consumes:
@@ -4632,6 +5944,36 @@ paths:
       summary: Get unitkerja
       tags:
       - Unitkerja
+  /user/details:
+    get:
+      consumes:
+      - application/json
+      description: Mendapatkan data profile
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.ListDetailResponse'
+            - properties:
+                datas:
+                  $ref: '#/definitions/models.UserAuth'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get data profile
+      tags:
+      - User
 schemes:
 - http
 - https

@@ -85,6 +85,24 @@ func (h *ProsidingHandler) GetProsidingFiltered(c *gin.Context) {
 	})
 }
 
+// ExportProsidingCSV mengekspor data prosiding ke format CSV
+// @Summary      Export Prosiding ke CSV
+// @Description  Mengekspor daftar prosiding yang telah difilter ke dalam file CSV.
+// @Tags         Prosiding
+// @Accept       json
+// @Produce      application/octet-stream
+// @Param        limit           query    int    false    "Maksimal data yang akan diekspor"
+// @Param        kodeFakultas    query    string false    "Filter berdasarkan Kode Fakultas"
+// @Param        kodeJurusan     query    string false    "Filter berdasarkan Kode Jurusan"
+// @Param        kodeProdi       query    string false    "Filter berdasarkan Kode Program Studi"
+// @Param        tahun           query    string false    "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)"
+// @Param        semester          query    string false    "Filter berdasarkan semester"
+// @Param        indexer          query    string false    "Filter berdasarkan indexer"
+// @Param        search          query    string false    "Pencarian bebas"
+// @Success      200           {file}  string "File CSV berhasil diunduh"
+// @Failure      500           {object}  models.ErrorResponse "Kesalahan pada server saat pengambilan data"
+// @Security     BearerAuth
+// @Router       /prosiding/export-csv [get]
 func (h *ProsidingHandler) ExportProsidingCSV(c *gin.Context) {
 	limit := utils.StringToInt(c.Query("limit"), 0)
 	kodeFakultas := c.Query("kodeFakultas")

@@ -87,6 +87,24 @@ func (h *BeasiswaHandler) GetBeasiswaFiltered(c *gin.Context) {
 
 }
 
+// ExportBeasiswaCSV mengekspor data beasiswa ke format CSV
+// @Summary      Export Beasiswa ke CSV
+// @Description  Mengekspor daftar beasiswa yang telah difilter ke dalam file CSV.
+// @Tags         Beasiswa
+// @Accept       json
+// @Produce      application/octet-stream
+// @Param        limit           query    int    false    "Maksimal data yang akan diekspor"
+// @Param        kodeFakultas    query    string false    "Filter berdasarkan Kode Fakultas"
+// @Param        kodeJurusan     query    string false    "Filter berdasarkan Kode Jurusan"
+// @Param        kodeProdi       query    string false    "Filter berdasarkan Kode Program Studi"
+// @Param        tahun           query    string false    "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)"
+// @Param        semester        query    string false    "Filter berdasarkan Semester"
+// @Param        jenisBeasiswa        query    string false    "Filter berdasarkan jenisBeasiswa"
+// @Param        search          query    string false    "Pencarian bebas"
+// @Success      200           {file}  string "File CSV berhasil diunduh"
+// @Failure      500           {object}  models.ErrorResponse "Kesalahan pada server saat pengambilan data"
+// @Security     BearerAuth
+// @Router       /beasiswa/export-csv [get]
 func (h *BeasiswaHandler) ExportBeasiswaCSV(c *gin.Context) {
 	limit := utils.StringToInt(c.Query("limit"), 0)
 	tahunStr := c.Query("tahun")

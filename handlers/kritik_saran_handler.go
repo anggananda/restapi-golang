@@ -83,6 +83,23 @@ func (h *KritikSaranHandler) GetKritikSaranFiltered(c *gin.Context) {
 	})
 }
 
+// ExportKritikSaranCSV mengekspor data kritik saran ke format CSV
+// @Summary      Export Kritik Saran ke CSV
+// @Description  Mengekspor daftar kritik saran yang telah difilter ke dalam file CSV.
+// @Tags         Kritik & Saran
+// @Accept       json
+// @Produce      application/octet-stream
+// @Param        limit           query    int    false    "Maksimal data yang akan diekspor"
+// @Param        kodeFakultas    query    string false    "Filter berdasarkan Kode Fakultas"
+// @Param        kodeJurusan     query    string false    "Filter berdasarkan Kode Jurusan"
+// @Param        kodeProdi       query    string false    "Filter berdasarkan Kode Program Studi"
+// @Param        tahun           query    string false    "Filter berdasarkan Tahun Ajaran (default: tahun sekarang)"
+// @Param        semester          query    string false    "Filter berdasarkan semester"
+// @Param        search          query    string false    "Pencarian bebas"
+// @Success      200           {file}  string "File CSV berhasil diunduh"
+// @Failure      500           {object}  models.ErrorResponse "Kesalahan pada server saat pengambilan data"
+// @Security     BearerAuth
+// @Router       /kritik-saran/export-csv [get]
 func (h *KritikSaranHandler) ExportKritikSaranCSV(c *gin.Context) {
 	limit := utils.StringToInt(c.Query("limit"), 0)
 	kodeFakultas := c.Query("kodeFakultas")
