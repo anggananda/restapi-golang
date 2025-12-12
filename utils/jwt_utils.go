@@ -22,7 +22,7 @@ func GenerateJWT(email string) (string, int64, error) {
 		durationHours = parsedDuration
 	}
 
-	expirationTime := time.Now().Add(time.Duration(durationHours) * time.Hour).Unix() // Access token berlaku selama 8 jam
+	expirationTime := time.Now().Add(time.Duration(durationHours) * time.Hour).Unix()
 
 	claims := &Claims{
 		Email: email,
