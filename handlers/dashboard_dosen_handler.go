@@ -34,6 +34,7 @@ func NewDashboardDosenHandler(service *services.DashboardDosenService) *Dashboar
 // @Router       /dashboard-dosen/overview [get]
 func (h *DashboardDosenHandler) GetDashboardDosenOverview(c *gin.Context) {
 	tahunStr := c.Query("tahun")
+	contentType := c.DefaultQuery("contentType", "json")
 
 	var tahun int
 
@@ -51,7 +52,11 @@ func (h *DashboardDosenHandler) GetDashboardDosenOverview(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "OK", "datas": result})
+	if contentType == "msgpack" {
+		utils.Render(c, http.StatusOK, gin.H{"message": "OK", "datas": result})
+	} else {
+		c.JSON(http.StatusOK, gin.H{"message": "OK", "datas": result})
+	}
 }
 
 // GetDrilldownDosenFakultas mendapatkan drilldown fakultas dashboard Dosen
@@ -73,6 +78,7 @@ func (h *DashboardDosenHandler) GetDrilldownDosenFakultas(c *gin.Context) {
 	tahunStr := c.Query("tahun")
 	statusPegawaiStr := c.Query("statusPegawai")
 	statusKeaktifanStr := c.Query("statusKeaktifan")
+	contentType := c.DefaultQuery("contentType", "json")
 
 	var tahun, statusPegawai, statusKeaktifan int
 	if tahunStr == "" {
@@ -92,11 +98,19 @@ func (h *DashboardDosenHandler) GetDrilldownDosenFakultas(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "OK",
-		"datas":   items,
-		"total":   total,
-	})
+	if contentType == "msgpack" {
+		utils.Render(c, http.StatusOK, gin.H{
+			"message": "OK",
+			"datas":   items,
+			"total":   total,
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "OK",
+			"datas":   items,
+			"total":   total,
+		})
+	}
 }
 
 // GetDrilldownDosenJurusan mendapatkan drilldown jurusan dashboard Dosen
@@ -120,6 +134,7 @@ func (h *DashboardDosenHandler) GetDrilldownDosenJurusan(c *gin.Context) {
 	statusPegawaiStr := c.Query("statusPegawai")
 	statusKeaktifanStr := c.Query("statusKeaktifan")
 	kodeFakultas := c.Query("kodeFakultas")
+	contentType := c.DefaultQuery("contentType", "json")
 
 	var tahun, statusPegawai, statusKeaktifan int
 	if tahunStr == "" {
@@ -139,11 +154,19 @@ func (h *DashboardDosenHandler) GetDrilldownDosenJurusan(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "OK",
-		"datas":   items,
-		"total":   total,
-	})
+	if contentType == "msgpack" {
+		utils.Render(c, http.StatusOK, gin.H{
+			"message": "OK",
+			"datas":   items,
+			"total":   total,
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "OK",
+			"datas":   items,
+			"total":   total,
+		})
+	}
 }
 
 // GetDrilldownDosenProdi mendapatkan drilldown prodi dashboard Dosen
@@ -167,6 +190,7 @@ func (h *DashboardDosenHandler) GetDrilldownDosenProdi(c *gin.Context) {
 	statusPegawaiStr := c.Query("statusPegawai")
 	statusKeaktifanStr := c.Query("statusKeaktifan")
 	kodeJurusan := c.Query("kodeJurusan")
+	contentType := c.DefaultQuery("contentType", "json")
 
 	var tahun, statusPegawai, statusKeaktifan int
 	if tahunStr == "" {
@@ -186,9 +210,17 @@ func (h *DashboardDosenHandler) GetDrilldownDosenProdi(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "OK",
-		"datas":   items,
-		"total":   total,
-	})
+	if contentType == "msgpack" {
+		utils.Render(c, http.StatusOK, gin.H{
+			"message": "OK",
+			"datas":   items,
+			"total":   total,
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "OK",
+			"datas":   items,
+			"total":   total,
+		})
+	}
 }

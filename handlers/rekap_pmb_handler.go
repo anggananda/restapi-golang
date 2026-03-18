@@ -49,6 +49,7 @@ func (h *RekapPMBHandler) GetRekapPMBFiltered(c *gin.Context) {
 	kodeProdi := c.Query("kodeProdi")
 	tahunStr := c.Query("tahun")
 	search := c.Query("search")
+	contentType := c.DefaultQuery("contentType", "json")
 
 	var tahun int
 	if tahunStr == "" {
@@ -70,16 +71,29 @@ func (h *RekapPMBHandler) GetRekapPMBFiltered(c *gin.Context) {
 		pages = int64(math.Ceil(float64(total) / float64(limit)))
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"status": "success",
-		"datas":  rekapPMB,
-		"pagination": gin.H{
-			"page":  page,
-			"limit": limit,
-			"total": total,
-			"pages": pages,
-		},
-	})
+	if contentType == "msgpack" {
+		utils.Render(c, http.StatusOK, gin.H{
+			"status": "success",
+			"datas":  rekapPMB,
+			"pagination": gin.H{
+				"page":  page,
+				"limit": limit,
+				"total": total,
+				"pages": pages,
+			},
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"status": "success",
+			"datas":  rekapPMB,
+			"pagination": gin.H{
+				"page":  page,
+				"limit": limit,
+				"total": total,
+				"pages": pages,
+			},
+		})
+	}
 }
 
 // ExportRekapPMBCSV mengekspor data rekap pmb ke format CSV

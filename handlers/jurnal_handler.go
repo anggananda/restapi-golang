@@ -56,6 +56,7 @@ func (h *JurnalHandler) GetJurnalFiltered(c *gin.Context) {
 	indexer := c.Query("indexer")
 	akreditasi := c.Query("akreditasi")
 	search := c.Query("search")
+	contentType := c.DefaultQuery("contentType", "json")
 
 	if tahun == "" {
 		tahun = time.Now().Format("2006")
@@ -74,16 +75,29 @@ func (h *JurnalHandler) GetJurnalFiltered(c *gin.Context) {
 		pages = int64(math.Ceil(float64(total) / float64(limit)))
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"status": "success",
-		"datas":  jurnal,
-		"pagination": gin.H{
-			"page":  page,
-			"limit": limit,
-			"total": total,
-			"pages": pages,
-		},
-	})
+	if contentType == "msgpack" {
+		utils.Render(c, http.StatusOK, gin.H{
+			"status": "success",
+			"datas":  jurnal,
+			"pagination": gin.H{
+				"page":  page,
+				"limit": limit,
+				"total": total,
+				"pages": pages,
+			},
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"status": "success",
+			"datas":  jurnal,
+			"pagination": gin.H{
+				"page":  page,
+				"limit": limit,
+				"total": total,
+				"pages": pages,
+			},
+		})
+	}
 }
 
 // ExportJurnalCSV mengekspor data jurnal ke format CSV

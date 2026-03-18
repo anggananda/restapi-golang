@@ -49,6 +49,7 @@ func (h *KaryaAkhirHandler) GetKaryaAkhirFiltered(c *gin.Context) {
 	kodeProdi := c.Query("kodeProdi")
 	search := c.Query("search")
 	tahunStr := c.Query("tahun")
+	contentType := c.DefaultQuery("contentType", "json")
 
 	var tahun int
 	if tahunStr == "" {
@@ -70,16 +71,29 @@ func (h *KaryaAkhirHandler) GetKaryaAkhirFiltered(c *gin.Context) {
 		pages = int64(math.Ceil(float64(total) / float64(limit)))
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"status": "success",
-		"datas":  karyaAkhir,
-		"pagination": gin.H{
-			"page":  page,
-			"limit": limit,
-			"total": total,
-			"pages": pages,
-		},
-	})
+	if contentType == "msgpack" {
+		utils.Render(c, http.StatusOK, gin.H{
+			"status": "success",
+			"datas":  karyaAkhir,
+			"pagination": gin.H{
+				"page":  page,
+				"limit": limit,
+				"total": total,
+				"pages": pages,
+			},
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"status": "success",
+			"datas":  karyaAkhir,
+			"pagination": gin.H{
+				"page":  page,
+				"limit": limit,
+				"total": total,
+				"pages": pages,
+			},
+		})
+	}
 }
 
 // ExportKaryaAkhirCSV mengekspor data karya akhir ke format CSV

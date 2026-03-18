@@ -37,6 +37,7 @@ func (h *UserHandler) GetDataProfile(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 		return
 	}
+	contentType := c.DefaultQuery("contentType", "json")
 
 	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
 	defer cancel()
@@ -47,5 +48,9 @@ func (h *UserHandler) GetDataProfile(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"datas": profile, "status": "success"})
+	if contentType == "msgpack" {
+		utils.Render(c, http.StatusOK, gin.H{"datas": profile, "status": "success"})
+	} else {
+		c.JSON(http.StatusOK, gin.H{"datas": profile, "status": "success"})
+	}
 }

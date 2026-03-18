@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"restapi-golang/models"
 	"restapi-golang/services"
+	"restapi-golang/utils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/redis/go-redis/v9"
@@ -37,15 +38,23 @@ func NewStatusHandler(service *services.StatusService, rdb *redis.Client) *Statu
 func (h *StatusHandler) GetStatusMahasiswa(c *gin.Context) {
 	ctx := context.Background()
 	key := "status_mahasiswa"
+	contentType := c.DefaultQuery("contentType", "json")
 
 	cached, err := h.RDB.Get(ctx, key).Bytes()
 	if err == nil {
 		var data []models.Status
 		if err := json.Unmarshal(cached, &data); err == nil {
-			c.JSON(http.StatusOK, gin.H{
-				"datas":   data,
-				"message": "OK (from Redis)",
-			})
+			if contentType == "msgpack" {
+				utils.Render(c, http.StatusOK, gin.H{
+					"datas":   data,
+					"message": "OK (from Redis)",
+				})
+			} else {
+				c.JSON(http.StatusOK, gin.H{
+					"datas":   data,
+					"message": "OK (from Redis)",
+				})
+			}
 			return
 		}
 
@@ -73,10 +82,17 @@ func (h *StatusHandler) GetStatusMahasiswa(c *gin.Context) {
 	jsonBytes, _ := json.Marshal(mongoData)
 	h.RDB.Set(ctx, key, jsonBytes, 0)
 
-	c.JSON(http.StatusOK, gin.H{
-		"datas":   mongoData,
-		"message": "OK (from MongoDB, cached)",
-	})
+	if contentType == "msgpack" {
+		utils.Render(c, http.StatusOK, gin.H{
+			"datas":   mongoData,
+			"message": "OK (from MongoDB, cached)",
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"datas":   mongoData,
+			"message": "OK (from MongoDB, cached)",
+		})
+	}
 }
 
 // GetStatusPegawai mendapatkan  status pegawai
@@ -93,15 +109,23 @@ func (h *StatusHandler) GetStatusMahasiswa(c *gin.Context) {
 func (h *StatusHandler) GetStatusPegawai(c *gin.Context) {
 	ctx := context.Background()
 	key := "status_pegawai"
+	contentType := c.DefaultQuery("contentType", "json")
 
 	cached, err := h.RDB.Get(ctx, key).Bytes()
 	if err == nil {
 		var data []models.Status
 		if err := json.Unmarshal(cached, &data); err == nil {
-			c.JSON(http.StatusOK, gin.H{
-				"datas":   data,
-				"message": "OK (from Redis)",
-			})
+			if contentType == "msgpack" {
+				utils.Render(c, http.StatusOK, gin.H{
+					"datas":   data,
+					"message": "OK (from Redis)",
+				})
+			} else {
+				c.JSON(http.StatusOK, gin.H{
+					"datas":   data,
+					"message": "OK (from Redis)",
+				})
+			}
 			return
 		}
 
@@ -129,10 +153,17 @@ func (h *StatusHandler) GetStatusPegawai(c *gin.Context) {
 	jsonBytes, _ := json.Marshal(mongoData)
 	h.RDB.Set(ctx, key, jsonBytes, 0)
 
-	c.JSON(http.StatusOK, gin.H{
-		"datas":   mongoData,
-		"message": "OK (from MongoDB, cached)",
-	})
+	if contentType == "msgpack" {
+		utils.Render(c, http.StatusOK, gin.H{
+			"datas":   mongoData,
+			"message": "OK (from MongoDB, cached)",
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"datas":   mongoData,
+			"message": "OK (from MongoDB, cached)",
+		})
+	}
 }
 
 // GetStatusKeaktifanPegawai mendapatkan  status keaktifan pegawai
@@ -149,15 +180,23 @@ func (h *StatusHandler) GetStatusPegawai(c *gin.Context) {
 func (h *StatusHandler) GetStatusKeaktifanPegawai(c *gin.Context) {
 	ctx := context.Background()
 	key := "status_keaktifan_pegawai"
+	contentType := c.DefaultQuery("contentType", "json")
 
 	cached, err := h.RDB.Get(ctx, key).Bytes()
 	if err == nil {
 		var data []models.Status
 		if err := json.Unmarshal(cached, &data); err == nil {
-			c.JSON(http.StatusOK, gin.H{
-				"datas":   data,
-				"message": "OK (from Redis)",
-			})
+			if contentType == "msgpack" {
+				utils.Render(c, http.StatusOK, gin.H{
+					"datas":   data,
+					"message": "OK (from Redis)",
+				})
+			} else {
+				c.JSON(http.StatusOK, gin.H{
+					"datas":   data,
+					"message": "OK (from Redis)",
+				})
+			}
 			return
 		}
 
@@ -185,8 +224,15 @@ func (h *StatusHandler) GetStatusKeaktifanPegawai(c *gin.Context) {
 	jsonBytes, _ := json.Marshal(mongoData)
 	h.RDB.Set(ctx, key, jsonBytes, 0)
 
-	c.JSON(http.StatusOK, gin.H{
-		"datas":   mongoData,
-		"message": "OK (from MongoDB, cached)",
-	})
+	if contentType == "msgpack" {
+		utils.Render(c, http.StatusOK, gin.H{
+			"datas":   mongoData,
+			"message": "OK (from MongoDB, cached)",
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"datas":   mongoData,
+			"message": "OK (from MongoDB, cached)",
+		})
+	}
 }

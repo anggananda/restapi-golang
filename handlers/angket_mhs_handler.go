@@ -52,6 +52,7 @@ func (h *AngketMhsHandler) GetAngketMhsFiltered(c *gin.Context) {
 	tahun := c.Query("tahun")
 	semester := c.Query("semester")
 	search := c.Query("search")
+	contentType := c.DefaultQuery("contentType", "json")
 
 	if tahun == "" {
 		tahun = time.Now().Format("2006")
@@ -71,16 +72,30 @@ func (h *AngketMhsHandler) GetAngketMhsFiltered(c *gin.Context) {
 		pages = int64(math.Ceil(float64(total) / float64(limit)))
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"status": "success",
-		"datas":  angketMhs,
-		"pagination": gin.H{
-			"page":  page,
-			"limit": limit,
-			"total": total,
-			"pages": pages,
-		},
-	})
+	if contentType == "msgpack" {
+		utils.Render(c, http.StatusOK, gin.H{
+			"status": "success",
+			"datas":  angketMhs,
+			"pagination": gin.H{
+				"page":  page,
+				"limit": limit,
+				"total": total,
+				"pages": pages,
+			},
+		})
+	} else {
+
+		c.JSON(http.StatusOK, gin.H{
+			"status": "success",
+			"datas":  angketMhs,
+			"pagination": gin.H{
+				"page":  page,
+				"limit": limit,
+				"total": total,
+				"pages": pages,
+			},
+		})
+	}
 }
 
 // ExportAngketMhsCSV mengekspor data angket mahasiswa ke format CSV

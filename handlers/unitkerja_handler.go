@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"restapi-golang/models"
 	"restapi-golang/services"
+	"restapi-golang/utils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/redis/go-redis/v9"
@@ -37,15 +38,23 @@ func NewUnitKerjaHandler(service *services.UnitKerjaService, rdb *redis.Client) 
 func (h *UnitKerjaHandler) GetUnitKerja(c *gin.Context) {
 	ctx := context.Background()
 	key := "unit_kerja"
+	contentType := c.DefaultQuery("contentType", "json")
 
 	cached, err := h.RDB.Get(ctx, key).Bytes()
 	if err == nil {
 		var data []models.Data
 		if err := json.Unmarshal(cached, &data); err == nil {
-			c.JSON(http.StatusOK, gin.H{
-				"datas":   data,
-				"message": "OK (from Redis)",
-			})
+			if contentType == "msgpack" {
+				utils.Render(c, http.StatusOK, gin.H{
+					"datas":   data,
+					"message": "OK (from Redis)",
+				})
+			} else {
+				c.JSON(http.StatusOK, gin.H{
+					"datas":   data,
+					"message": "OK (from Redis)",
+				})
+			}
 			return
 		}
 
@@ -73,8 +82,15 @@ func (h *UnitKerjaHandler) GetUnitKerja(c *gin.Context) {
 	jsonBytes, _ := json.Marshal(mongoData.Data)
 	h.RDB.Set(ctx, key, jsonBytes, 0)
 
-	c.JSON(http.StatusOK, gin.H{
-		"datas":   mongoData.Data,
-		"message": "OK (from MongoDB, cached)",
-	})
+	if contentType == "msgpack" {
+		utils.Render(c, http.StatusOK, gin.H{
+			"datas":   mongoData.Data,
+			"message": "OK (from MongoDB, cached)",
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"datas":   mongoData.Data,
+			"message": "OK (from MongoDB, cached)",
+		})
+	}
 }

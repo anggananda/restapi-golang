@@ -37,6 +37,7 @@ func NewPegawaiHandler(service *services.PegawaiService) *PegawaiHandler {
 // @Router       /pegawai/{niu} [get]
 func (h *PegawaiHandler) GetDetailPegawai(c *gin.Context) {
 	niu := c.Param("niu")
+	contentType := c.DefaultQuery("contentType", "json")
 
 	ctx, cancel := context.WithTimeout(c.Request.Context(), 5*time.Second)
 	defer cancel()
@@ -47,7 +48,11 @@ func (h *PegawaiHandler) GetDetailPegawai(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"datas": pegawai, "message": "OK"})
+	if contentType == "msgpack" {
+		utils.Render(c, http.StatusOK, gin.H{"datas": pegawai, "message": "OK"})
+	} else {
+		c.JSON(http.StatusOK, gin.H{"datas": pegawai, "message": "OK"})
+	}
 }
 
 // GetPegawaiHistoryFiltered mendapatkan  Pegawai  dengan filter dan pagination
@@ -80,6 +85,7 @@ func (h *PegawaiHandler) GetPegawaiHistoryFiltered(c *gin.Context) {
 	search := c.Query("search")
 	statusPegawai := utils.StringToInt(c.Query("statusPegawai"), 0)
 	statusKeaktifan := utils.StringToInt(c.Query("statusKeaktifan"), 0)
+	contentType := c.DefaultQuery("contentType", "json")
 
 	var tahun int
 	if tahunStr == "" {
@@ -101,16 +107,29 @@ func (h *PegawaiHandler) GetPegawaiHistoryFiltered(c *gin.Context) {
 		pages = int64(math.Ceil(float64(total) / float64(limit)))
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"status": "success",
-		"datas":  pegawai,
-		"pagination": gin.H{
-			"page":  page,
-			"limit": limit,
-			"total": total,
-			"pages": pages,
-		},
-	})
+	if contentType == "msgpack" {
+		utils.Render(c, http.StatusOK, gin.H{
+			"status": "success",
+			"datas":  pegawai,
+			"pagination": gin.H{
+				"page":  page,
+				"limit": limit,
+				"total": total,
+				"pages": pages,
+			},
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"status": "success",
+			"datas":  pegawai,
+			"pagination": gin.H{
+				"page":  page,
+				"limit": limit,
+				"total": total,
+				"pages": pages,
+			},
+		})
+	}
 }
 
 // ExportPegawaiCSV mengekspor data pegawai ke format CSV

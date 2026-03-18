@@ -51,6 +51,7 @@ func (h *MhsWisudaHandler) GetMhsWisudaFiltered(c *gin.Context) {
 	search := c.Query("search")
 	tahunStr := c.Query("tahun")
 	bulan := utils.StringToInt(c.Query("bulan"), 0)
+	contentType := c.DefaultQuery("contentType", "json")
 
 	var tahun int
 	if tahunStr == "" {
@@ -72,16 +73,29 @@ func (h *MhsWisudaHandler) GetMhsWisudaFiltered(c *gin.Context) {
 		pages = int64(math.Ceil(float64(total) / float64(limit)))
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"status": "success",
-		"datas":  mhsWisuda,
-		"pagination": gin.H{
-			"page":  page,
-			"limit": limit,
-			"total": total,
-			"pages": pages,
-		},
-	})
+	if contentType == "msgpack" {
+		utils.Render(c, http.StatusOK, gin.H{
+			"status": "success",
+			"datas":  mhsWisuda,
+			"pagination": gin.H{
+				"page":  page,
+				"limit": limit,
+				"total": total,
+				"pages": pages,
+			},
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"status": "success",
+			"datas":  mhsWisuda,
+			"pagination": gin.H{
+				"page":  page,
+				"limit": limit,
+				"total": total,
+				"pages": pages,
+			},
+		})
+	}
 }
 
 // ExportMhsWisudaCSV mengekspor data mahasiswa wisuda ke format CSV
