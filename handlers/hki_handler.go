@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"math"
 	"net/http"
@@ -161,6 +162,21 @@ func (h *HkiHandler) ExportHkiCSV(c *gin.Context) {
 	var csvData [][]string
 
 	for _, item := range hki {
+
+		anggotaByte, _ := json.Marshal(item.AnggotaPenelitian)
+		anggotaStr := string(anggotaByte)
+
+		mhsByte, _ := json.Marshal(item.MahasiswaPenelitian)
+		mhsStr := string(mhsByte)
+
+		levelByte, _ := json.Marshal(item.LevelCapaian)
+		levelStr := string(levelByte)
+
+		prodPenelitianByte, _ := json.Marshal(item.ProdukPenelitian)
+		prodPenelitianStr := string(prodPenelitianByte)
+
+		prodPengabdianByte, _ := json.Marshal(item.ProdukPengabdian)
+		prodPengabdianStr := string(prodPengabdianByte)
 		idStr := strconv.Itoa(item.ID)
 
 		row := []string{
@@ -190,7 +206,7 @@ func (h *HkiHandler) ExportHkiCSV(c *gin.Context) {
 			item.NamaDosen,
 			item.Posisi,
 			item.CreateDosenID,
-			item.LevelCapaian,
+			levelStr,
 			item.JmlPenulis,
 			item.JmlNegaraPengaku,
 
@@ -204,12 +220,12 @@ func (h *HkiHandler) ExportHkiCSV(c *gin.Context) {
 			item.SumberProduk,
 			item.ProdukPenelitianJudul,
 			item.ProdukPenelitianID,
-			item.ProdukPenelitian,
-			item.MahasiswaPenelitian,
+			prodPenelitianStr,
+			mhsStr,
 			item.ProdukPengabdianJudul,
 			item.ProdukPengabdianID,
-			item.ProdukPengabdian,
-			item.AnggotaPenelitian,
+			prodPengabdianStr,
+			anggotaStr,
 
 			item.FileBuktiKinerja,
 			item.FileSertifikatPaten,

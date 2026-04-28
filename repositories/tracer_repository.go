@@ -78,7 +78,6 @@ func (repo *TracerMongoRepository) GetTracerFiltered(ctx context.Context, kodeFa
 		}
 
 		cursor, err := repo.getCollectionByYear(tahun).Find(ctx, filter, findOptions)
-		log.Println(fmt.Sprintf("isi dari filter: %+v", filter))
 
 		if err != nil {
 			dataErr = err

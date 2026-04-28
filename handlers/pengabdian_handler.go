@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"math"
 	"net/http"
@@ -164,6 +165,15 @@ func (h *PengabdianHandler) ExportPengabdianCSV(c *gin.Context) {
 
 	for _, item := range pengabdian {
 
+		anggotaByte, _ := json.Marshal(item.AnggotaPengabdian)
+		anggotaStr := string(anggotaByte)
+
+		mhsByte, _ := json.Marshal(item.MahasiswaPengabdian)
+		mhsStr := string(mhsByte)
+
+		levelByte, _ := json.Marshal(item.LevelCapaian)
+		levelStr := string(levelByte)
+
 		idStr := strconv.Itoa(item.ID)
 
 		row := []string{
@@ -178,9 +188,9 @@ func (h *PengabdianHandler) ExportPengabdianCSV(c *gin.Context) {
 			item.SumberDana, item.InstitusiSumberDana, item.Dana, item.TahunProposal, item.TahunAwal,
 			item.TahunImplementasi, item.Deskripsi, item.TujuanEkonomiSosial, item.SumberData, item.Posisi,
 
-			item.IsValid, item.StatusLengkap, item.ValidIpk, item.ValidIpkKomentar, item.LevelCapaian,
+			item.IsValid, item.StatusLengkap, item.ValidIpk, item.ValidIpkKomentar, levelStr,
 
-			item.MahasiswaPengabdian, item.AnggotaPengabdian, item.IDSinta, item.IDSilidia, item.TbName, item.PrimaryKey,
+			mhsStr, anggotaStr, item.IDSinta, item.IDSilidia, item.TbName, item.PrimaryKey,
 
 			item.FileSampul, item.FileDaftarIsi, item.FileLembarPengesahan, item.FileBuktiKerja, item.FileProposal,
 			item.FileRevisi, item.FileLaporanKemajuan, item.FileLaporanAkhir, item.FileMitraAwal,

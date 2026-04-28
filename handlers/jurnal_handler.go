@@ -2,13 +2,13 @@ package handlers
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"math"
 	"net/http"
 	"restapi-golang/services"
 	"restapi-golang/utils"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -173,9 +173,22 @@ func (h *JurnalHandler) ExportJurnalCSV(c *gin.Context) {
 
 	for _, item := range jurnal {
 
-		idStr := strconv.Itoa(item.ID)
+		prodPenelitianByte, _ := json.Marshal(item.ProdukPenelitian)
+		prodPenelitianStr := string(prodPenelitianByte)
 
-		indexerList := strings.Join(item.Indexer, ", ")
+		prodPengabdianByte, _ := json.Marshal(item.ProdukPengabdian)
+		prodPengabdianStr := string(prodPengabdianByte)
+
+		anggotaMhsByte, _ := json.Marshal(item.MahasiswaPenelitian)
+		anggotaMhsStr := string(anggotaMhsByte)
+
+		anggotaByte, _ := json.Marshal(item.AnggotaPenelitian)
+		anggotaStr := string(anggotaByte)
+
+		indexByte, _ := json.Marshal(item.Indexer)
+		indexStr := string(indexByte)
+
+		idStr := strconv.Itoa(item.ID)
 
 		row := []string{
 			idStr, item.TahunAjaran, item.Semester, item.SemesterType, item.TahunData, item.Periode, item.WaktuPelaksanaan,
@@ -184,12 +197,12 @@ func (h *JurnalHandler) ExportJurnalCSV(c *gin.Context) {
 			item.Penerbit, item.VolumeJurnal, item.NomorJurnal, item.HalamanAwal, item.HalamanAkhir,
 			item.PIssn, item.EIssn, item.Doi,
 			item.NamaDosen, item.CreateDosenID, item.Posisi, item.Authors, item.JmlPenulis, item.Sitasi, item.Sinta,
-			item.IdSinta, indexerList,
+			item.IdSinta, indexStr,
 			item.IsValid, item.ValidIpk, item.ValidIpkKomentar, item.Komentar, item.BahasaID, item.Scope, item.KodeScope,
 			item.AggregationType, item.ImpactFactor, item.Satuan, item.VolumeKegiatan,
 			item.IsProduk, item.SumberProduk, item.ProdukPenelitianID, item.ProdukPengabdianID, item.DariApiSinta,
-			item.ProdukPenelitianJudul, item.ProdukPenelitian, item.MahasiswaPenelitian, item.AnggotaPenelitian,
-			item.ProdukPengabdianJudul, item.ProdukPengabdian,
+			item.ProdukPenelitianJudul, prodPenelitianStr, anggotaMhsStr, anggotaStr,
+			item.ProdukPengabdianJudul, prodPengabdianStr,
 			item.FileUpload, item.AlamatWebJurnal, item.UrlDokumen, item.UrlPeerReview, item.FileSubmit,
 			item.FileRevisi, item.FileSudahRevisi, item.FileDiterima, item.FileSelesaiDicetak, item.FileTerpublikasi,
 			item.FileHasilUjiPlagiarim, item.FilePenilaianReviewer,

@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"math"
 	"net/http"
@@ -167,6 +168,21 @@ func (h *BukuHandler) ExportBukuCSV(c *gin.Context) {
 	for _, item := range buku {
 		idStr := strconv.Itoa(item.ID)
 
+		anggotaByte, _ := json.Marshal(item.AnggotaPenelitian)
+		anggotaStr := string(anggotaByte)
+
+		levelByte, _ := json.Marshal(item.LevelCapaian)
+		levelStr := string(levelByte)
+
+		prodPenelitianByte, _ := json.Marshal(item.ProdukPenelitian)
+		prodPenelitianStr := string(prodPenelitianByte)
+
+		prodPengabdianByte, _ := json.Marshal(item.ProdukPengabdian)
+		prodPengabdianStr := string(prodPengabdianByte)
+
+		anggotaMhsByte, _ := json.Marshal(item.MahasiswaPenelitian)
+		anggotaMhsStr := string(anggotaMhsByte)
+
 		row := []string{
 			idStr,
 			item.TahunAjaran,
@@ -198,7 +214,8 @@ func (h *BukuHandler) ExportBukuCSV(c *gin.Context) {
 			item.NamaFakultas,
 			item.NamaJurusan,
 			item.KodeProdi,
-			item.LevelCapaian,
+			"",
+			levelStr,
 
 			item.IsValid,
 			item.ValidIpk,
@@ -209,12 +226,12 @@ func (h *BukuHandler) ExportBukuCSV(c *gin.Context) {
 			item.SumberProduk,
 			item.ProdukPenelitianJudul,
 			item.ProdukPenelitianID,
-			item.ProdukPenelitian,
-			item.MahasiswaPenelitian,
+			prodPenelitianStr,
+			anggotaMhsStr,
 			item.ProdukPengabdianJudul,
 			item.ProdukPengabdianID,
-			item.ProdukPengabdian,
-			item.AnggotaPenelitian,
+			prodPengabdianStr,
+			anggotaStr,
 
 			item.UrlDokumen,
 			item.UrlPerReview,

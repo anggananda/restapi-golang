@@ -19,6 +19,7 @@ func SetUpRoutes(r *gin.Engine, casHandler *handlers.CASHandler, userHandler *ha
 	{
 		authGroup.GET("/login", casHandler.LoginHandler)
 		authGroup.GET("/callback", casHandler.CASMiddleware(), casHandler.CallbackHandler)
+		// authGroup.GET("/callback", casHandler.CallbackHandler)
 		authGroup.GET("/logout", casHandler.LogoutHandler)
 		authGroup.GET("/health", casHandler.HealthCheckHandler)
 	}

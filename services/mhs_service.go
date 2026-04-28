@@ -22,6 +22,6 @@ func (service *MhsService) GetDetailMhs(ctx context.Context, nim string) (*model
 
 func (service *MhsService) GetMahasiswaHistoryFiltered(ctx context.Context,
 	kodeFakultas, kodeJurusan, kodeProdi, kewarganegaraan, search string,
-	tahun, semester, angkatan, status, page, limit int) ([]models.MahasiswaHistoryResponse, int64, error) {
+	tahun, semester int, angkatan string, status, page, limit int) ([]models.MahasiswaHistoryResponse, int64, error) {
 	return service.MhsRepository.GetMahasiswaHistoryFiltered(ctx, kodeFakultas, kodeJurusan, kodeProdi, kewarganegaraan, search, tahun, semester, angkatan, status, page, limit)
 }

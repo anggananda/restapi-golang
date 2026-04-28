@@ -2,13 +2,13 @@ package handlers
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"math"
 	"net/http"
 	"restapi-golang/services"
 	"restapi-golang/utils"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -173,9 +173,22 @@ func (h *ProsidingHandler) ExportProsidingCSV(c *gin.Context) {
 
 	for _, item := range prosiding {
 
-		idStr := strconv.Itoa(item.ID)
+		anggotaByte, _ := json.Marshal(item.AnggotaPenelitian)
+		anggotaStr := string(anggotaByte)
 
-		indexerList := strings.Join(item.Indexer, " | ")
+		mhsByte, _ := json.Marshal(item.MahasiswaPenelitian)
+		mhsStr := string(mhsByte)
+
+		prodPenelitianByte, _ := json.Marshal(item.ProdukPenelitian)
+		prodPenelitianStr := string(prodPenelitianByte)
+
+		prodPengabdianByte, _ := json.Marshal(item.ProdukPengabdian)
+		prodPengabdianStr := string(prodPengabdianByte)
+
+		indexByte, _ := json.Marshal(item.Indexer)
+		indexStr := string(indexByte)
+
+		idStr := strconv.Itoa(item.ID)
 
 		row := []string{
 
@@ -189,17 +202,17 @@ func (h *ProsidingHandler) ExportProsidingCSV(c *gin.Context) {
 			item.Scope, item.KodeScope, item.StatusPublish,
 
 			item.NamaDosen, item.CreateDosenID, item.Posisi, item.JmlPenulis,
-			item.AnggotaPenelitian,
+			anggotaStr,
 			item.AnggotaNonDosen,
-			item.MahasiswaPenelitian,
+			mhsStr,
 			item.Sinta, item.IdSinta,
 
 			item.IsValid, item.ValidIpk, item.ValidIpkKomentar, item.Komentar,
-			item.Bereputasi, item.Satuan, item.VolumeKegiatan, indexerList,
+			item.Bereputasi, item.Satuan, item.VolumeKegiatan, indexStr,
 
 			item.IsProduk, item.SumberProduk,
-			item.ProdukPenelitianJudul, item.ProdukPenelitianID, item.ProdukPenelitian,
-			item.ProdukPengabdianJudul, item.ProdukPengabdianID, item.ProdukPengabdian,
+			item.ProdukPenelitianJudul, item.ProdukPenelitianID, prodPenelitianStr,
+			item.ProdukPengabdianJudul, item.ProdukPengabdianID, prodPengabdianStr,
 
 			item.FileUpload, item.UrlDokumen, item.UrlPerReview,
 			item.FilePenilaianReviewer, item.FileHasilUjiPlagiarim,

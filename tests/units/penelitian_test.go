@@ -39,7 +39,7 @@ func setupMockPenelitianData() []models.Penelitian {
 			RumpunIlmu:          "Ilmu Komputer",
 			ValidIpk:            "Y",
 			BidangPenelitian:    "Kecerdasan Buatan",
-			LevelCapaian:        "Nasional",
+			// LevelCapaian:        "Nasional",
 			Periode:             "2023/2024",
 			SemesterType:        "Ganjil",
 			Unit: models.Unit{
@@ -75,7 +75,7 @@ func setupMockPenelitianData() []models.Penelitian {
 			RumpunIlmu:          "Ekonomi",
 			ValidIpk:            "Y",
 			BidangPenelitian:    "Ekonomi Moneter",
-			LevelCapaian:        "Lokal",
+			// LevelCapaian:        "Lokal",
 			Periode:             "2023/2024",
 			SemesterType:        "Genap",
 			Unit: models.Unit{

@@ -35,7 +35,7 @@ func (repo *MhsMongoRepository) GetDetailMhs(ctx context.Context, nim string) (*
 func (repo *MhsMongoRepository) GetMahasiswaHistoryFiltered(
 	ctx context.Context,
 	kodeFakultas, kodeJurusan, kodeProdi, kewarganegaraan, search string,
-	tahun, semester, angkatan, status, page, limit int,
+	tahun, semester int, angkatan string, status, page, limit int,
 ) ([]models.MahasiswaHistoryResponse, int64, error) {
 
 	normalMatch := bson.M{
@@ -58,7 +58,7 @@ func (repo *MhsMongoRepository) GetMahasiswaHistoryFiltered(
 	if kewarganegaraan != "" {
 		normalMatch["kewarganegaraan"] = kewarganegaraan
 	}
-	if angkatan != 0 {
+	if angkatan != "" {
 		normalMatch["tahun_masuk"] = angkatan
 	}
 

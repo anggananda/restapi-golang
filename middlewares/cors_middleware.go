@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"os"
+	"slices"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -12,11 +13,8 @@ func CorsMiddleware() gin.HandlerFunc {
 	return gin.HandlerFunc(func(c *gin.Context) {
 		origin := c.Request.Header.Get("Origin")
 
-		for _, allowed := range allowedOrigins {
-			if origin == allowed {
-				c.Header("Access-Control-Allow-Origin", origin)
-				break
-			}
+		if slices.Contains(allowedOrigins, origin) {
+			c.Header("Access-Control-Allow-Origin", origin)
 		}
 
 		c.Header("Access-Control-Allow-Credentials", "true")

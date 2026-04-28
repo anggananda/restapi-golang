@@ -52,7 +52,12 @@ func (h *AgendaMengajarHandler) GetAgendaMengajarFiltered(c *gin.Context) {
 	tahun := c.Query("tahun")
 	semester := c.Query("semester")
 	search := c.Query("search")
-	contentType := c.DefaultQuery("contentType", "json")
+
+	contentTypeHeader := c.GetHeader("Content-Type")
+
+	if contentTypeHeader == "" || contentTypeHeader == "*/*" {
+		contentTypeHeader = "application/json"
+	}
 
 	if tahun == "" {
 		tahun = time.Now().Format("2006")
@@ -71,7 +76,7 @@ func (h *AgendaMengajarHandler) GetAgendaMengajarFiltered(c *gin.Context) {
 		pages = int64(math.Ceil(float64(total) / float64(limit)))
 	}
 
-	if contentType == "msgpack" {
+	if contentTypeHeader == "application/x-msgpack" {
 		utils.Render(c, http.StatusOK, gin.H{
 			"status": "success",
 			"datas":  agendaMengajar,

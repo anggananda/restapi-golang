@@ -25,7 +25,18 @@ func (service *DashboardMhsService) GetDrilldownMhsFakultas(ctx context.Context,
 }
 
 func (service *DashboardMhsService) GetDrilldownMhsJurusan(ctx context.Context, tahun int, semester int, status string, kodeFakultas string) ([]models.DrilldownItem, int64, error) {
-	return service.DashboardMhsRepository.GetDrilldownMhsJurusan(ctx, tahun, semester, status, kodeFakultas)
+	hasJurusan, err := service.DashboardMhsRepository.HasJurusan(ctx, tahun, semester, status, kodeFakultas)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	if !hasJurusan {
+		items, total, err := service.DashboardMhsRepository.GetProdiByFakultas(ctx, tahun, semester, status, kodeFakultas)
+		return items, total, err
+	}
+
+	items, total, err := service.DashboardMhsRepository.GetDrilldownMhsJurusan(ctx, tahun, semester, status, kodeFakultas)
+	return items, total, err
 }
 
 func (service *DashboardMhsService) GetDrilldownMhsProdi(ctx context.Context, tahun int, semester int, status string, kodeJurusan string) ([]models.DrilldownItem, int64, error) {

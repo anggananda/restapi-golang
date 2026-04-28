@@ -59,7 +59,11 @@ func (repo *DashboardPegawaiMongoRepository) GetDashboardPegawaiOverview(ctx con
 		idDoc := item["_id"].(bson.M)
 		statusPegawai := item["status_pegawai"].(string)
 		statusKeaktifan := item["status_keaktifan"].(string)
-		combinedTitle := fmt.Sprintf("%s (%s)", statusPegawai, statusKeaktifan)
+		combinedTitle := fmt.Sprintf("%s - %s", statusPegawai, statusKeaktifan)
+
+		idPegawai := utils.ConvertToInt64(idDoc["id_status_pegawai"])
+		idKeaktifan := utils.ConvertToInt64(idDoc["id_status_keaktifan"])
+
 		total, ok := item["total"].(int64)
 		if !ok {
 			total = utils.ConvertToInt64(item["total"])
@@ -68,8 +72,8 @@ func (repo *DashboardPegawaiMongoRepository) GetDashboardPegawaiOverview(ctx con
 		cards = append(cards, models.DashboardCardPegawai{
 			Title:             combinedTitle,
 			Value:             total,
-			IDStatusPegawai:   int64(idDoc["id_status_keaktifan"].(int32)),
-			IDStatusKeaktifan: int64(idDoc["id_status_keaktifan"].(int32)),
+			IDStatusPegawai:   idPegawai,
+			IDStatusKeaktifan: idKeaktifan,
 			Drilldown:         true,
 		})
 	}
@@ -161,12 +165,21 @@ func (repo *DashboardPegawaiMongoRepository) GetDrilldownPegawaiJurusan(ctx cont
 	var total int64
 
 	for _, item := range results {
-		id := item["_id"].(bson.M)
+		id, ok := item["_id"].(bson.M)
+		if !ok {
+			continue
+		}
 		value := utils.ConvertToInt64(item["total"])
-
+		var jrsKode, jurusan string
+		if val, ok := id["jrs_kode"].(string); ok {
+			jrsKode = val
+		}
+		if val, ok := id["jurusan"].(string); ok {
+			jurusan = val
+		}
 		items = append(items, models.DrilldownItem{
-			ID:    id["jrs_kode"].(string),
-			Name:  id["jurusan"].(string),
+			ID:    jrsKode,
+			Name:  jurusan,
 			Value: value,
 			Level: "jurusan",
 		})

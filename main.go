@@ -150,7 +150,6 @@ func main() {
 	realisasiBulanService := services.NewRealisasiBulanService(realisasiBulanRepo)
 	realisasiBulanHandler := handlers.NewRealisasiBulanHandler(realisasiBulanService)
 
-	//Module Kinerja
 	penelitianRepo := repositories.NewPenelitianMongoRepository(config.DB)
 	penelitianService := services.NewPenelitianService(penelitianRepo)
 	penelitianHandler := handlers.NewPenelitianHandler(penelitianService)
@@ -197,5 +196,5 @@ func main() {
 	routes.SetUpRoutes(router, casHandler, userHandler, mhsHandler, dosenHandler, pegawaiHandler, dashboardMhsHandler, dashboardDosenHandler, dashboardPegawaiHandler, perpemHandler, evaluasiDosenHandler, angketMhsHandler, kritikSaranHandler, agendaMengajarHandler, mhsWisudaHandler, rekapPMBHandler, khsHandler, penawaranHandler, karyaAkhirHandler, kerjasamaHandler, realisasiUnitHandler, realisasiBulanHandler, penelitianHandler, pengabdianHandler, jurnalHandler, hkiHandler, prosidingHandler, bukuHandler, beasiswaHandler, tracerHandler, unitKerjaHandler, statusHandler)
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	router.Run(":8080")
+	router.Run(":8090")
 }

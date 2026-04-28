@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"math"
 	"net/http"
@@ -163,6 +164,15 @@ func (h *PenelitianHandler) ExportPenelitianCSV(c *gin.Context) {
 
 	for _, item := range penelitian {
 
+		anggotaByte, _ := json.Marshal(item.AnggotaPenelitian)
+		anggotaStr := string(anggotaByte)
+
+		mhsByte, _ := json.Marshal(item.MahasiswaPenelitian)
+		mhsStr := string(mhsByte)
+
+		levelByte, _ := json.Marshal(item.LevelCapaian)
+		levelStr := string(levelByte)
+
 		idStr := strconv.Itoa(item.ID)
 
 		row := []string{
@@ -177,9 +187,9 @@ func (h *PenelitianHandler) ExportPenelitianCSV(c *gin.Context) {
 			item.SumberDana, item.InstitusiSumberDana, item.Dana, item.TahunProposal, item.TahunAwal,
 			item.TahunImplementasi, item.Deskripsi, item.TujuanEkonomiSosial, item.SumberData, item.Posisi,
 
-			item.IsValid, item.StatusLengkap, item.ValidIpk, item.ValidIpkKomentar, item.Komentar, item.LevelCapaian,
+			item.IsValid, item.StatusLengkap, item.ValidIpk, item.ValidIpkKomentar, item.Komentar, levelStr,
 
-			item.MahasiswaPenelitian, item.AnggotaPenelitian, item.IdSinta, item.IdSilidia,
+			mhsStr, anggotaStr, item.IdSinta, item.IdSilidia,
 
 			item.FileSampul, item.FileDaftarIsi, item.FileLembarPengesahan, item.FileBuktiKerja, item.FileProposal,
 			item.FileRevisi, item.FileLaporanKemajuan, item.FileLaporanAkhir, item.FileMitraAwal,
